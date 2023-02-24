@@ -32,6 +32,26 @@
 
 
 
+## 示例
+集成 UIMSDK
+
+```tsx
+import UIMClientAdaptor from '@uimkit/uikit-uim-adaptor';
+import UIKit from '@uimkit/uikit-react';
+
+export function App() {
+  const accessToken = `Your accessToken`;
+
+  const client = new UIMClientAdaptor(accessToken);
+  
+  return (
+    <UIKit client={client}>
+    </UIKit>
+  );
+}
+```
+
+
 
 
 ## 运行示例
