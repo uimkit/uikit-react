@@ -68,12 +68,14 @@ $ pnpm dev
 
 
 ## 什么是UIM
-UIM 是一个全渠道聊天即服务平台, 聚合了全球主流聊天系统. 可以通过统一的API接口进行多渠道调用.
+UIM 是一个全渠道聊天即服务的云平台, 聚合了全球主流聊天系统. 可以通过统一的API接口进行多渠道服务调用.
+平台保持云中立, 技术方案不依赖于任何一个服务提供方，便于开发者跨服务提供商进行快速迁移
 
-集成的渠道包括:
+以下是不完全集成列表
+### 即时通信
 <table>
   <tr>
-    <th width="180px" style="text-align:center">即时通信提供商</th>
+    <th width="180px" style="text-align:center">提供商</th>
     <th width="500px" style="text-align:center">策略</th>
   </tr>
   <tr>
@@ -123,5 +125,38 @@ UIM 是一个全渠道聊天即服务平台, 聚合了全球主流聊天系统. 
   <tr>
     <td style="text-align:center">Lark</td>
     <td style="text-align:center">API</td>
+  </tr>
+</table>
+
+
+### 即时通信云SDK
+<table>
+  <tr>
+    <th width="180px" style="text-align:center">提供商</th>
+  </tr>
+  <tr>
+    <td style="text-align:center">腾讯云TIM</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">网易云NIM</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">融云</td>
+  </tr>
+</table>
+
+### 在线客服
+<table>
+  <tr>
+    <th width="180px" style="text-align:center">提供商</th>
+  </tr>
+  <tr>
+    <td style="text-align:center">网易七鱼</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">美洽</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">InterCom</td>
   </tr>
 </table>
