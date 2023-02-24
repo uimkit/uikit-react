@@ -75,7 +75,7 @@ UIM 是一个全渠道聊天即服务的云平台, 聚合了全球主流聊天�
 ### 即时通信
 <table>
   <tr>
-    <th width="180px" style="text-align:center">提供商</th>
+    <th width="240px" style="text-align:center">提供商</th>
     <th width="500px" style="text-align:center">策略</th>
   </tr>
   <tr>
@@ -132,7 +132,7 @@ UIM 是一个全渠道聊天即服务的云平台, 聚合了全球主流聊天�
 ### 即时通信云SDK
 <table>
   <tr>
-    <th width="180px" style="text-align:center">提供商</th>
+    <th width="240px" style="text-align:center">提供商</th>
   </tr>
   <tr>
     <td style="text-align:center">腾讯云TIM</td>
@@ -148,7 +148,7 @@ UIM 是一个全渠道聊天即服务的云平台, 聚合了全球主流聊天�
 ### 在线客服
 <table>
   <tr>
-    <th width="180px" style="text-align:center">提供商</th>
+    <th width="240px" style="text-align:center">提供商</th>
   </tr>
   <tr>
     <td style="text-align:center">网易七鱼</td>
