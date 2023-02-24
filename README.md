@@ -1,6 +1,6 @@
 # @uimkit/uikit-react
 
-<img style="width:200px" src="https://mgmt.uimkit.chat/media/img/avatar.png"/>
+<img style="width:64px" src="https://mgmt.uimkit.chat/media/img/avatar.png"/>
 
 ## 简介
 聊天系统 uikit 的封装. SDK 可任意适配第三方聊天SDK.
