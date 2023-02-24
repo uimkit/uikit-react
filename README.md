@@ -64,3 +64,63 @@ $ pnpm i && cd examples/sample-chat && pnpm i
 # 运行程序
 $ pnpm dev
 ```
+
+
+## 什么是UIM
+uim 是一个全渠道聊天即服务平台, 聚合了全球主流聊天系统. 可以通过统一的API接口进行多渠道调用.
+
+集成的渠道包括:
+<table>
+  <tr>
+    <th width="180px" style="text-align:center">即时通信提供商</th>
+    <th width="500px" style="text-align:center">策略</th>
+  </tr>
+  <tr>
+    <td style="text-align:center">微信</td>
+    <td style="text-align:center">iPad</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">微信</td>
+    <td style="text-align:center">Windows</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">微信</td>
+    <td style="text-align:center">Android</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">企业微信</td>
+    <td style="text-align:center">Windows</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">企业微信客服</td>
+    <td style="text-align:center">OpenAPI</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">小程序客服</td>
+    <td style="text-align:center">OpenAPI</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">公众号客服</td>
+    <td style="text-align:center">OpenAPI</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">Facebook Messenger</td>
+    <td style="text-align:center">OpenAPI</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">WhatsApp</td>
+    <td style="text-align:center">Web</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">WhatsApp</td>
+    <td style="text-align:center">OpenAPI</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">Telegram</td>
+    <td style="text-align:center">OpenAPI</td>
+  </tr>
+  <tr>
+    <td style="text-align:center">Lark</td>
+    <td style="text-align:center">API</td>
+  </tr>
+</table>
