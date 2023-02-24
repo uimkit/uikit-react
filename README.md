@@ -6,19 +6,27 @@
 
 
 
-### UIKit 可集成的平台
+### UIKit 可集成的平台及相关适配工程
 <table>
   <tr>
     <th width="180px" style="text-align:center">平台</th>
-    <th width="500px" style="text-align:center">文档链接</th>
+    <th width="500px" style="text-align:center">SDK适配器项目</th>
+  </tr>
+  <tr>
+    <td style="text-align:center">UIM官方SDK适配器</td>
+    <td style="text-align:center"><a href="">@uimkit/uikit-uim-adaptor</a></td>
   </tr>
   <tr>
     <td style="text-align:center">腾讯云TIM</td>
-    <td style="text-align:center"><a href="#">TIM</a></td>
+    <td style="text-align:center"><a href="#">@uimkit/uikit-tim-adaptor</a></td>
   </tr>
   <tr>
     <td style="text-align:center">云信NIM</td>
-    <td style="text-align:center"><a href="#">NIM</a></td>
+    <td style="text-align:center"><a href="#">@uimkit/uikit-nim-adaptor</a></td>
+  </tr>
+  <tr>
+    <td style="text-align:center">融云</td>
+    <td style="text-align:center"><a href="#">@uimkit/uikit-rongyun-adaptor</a></td>
   </tr>
 </table>
 
