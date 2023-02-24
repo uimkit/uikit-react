@@ -61,9 +61,9 @@ $ git clone https://github.com/uimkit/uikit-react
 # 进入工程
 $ cd uikit-react
 # 安装依赖
-$ pnpm i && cd examples/sample-chat && pnpm i
+$ yarn install && cd examples/sample-chat && yarn install
 # 运行程序
-$ pnpm dev
+$ yarn dev
 ```
 
 

@@ -1,5 +1,5 @@
-import { PropsWithChildren, useState, useEffect } from 'react';
-import { Conversation, ConversationType, Group, IMAccount } from "../../types";
+import React, { PropsWithChildren, useState, useEffect } from 'react';
+import { Conversation, ConversationType, Group } from "../../types";
 import { Avatar } from '../Avatar';
 import { handleDisplayAvatar } from '../utils';
 import { useUIKit } from '../../context';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Conversation } from "../../types";
 import { InfiniteList } from '../InfiniteList';
 import { UIConversationPreview, UIConversationPreviewComponentProps } from '../UIConversationPreview/UIConversationPreview';

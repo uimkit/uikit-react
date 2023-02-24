@@ -41,7 +41,6 @@ export const deleteMessage = (message: Message): ThunkAction<Promise<void>> => {
 			if (conversation?.last_message?.id === message.id) {
 				const lastMessage = last(messages[conversationId]?.messages ?? [])
 				conversation.last_message = lastMessage
-				conversation.last_message_at = lastMessage?.sent_at
 				conversation.active_at = lastMessage?.sent_at ?? conversation.created_at
 				dispatch(conversationReceived(conversation))
 			}
@@ -113,7 +112,6 @@ const onMessageSent = (dispatch: Dispatch, getState: () => AppState, localMessag
 	// 更新前端的会话摘要和排序
 	const conversation = getConversationById(localMessage.conversation_id)(getState())
 	conversation.last_message = newMessage
-	conversation.last_message_at = newMessage.sent_at
 	conversation.active_at = newMessage.sent_at
 	dispatch(conversationReceived(conversation))
 }

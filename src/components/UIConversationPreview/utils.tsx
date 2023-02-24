@@ -79,7 +79,7 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
   /*
   const { last_message, type } = conversation;
   const {
-    fromAccount, nick, nameCard, isRevoked,
+    fromAccount, nick, nameCard, revoked,
   } = last_message;
   
 
@@ -89,7 +89,7 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
       from = last_message?.fromAccount === myProfile?.id ? 'You: ' : `${nameCard || nick || fromAccount}: `;
       break;
     case ConversationType.Private:
-      from = isRevoked ? 'you ' : '';
+      from = revoked ? 'you ' : '';
       break;
     default:
   }
@@ -102,7 +102,7 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
     }}
     >
       <span>{from}</span>
-      <span>{last_message.isRevoked ? 'recalled a message' : formatEmojiString(
+      <span>{last_message.revoked ? 'recalled a message' : formatEmojiString(
         //last_message.messageForShow
         last_message.text, 1)}</span>
     </div>
@@ -119,7 +119,7 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
     }}
     >
       <span>{from}</span>
-      <span>{conversation.last_message?.isRevoked ? 'recalled a message' : formatEmojiString(conversation.last_message?.text, 1)}</span>
+      <span>{conversation.last_message?.revoked ? 'recalled a message' : formatEmojiString(conversation.last_message?.text, 1)}</span>
     </div>
   );
 };

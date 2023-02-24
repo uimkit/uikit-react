@@ -53,7 +53,7 @@ export function UIConversationPreview<T extends UIConversationPreviewProps>(
   const [displayTitle, setDisplayTitle] = useState(getDisplayTitle(conversation, searchValue));
   const [displayMessage, setDisplayMessage] = useState(getDisplayMessage(conversation, imAccount));
   const [displayTime, setDisplayTime] = useState(getDisplayTime(conversation));
-  const [unread, setUnread] = useState(conversation.unreadCount);
+  const [unread, setUnread] = useState(conversation.unread);
   const isActive = activeConversation?.id === conversation?.id;
   if (!Preview) return null;
   useEffect(() => {
@@ -61,7 +61,7 @@ export function UIConversationPreview<T extends UIConversationPreviewProps>(
     setDisplayMessage(getDisplayMessage(conversation, imAccount));
     setDisplayImage(getDisplayImage(conversation));
     setDisplayTime(getDisplayTime(conversation));
-    setUnread(conversation.unreadCount);
+    setUnread(conversation.unread);
   }, [conversation, searchValue, conversationUpdateCount]);
 
   return (

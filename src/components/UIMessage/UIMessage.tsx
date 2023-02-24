@@ -1,3 +1,4 @@
+import React from 'react';
 import { Message } from "../../types";
 import { TextMessage } from "./TextMessage";
 import { ImageMessage } from "./ImageMessage";
@@ -6,14 +7,14 @@ import { MessageBubble } from "./MessageBubble";
 import clsx from 'clsx';
 import { Avatar } from 'antd'
 
-const UnknownMessage = ({ message }) => <>未知消息类型. id: {message.id}, type: {message.type}</>
+const UnknownMessage: React.FC<any> = ({ message }) => <>未知消息类型. id: {message.id}, type: {message.type}</>;
 
 export type UIMessageProps = {
   message: Message;
   position?: 'left' | 'right' | 'center';
 }
 
-const components = {
+const components: Record<string, React.ComponentType> = {
   text: TextMessage,
   image: ImageMessage,
   video: VideoMessage,

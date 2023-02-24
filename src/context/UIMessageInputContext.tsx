@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { PluginConfigProps } from '../components';
 import type { ICursorPos, EmojiData, filesData } from '../components/UIMessageInput/hooks';
+import { MessageType } from '../types';
 
 interface dispatchParams {
   type: string,
@@ -22,7 +23,7 @@ export interface UIMessageInputContextValue {
   textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>,
   onSelectEmoji?: (emoji: EmojiData) => void,
   sendFaceMessage?: (emoji: EmojiData) => void,
-  sendUploadMessage?: (file: filesData, type: MESSAGE_TYPE_NAME) => void,
+  sendUploadMessage?: (file: filesData, type: MessageType) => void,
   insertText?: (textToInsert: string) => void,
   setText?: (textToInsert: string) => void,
   focus?: boolean,

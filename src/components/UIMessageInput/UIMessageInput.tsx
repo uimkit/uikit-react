@@ -1,4 +1,4 @@
-import { MutableRefObject, PropsWithChildren } from 'react';
+import React, { MutableRefObject, PropsWithChildren } from 'react';
 import { MessageInputContextProvider, UnknowPorps, useComponentContext, useUIKit } from '../../context';
 import { useCreateMessageInputContext } from './hooks/useCreateMessageInputContext';
 import { useMessageInputState } from './hooks/useMessageInputState';

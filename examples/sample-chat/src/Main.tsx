@@ -1,12 +1,13 @@
 import { useAuthok } from '@authok/authok-react';
 import Chat from './Chat';
+import './App.scss';
 
 export default function Main() {
   const { isAuthenticated, loginWithRedirect, logout } = useAuthok();
 
   return (
-    <div>
-      <header>
+    <div className="App">
+      <header className="App-header">
           {isAuthenticated ? (
             <button onClick={() => logout({ return_to: window.location.origin })}>注销</button>
           ): (
@@ -14,7 +15,7 @@ export default function Main() {
           )}
       </header>
       <main>
-        {isAuthenticated && <Chat />}
+        {isAuthenticated && <Chat/>}
       </main>
     </div>
   );

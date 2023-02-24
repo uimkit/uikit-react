@@ -155,10 +155,7 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
 
   return (
     <UIKitProvider value={providerContextValue}>
-      {/*<ReduxProvider store={store} children={<Content>{children}</Content>} />*/}
-      <ReduxProvider store={store}>
-        <UIKitInner {...rest}>{children}</UIKitInner>
-      </ReduxProvider>
+      <ReduxProvider store={store} children={<UIKitInner {...rest}>{children}</UIKitInner>} />
     </UIKitProvider>
   );
 }

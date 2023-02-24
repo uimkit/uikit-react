@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { AppState } from "@/store/types";
+import { AppState } from "../types";
 import { Contact, Conversation, Group, IMAccount } from "../../types";
 import { CurrentConversationState } from "./reducers";
 

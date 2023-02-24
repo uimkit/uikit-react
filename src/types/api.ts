@@ -1,4 +1,9 @@
-import { Contact, Conversation, ConversationType, CursorListQueryParameters, CursorListResponse, EmptyObject, IMAccount, ImageMessageBody, Message, MessageType, PageListQueryParameters, PageListResponse, VideoMessageBody, VoiceMessageBody } from "./models";
+import { Group, GroupMember, Moment, Contact, Conversation, ConversationType, CursorListQueryParameters, CursorListResponse, EmptyObject, IMAccount, ImageMessageBody, Message, MessageType, PageListQueryParameters, PageListResponse, VideoMessageBody, VoiceMessageBody } from "./models";
+
+
+export interface SendMessageOptions {
+}
+
 
 export type RetrieveIMAccountParameters = {
     account_id: string;
@@ -105,23 +110,118 @@ export type DeleteMessageResponse = any;
 
 
 export interface APIClient {
+  /******************** IMAccount ********************/
+  listIMAccounts(params: any): Promise<any>;
+
+
+  /******************** Contact ********************/
+  /**
+   * 
+   * @param params 
+   */
+  listContacts(params: any): Promise<any>;
+
+
+
+  /******************** Message ********************/
+
+  /**
+   * 
+   * @param params 
+   */
   createTextMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createFaceMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createVideoMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createImageMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createFileMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createLocationMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createMergerMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createTextAtMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createCustomMessage(params: any): Message;
 
+  /**
+   * 
+   * @param params 
+   */
   createAudioMessage(params: any): Message;
+
+  /**
+   * 
+   * @param params 
+   */
+  retrieveIMAccount(params: any): Promise<IMAccount>;
+
+  /**
+   * 
+   * @param params 
+   */
+  listMessages(params: any): Promise<any>;
+
+  /**
+   * 发送消息
+   * 之前写法太奇怪， 要去掉 callback
+   * @param params 
+   */
+  sendMessage(message: any | Message, callback: (accountId, event) => void, opts?: SendMessageOptions): Promise<any>;
+
+  /**
+   * 删除消息的接口
+   * @param messageList 
+   */
+  deleteMessage(messageList: any): Promise<any>;
+
+  /**
+   * 重发消息的接口，当消息发送失败时，可调用该接口进行重发。
+   * @param @Message message 消息实例
+   */
+  resendMessage(message: any | Message): Promise<any>;
+
+
+
+  /******************** Conversation ********************/
+  /**
+   * 
+   * @param params 获取会话列表
+   */
+  listConversations(params: any): Promise<any>;
 }

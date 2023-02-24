@@ -1,7 +1,7 @@
 import invariant from "invariant";
 import { Dispatch } from "redux";
 import { t } from 'i18next';
-import { AppState, AppThunkContext, ThunkAction } from "@/store/types";
+import { AppState, AppThunkContext, ThunkAction } from "../types";
 import { accountFetched, accountListFetched, errorFetchingAccountList, fetchingAccountList } from "./actions";
 
 /**

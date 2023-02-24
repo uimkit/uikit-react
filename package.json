@@ -1,11 +1,11 @@
 {
   "name": "@uimkit/uikit-react",
   "version": "1.0.0",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "main1": "dist/cjs/index.js",
-  "module1": "dist/esm/index.js",
-  "license": "AGPL-3.0-or-later",
+  "main2": "./src/index.ts",
+  "module2": "./src/index.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "build": "pnpm rollup -c",
@@ -56,7 +56,6 @@
     "rollup-plugin-terser": "^7.0.2",
     "sass": "^1.54.9",
     "sass-loader": "^13.2.0",
-    "tsconfig": "workspace:*",
     "typescript": "4.9.4"
   }
 }
