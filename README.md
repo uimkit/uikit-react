@@ -12,13 +12,13 @@
     <th width="180px" style="text-align:center">平台</th>
     <th width="500px" style="text-align:center">文档链接</th>
   </tr>
-   <tr>
-     <td rowspan='2' style="text-align:center">腾讯云TIM</td>
-     <td style="text-align:center"><a href="#">TIM</a></td>
+  <tr>
+    <td style="text-align:center">腾讯云TIM</td>
+    <td style="text-align:center"><a href="#">TIM</a></td>
   </tr>
   <tr>
-     <td rowspan='2' style="text-align:center">云信NIM</td>
-     <td style="text-align:center"><a href="#">NIM</a></td>
+    <td style="text-align:center">云信NIM</td>
+    <td style="text-align:center"><a href="#">NIM</a></td>
   </tr>
 </table>
 
