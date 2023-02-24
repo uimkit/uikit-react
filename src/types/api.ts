@@ -121,6 +121,7 @@ export interface APIClient {
    */
   listContacts(params: any): Promise<any>;
 
+  retrieveContact(params: any): Promise<Contact>;
 
 
   /******************** Message ********************/
@@ -224,4 +225,14 @@ export interface APIClient {
    * @param params 获取会话列表
    */
   listConversations(params: any): Promise<any>;
+
+  retrieveConversation(params: any): Promise<Conversation>;
+
+  retrieveContactConversation(params: any): Promise<Conversation>;
+
+  resetConversationUnread(params: any): Promise<any>;
+
+
+  /******************** Group ********************/
+  retrieveGroup(params: any): Promise<Group>;
 }

@@ -31,7 +31,7 @@ export interface UIMessageInputBasicProps {
   textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>,
   isTransmitter?: boolean,
   className?: string,
-  // pluginConfig?: PluginConfigProps,
+  pluginConfig?: PluginConfigProps,
 }
 
 

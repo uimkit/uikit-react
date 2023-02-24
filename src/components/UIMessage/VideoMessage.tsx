@@ -1,6 +1,6 @@
-import { ChatMessageProps } from "./ChatMessage";
+import { UIMessageProps } from "./UIMessage";
 
-export function VideoMessage({ message }: ChatMessageProps) {
+export function VideoMessage({ message }: UIMessageProps) {
   return (
     <>
     </>

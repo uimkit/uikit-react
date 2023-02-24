@@ -1,7 +1,7 @@
 import React, {
   PropsWithChildren, useMemo,
 } from 'react';
-import { Message } from '../../types';
+import { Message } from '../../../types';
 import { UnknowPorps } from '../../../context';
 import { UIMessageProps } from '../../UIMessage/UIMessage';
 import { getTimeStamp } from '../../utils';
@@ -23,8 +23,8 @@ function useMessageListElement <T extends MessageListElementProps>(
 
   return useMemo(() => enrichedMessageList?.map((item: Message, index:number) => {
     const key = `${JSON.stringify(item)}${index}`;
-    const preMessageTImer = index > 0 ? enrichedMessageList[index - 1]?.time : -1;
-    const currrentTimer = item?.time || 0;
+    const preMessageTImer = index > 0 ? enrichedMessageList[index - 1]?.sent_at: -1;
+    const currrentTimer = item?.sent_at || 0;
     const isShowIntervalsTImer = preMessageTImer !== -1
       ? (currrentTimer - preMessageTImer) >= intervalsTimer : false;
     return (

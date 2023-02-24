@@ -19,13 +19,13 @@ export interface UIKitContextProps {
   setActiveConversation: (conversation: Conversation) => void;
 }
 
-const UIKitContext = React.createContext<UIKitContextProps>({});
+const UIKitContext = React.createContext<UIKitContextProps | undefined>(undefined);
 
 export interface UIKitProviderOptions {
   client: APIClient;
 };
 
-export function UIKitProvider({ value, children }: PropsWithChildren<{ options: UIKitProviderOptions }>) {
+export function UIKitProvider({ value, children }: PropsWithChildren<{ value: UIKitProviderOptions }>) {
   const { client } = value;
   const [activeAccount, setActiveAccount] = useState<IMAccount | undefined>();
   const [activeConversation, setActiveConversation] = useState<Conversation | undefined>();

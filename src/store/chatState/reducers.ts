@@ -3,8 +3,8 @@ import { UIMessageInputBasicProps } from '../../components';
 import { ChatStateActionType, ChatStateActions } from './actions';
 
 export interface ChatState {
-  textareaRef?: any;
-  messageListRef?: Ref;
+  textareaRef?: Ref<HTMLTextAreaElement | undefined>;
+  messageListRef?: Ref<HTMLDivElement>;
   messageInputConfig?: UIMessageInputBasicProps;
   operateData?: any;
   highlightedMessageId?: string;

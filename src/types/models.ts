@@ -57,6 +57,7 @@ export enum MessageType {
 }
 
 export interface ImageMessageBody {
+  url: string;
 }
 
 export interface VoiceMessageBody {}
@@ -212,6 +213,12 @@ export interface Group {
   avatar: string;
 }
 
+/**
+ * 用户档案，IMAccount 应该继承这个
+ */
+export interface Profile {
+  id: string;
+}
 
 
 

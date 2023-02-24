@@ -129,7 +129,7 @@ interface TProfile extends Profile, Group {}
 export const getMessageProfile = (conversation: Conversation): TProfile => {
   if (!conversation) return null;
   let result = {};
-  // const { type, groupProfile, userProfile } = conversation;
+  const { type } = conversation;
   const groupProfile = {};
   const userProfile = {};
 

@@ -1,4 +1,4 @@
-import type { ChatStateContextValue } from '../../context';
+import { ChatState } from '../../store/chatState';
 import { Message, MessageType } from '../../types';
 
 export const handleMessage = (messageList: Array<Message>): Array<Message> => {
@@ -14,7 +14,7 @@ export const handleMessage = (messageList: Array<Message>): Array<Message> => {
 
 export const handleMessageList = (
   list:Array<Message>,
-  state: ChatStateContextValue,
+  lastMessageID: string,
 ) => {
   const data = {
     messageList: [],
@@ -26,7 +26,7 @@ export const handleMessageList = (
     data.lastMessageID = data?.messageList[data.messageList.length - 1]?.id;
   }
   data.messageList = data.messageList.filter((item) => !item?.isDeleted);
-  data.isSameLastMessageID = data?.lastMessageID === state?.lastMessageID;
+  data.isSameLastMessageID = data?.lastMessageID === lastMessageID;
 
   return data;
 };

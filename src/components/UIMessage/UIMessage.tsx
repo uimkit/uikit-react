@@ -7,14 +7,16 @@ import { MessageBubble } from "./MessageBubble";
 import clsx from 'clsx';
 import { Avatar } from 'antd'
 
-const UnknownMessage: React.FC<any> = ({ message }) => <>未知消息类型. id: {message.id}, type: {message.type}</>;
+
 
 export type UIMessageProps = {
   message: Message;
   position?: 'left' | 'right' | 'center';
 }
 
-const components: Record<string, React.ComponentType> = {
+const UnknownMessage: React.FC<UIMessageProps> = ({ message }) => <>未知消息类型. id: {message.id}, type: {message.type}</>;
+
+const components: Record<string, React.ComponentType<UIMessageProps>> = {
   text: TextMessage,
   image: ImageMessage,
   video: VideoMessage,

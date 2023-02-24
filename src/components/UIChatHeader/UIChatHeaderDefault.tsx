@@ -70,7 +70,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     }
   };
 
-  const handleGroup = (conversation: Conversation, groupProfile: Group) => {
+  const handleGroup = (conversation: Conversation, groupProfile: any) => {
     if (!title) {
       setTitle(groupProfile?.name || groupProfile?.id);
     }
@@ -90,7 +90,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
   return (
     <header
       className={`uim-chat-header ${isLive ? 'uim-chat-live-header' : ''}`}
-      key={conversation?.conversationID}
+      key={conversation?.id}
     >
       <div
         className={`uim-chat-header-left ${conversation?.type === ConversationType.System ? 'system' : ''}`}

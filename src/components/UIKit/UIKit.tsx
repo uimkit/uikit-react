@@ -31,7 +31,7 @@ const store = createAppStore(appThunkContext)
 const getState = store.getState.bind(store)
 
 
-const UIKitInner: React.FC<UIKitProps> = (props) => {
+const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
   const { children, cloudCustomData } = props;
 
   const dispatch = useDispatch();
@@ -145,7 +145,6 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
     client,
     activeConversation,
     children,
-    ...rest
   } = props;
   
   const providerContextValue = useMemo(() => ({
@@ -155,7 +154,7 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
 
   return (
     <UIKitProvider value={providerContextValue}>
-      <ReduxProvider store={store} children={<UIKitInner {...rest}>{children}</UIKitInner>} />
+      <ReduxProvider store={store} children={<UIKitInner {...props}>{children}</UIKitInner>} />
     </UIKitProvider>
   );
 }

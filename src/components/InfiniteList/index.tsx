@@ -20,7 +20,7 @@ interface InfiniteListProps {
 	// 加载更多中提示
 	loadingMoreTip?: string
 	// 是否下拉刷新中
-	isLoadingPrev: boolean
+	isLoadingPrev?: boolean
 	// 下拉刷新中提示
 	loadingPrevTip?: string
 	// 是否有更多数据
@@ -28,9 +28,9 @@ interface InfiniteListProps {
 	// 没有更多数据提示
 	noMoreTip?: string
 	// 点击数据条目
-	onClick: (item: any, index: number) => void
+	onClick?: (item: any, index: number) => void
 	// 加载更多
-	onLoadMore: () => void
+	onLoadMore?: () => void
 	// 渲染条目
 	render: (item: any, index: number) => ReactNode
 }
