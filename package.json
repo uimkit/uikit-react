@@ -68,7 +68,6 @@
   },
   "peerDependencies": {
     "react": ">=16.9.0",
-    "react-dom": ">=16.9.0",
     "date-fns": "^2.29.3",
     "tslib": "^2.5.0"
   }
