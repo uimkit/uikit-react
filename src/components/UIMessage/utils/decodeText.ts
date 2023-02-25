@@ -7,10 +7,10 @@ import { emojiMap, emojiUrl } from './emojiMap';
  *  }
  *}
  * */
-export function decodeText(payload:any) {
+export function decodeText(text: string) {
   const renderDom = [];
   // 文本消息
-  let temp = payload.text;
+  let temp = text;
   let left = -1;
   let right = -1;
   while (temp !== '') {

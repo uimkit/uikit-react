@@ -217,6 +217,11 @@ export interface APIClient {
    */
   resendMessage(message: any | Message): Promise<any>;
 
+  /**
+   * 
+   * @param message 
+   */
+  revokeMessage(message: any): Promise<any>;
 
 
   /******************** Conversation ********************/

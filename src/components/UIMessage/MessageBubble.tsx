@@ -49,7 +49,7 @@ export function MessageBubble<T extends MessageBubbleProps>(
     || message?.type === TIM.TYPES.MSG_FILE
   ) && message?.status === MESSAGE_STATUS.UNSEND);
   */
-  const handleLoading = () => true;
+  const handleLoading = () => false;
 
   const handleMouseEnter = () => {
     setPluginsShow(true);

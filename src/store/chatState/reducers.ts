@@ -9,6 +9,8 @@ export interface ChatState {
   operateData?: any;
   highlightedMessageId?: string;
   UIMessageInputConfig?: any; // TODO
+  audioSource?: any;
+  messageConfig?: any;
 }
 
 const createInitialState = (): ChatState => ({

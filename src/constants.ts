@@ -4,6 +4,11 @@ export enum MESSAGE_STATUS {
   FAIL = 'fail',
 }
 
+export enum MESSAGE_FLOW {
+  IN = 'in',
+  OUT = 'out',
+}
+
 export enum MESSAGE_OPERATE {
   REVOKE = 'revoke',
   QUOTE = 'quote',

@@ -52,8 +52,19 @@ export enum MessageType {
   // 链接消息
   Link = 'link',
 
+  //
+  Merger = 'merger',
+
+  // 童话消息
+  Calling = 'calling',
+
   // 自定义消息
   Custom = 'custom',
+
+  // 群组提示
+  GroupTip = 'group_tip',
+
+  GroupSystemNotice = 'group_system_notice',
 }
 
 export interface ImageMessageBody {
@@ -63,6 +74,35 @@ export interface ImageMessageBody {
 export interface VoiceMessageBody {}
 
 export interface VideoMessageBody {}
+
+export interface CallingMessagePayload {
+
+}
+
+export interface GroupSystemNoticeMessagePayload {
+  groupProfile: any;
+  operatorID: string;
+  operationType: number;
+}
+
+export enum GroupTipOperationType {
+  MemberJoin = 1,
+  MemberQuit = 2,
+  MemberKickedOut = 3,
+  MemberSetAdmin = 4,
+  MemberCanceledAdmin = 5,
+  GroupProfileUpdated = 6,
+  MemberProfileUpdated = 7,
+}
+
+export interface GroupTipMessagePayload {
+  operationType: GroupTipOperationType;
+  operatorID: string;
+  userIDList: string[];
+  memberList: string[];
+
+  newGroupProfile?: any;
+}
 
 export interface Message {
   id: string;
@@ -76,6 +116,10 @@ export interface Message {
   image?: ImageMessageBody;
   voice?: VoiceMessageBody;
   video?: VideoMessageBody;
+  calling?: CallingMessagePayload;
+  tip?: GroupTipMessagePayload;
+  group_system_notice?: GroupSystemNoticeMessagePayload;
+
   /* end 消息内容 */
 
   /**

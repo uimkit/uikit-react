@@ -20,7 +20,7 @@ export function EmojiPicker():React.ReactElement {
   const {
     onSelectEmoji,
     sendFaceMessage,
-  } = useUIMessageInputContext('TUIMessageInputDefault');
+  } = useUIMessageInputContext('UIMessageInputDefault');
 
   const handleSelectEmoji = (e) => {
     const emoji: EmojiData = {

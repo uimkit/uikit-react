@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useContext } from 'react';
 import { UIChatHeaderDefaultProps } from '../components';
-import { UIMessageProps } from '../components/UIMessage';
+import { MessageContextProps, UIMessageProps } from '../components/UIMessage';
 import { EmptyStateIndicatorProps } from '../components/EmptyStateIndicator';
 
 export interface UnknowPorps {
@@ -12,7 +12,7 @@ export interface ComponentContextValue {
   UIChatHeader?: React.ComponentType<UIChatHeaderDefaultProps>,
   EmptyStateIndicator?: React.ComponentType<EmptyStateIndicatorProps>,
   UIMessageInput?: React.ComponentType<UnknowPorps>,
-  // MessageContext?: React.ComponentType<MessageContextProps>,
+  MessageContext?: React.ComponentType<MessageContextProps>,
   InputPlugins?: React.ComponentType<UnknowPorps>,
   MessagePlugins?: React.ComponentType<UnknowPorps>,
   InputQuote?: React.ComponentType<UnknowPorps>,

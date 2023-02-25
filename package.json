@@ -1,10 +1,10 @@
 {
   "name": "@uimkit/uikit-react",
   "version": "1.0.0",
-  "main1": "./src/index.ts",
-  "module1": "./src/index.ts",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "main1": "dist/cjs/index.js",
+  "module1": "dist/esm/index.js",
   "license": "MIT",
   "scripts": {
     "build": "pnpm rollup -c",

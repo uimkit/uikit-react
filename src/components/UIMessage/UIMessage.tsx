@@ -1,57 +1,152 @@
-import React from 'react';
-import { Message } from "../../types";
-import { TextMessage } from "./TextMessage";
-import { ImageMessage } from "./ImageMessage";
-import { VideoMessage } from "./VideoMessage";
-import { MessageBubble } from "./MessageBubble";
-import clsx from 'clsx';
-import { Avatar } from 'antd'
+import React, { PropsWithChildren, ReactEventHandler } from 'react';
+import { Message } from '../../types';
 
+import { UnknowPorps, useComponentContext } from '../../context';
 
+import { messageShowType, UIMessageContextProvider } from '../../context/UIMessageContext';
+import { useMessageHandler } from './hooks';
 
-export type UIMessageProps = {
-  message: Message;
-  position?: 'left' | 'right' | 'center';
+import './styles/index.scss';
+import { UIMessageDefault } from './UIMessageDefault';
+import { MessagePlugins as MessagePluginsDefault, MessagePluginsProps } from './MessagePlugins';
+import { MessageContext as MessageContextDefault } from './MessageContext';
+import { useChatState } from '../../hooks';
+
+interface UIMessageBasicProps {
+  className?: string,
+  filter?: (data:Message) => void,
+  isShowTime?: boolean,
+  isShowRead?: boolean,
+  plugin?: MessagePluginsProps,
+  prefix?: React.ReactElement | string,
+  suffix?: React.ReactElement | string,
+  customName?: React.ReactElement,
+  showAvatar?: messageShowType,
+  showName?: messageShowType,
+  customAvatar?: React.ReactElement,
+  isShowProgress?: boolean,
+  Progress?: React.ComponentType<{message: Message}>,
 }
 
-const UnknownMessage: React.FC<UIMessageProps> = ({ message }) => <>未知消息类型. id: {message.id}, type: {message.type}</>;
+export interface UIMessageProps extends UIMessageBasicProps {
+  message?: Message,
+  className?: string,
+  UIMessage?: React.ComponentType,
+  MessageContext?: React.ComponentType<UnknowPorps>,
+  MessagePlugins?: React.ComponentType<UnknowPorps>,
+  handleDelete?: ReactEventHandler,
+  CustemElement?: React.ComponentType<{message: Message}>,
+  TextElement?: React.ComponentType<{message: Message}>,
+  ImageElement?: React.ComponentType<{message: Message}>,
+  VideoElement?: React.ComponentType<{message: Message}>,
+  AudioElement?: React.ComponentType<{message: Message}>,
+  FileElement?: React.ComponentType<{message: Message}>,
+  MergerElement?: React.ComponentType<{message: Message}>,
+  LocationElement?: React.ComponentType<{message: Message}>,
+  FaceElement?: React.ComponentType<{message: Message}>,
+}
+function UIMessageWithContext <T extends UIMessageProps>(
+  props: PropsWithChildren<T>,
+):React.ReactElement {
+  const {
+    message: propsMessage,
+    UIMessage: propUIMessage,
+    MessagePlugins: propMessagePlugins,
+    MessageContext: propMessageContext,
+    handleDelete,
+    CustemElement,
+    TextElement,
+    ImageElement,
+    VideoElement,
+    AudioElement,
+    FileElement,
+    MergerElement,
+    LocationElement,
+    FaceElement,
+    className,
+    filter: propsFilter,
+    isShowTime,
+    isShowRead,
+    plugin,
+    prefix,
+    suffix,
+    customName,
+    showAvatar,
+    showName,
+    customAvatar,
+    isShowProgress,
+    Progress,
+  } = props;
 
-const components: Record<string, React.ComponentType<UIMessageProps>> = {
-  text: TextMessage,
-  image: ImageMessage,
-  video: VideoMessage,
-};
+  const {
+    MessagePlugins: ContextMessagePlugins,
+    MessageContext: ContextMessageContext,
+  } = useComponentContext('UIMessage');
 
-export function UIMessage({
-  message,
-  position = 'left',
-}: UIMessageProps) {
-  const UIMessageComponent = components[message.type] ?? UnknownMessage;
+  const {
+    messageConfig,
+  } = useChatState();
 
-  console.log('message: ', message);
+  const UIMessageUIComponent = propUIMessage || UIMessageDefault;
+  const MessagePlugins = propMessagePlugins || ContextMessagePlugins || MessagePluginsDefault;
+  const MessageContext = propMessageContext || ContextMessageContext || MessageContextDefault;
 
-  const isRL = position === 'right' || position === 'left';
+  const filter = propsFilter || messageConfig?.filter;
+  const message = propsMessage || messageConfig?.message;
+  if (filter) {
+    filter(message);
+  }
+
+  const messageContextValue = {
+    message,
+    handleDelete: handleDelete || messageConfig?.handleDelete,
+    CustemElement: CustemElement || messageConfig?.CustemElement,
+    TextElement: TextElement || messageConfig?.TextElement,
+    ImageElement: ImageElement || messageConfig?.ImageElement,
+    VideoElement: VideoElement || messageConfig?.VideoElement,
+    AudioElement: AudioElement || messageConfig?.AudioElement,
+    FileElement: FileElement || messageConfig?.FileElement,
+    MergerElement: MergerElement || messageConfig?.MergerElement,
+    LocationElement: LocationElement || messageConfig?.LocationElement,
+    FaceElement: FaceElement || messageConfig?.FaceElement,
+    isShowTime: isShowTime || messageConfig?.isShowTime,
+    isShowRead: isShowRead || messageConfig?.isShowRead,
+    plugin: plugin || messageConfig?.plugin,
+    prefix: prefix || messageConfig?.prefix,
+    suffix: suffix || messageConfig?.suffix,
+    customName: customName || messageConfig?.customName,
+    showAvatar: showAvatar || messageConfig?.showAvatar,
+    showName: showName || messageConfig?.showName,
+    customAvatar: customAvatar || messageConfig?.customAvatar,
+    isShowProgress: isShowProgress || messageConfig?.isShowProgress,
+    Progress: Progress || messageConfig?.Progress,
+  };
 
   return (
-    <div className={clsx('Message', position)}>
-      {message.sent_at && (
-        <div className="Message-meta">
-          {message.sent_at.toString()}
-        </div>
-      )}
-      <div className="Message-main">
-        {isRL && message && message.avatar && <Avatar src={message.avatar} alt={message.name} />}
-        <div className="Message-inner">
-          {isRL && message.name && <div className="Message-author">{message.name}</div>}
-          <div className="Message-content" role="alert" aria-live="assertive" aria-atomic="false">
-            {(
-              <MessageBubble message={message}>
-                <UIMessageComponent message={message} />
-              </MessageBubble>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <UIMessageContextProvider value={messageContextValue}>
+      <UIMessageUIComponent
+        message={message}
+        MessageContext={MessageContext}
+        MessagePlugins={MessagePlugins}
+        className={className || messageConfig?.className}
+      />
+    </UIMessageContextProvider>
+  );
+}
+
+const MemoizedUIMessage = React.memo(UIMessageWithContext) as
+typeof UIMessageWithContext;
+
+export function UIMessage(props: UIMessageProps): React.ReactElement {
+  const {
+    message,
+  } = props;
+  const { handleDelMessage } = useMessageHandler({ message });
+
+  return (
+    <MemoizedUIMessage
+      handleDelete={handleDelMessage}
+      {...props}
+    />
   );
 }
