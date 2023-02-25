@@ -61,7 +61,7 @@ export function UIMessageInputDefault(): React.ReactElement {
         && (
         <textarea
           placeholder="send a message"
-          rows={1}
+          rows={5}
           value={text}
           ref={textareaRef}
           onChange={handleChange}

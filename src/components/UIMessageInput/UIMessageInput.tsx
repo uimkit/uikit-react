@@ -11,6 +11,7 @@ import { InputPluginsDefault } from './InputPluginsDefault';
 import './styles/index.scss';
 import { ConversationType } from '../../types';
 import { UIMessageInputContextProvider } from '../../context/UIMessageInputContext';
+import clsx from 'clsx';
 
 
 
@@ -107,7 +108,7 @@ export function UIMessageInput<T extends UIMessageInputProps>(props: PropsWithCh
   const InputQuote = propsInputQuote || ContextInputQuote || InputQuoteDefault;
 
   return (
-    <div className={`uim-message-input ${className}`}>
+    <div className={clsx(`uim-message-input`, className)}>
       <UIMessageInputProvider {...props}>
         {/*<UIForward />*/}
         <InputQuote />
