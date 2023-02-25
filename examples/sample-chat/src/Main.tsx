@@ -14,7 +14,7 @@ export default function Main() {
             <button onClick={() => loginWithRedirect()}>登录</button>
           )}
       </header>
-      <main>
+      <main className="App-main">
         {isAuthenticated && <Chat/>}
       </main>
     </div>

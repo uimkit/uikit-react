@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { APIClient, UIKit } from '@uimkit/uikit-react';
 import UIClient from '@uimkit/uim-js';
 import { useAuthok } from '@authok/authok-react';
+import '@uimkit/uikit-react/dist/cjs/index.css';
 
 export default function Chat() {
   const { getAccessTokenSilently } = useAuthok();

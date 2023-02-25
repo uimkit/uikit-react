@@ -35,6 +35,15 @@ const baseConfig = {
   ],
 };
 
+const externalDependencies = [
+  'react', 
+  'date-fns', 
+  'tslib',
+  'i18next',
+  'react-date-picker'
+];
+
+
 export default [
   {
     ...baseConfig,
@@ -65,7 +74,7 @@ export default [
       }),
       peerDepsExternal(),
       resolve({
-        browser: true, // 指定打包浏览器端，否则 webpubsub 会引入 node 端的，进而引发在浏览器端找不到node端对应的库
+        // browser: true, // 指定打包浏览器端，否则 webpubsub 会引入 node 端的，进而引发在浏览器端找不到node端对应的库
       }),
       babel({
         extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
@@ -74,7 +83,7 @@ export default [
       typescript(),
       terser(),
     ],
-    external: ['react', 'react-dom', 'date-fns', 'tslib', 'react-date-picker'],
+    external: externalDependencies,
   },
   {
     ...baseConfig,
