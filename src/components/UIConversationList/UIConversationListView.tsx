@@ -9,6 +9,7 @@ export type UIConversationListViewProps = {
   setActiveConversation?: (conversation: Conversation) => void;
   conversations: Conversation[];
   loadMore?: () => void;
+  loading?: boolean;
   hasMore?: boolean;
   Preview?: React.ComponentType<UIConversationPreviewComponentProps>,
 };
@@ -18,17 +19,16 @@ export function UIConversationListView({
   setActiveConversation,
   conversations,
   loadMore,
+  loading,
   hasMore,
   Preview,
 }: UIConversationListViewProps) {
-  const noMore = true;
-
   return (
     <div className="conversation-list">
       <InfiniteScroll
         className="conversation-list-infinite-scroll"
-        hasMore={hasMore}
-        loadMore={loadMore}
+        hasMoreNewer={hasMore}
+        loadMoreNewer={loadMore}
         threshold={1}
       >
         <ul>
@@ -48,7 +48,8 @@ export function UIConversationListView({
           }
         </ul>
       </InfiniteScroll>
-      {noMore && <p className="no-more">没有更多</p>}
+      {loading && <p className="loading">加载中</p>}   
+      {!hasMore && <p className="no-more">没有更多</p>}
     </div>
   );
 }

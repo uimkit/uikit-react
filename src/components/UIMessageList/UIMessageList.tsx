@@ -40,11 +40,8 @@ export function UIMessageList <T extends MessageListProps>(
     // UIMessageListConfig,
   } = useChatState();
 
-  const isCompleted = true; // TODO
   const isSameLastMessageID = true;
-  const noMore = true;
 
-  const { loadMoreMessages: contextLoadMore, setHighlightedMessageId } = useChatActionContext('UIMessageList');
   const { UIMessage, EmptyStateIndicator = DefaultEmptyStateIndicator } = useComponentContext('UIMessageList');
 
   const highlightedMessageId = propsHighlightedMessageId
@@ -53,7 +50,8 @@ export function UIMessageList <T extends MessageListProps>(
   const intervalsTimer = (propsIntervalsTimer /*|| UIMessageListConfig?.intervalsTimer*/ || 30) * 60;
 
   const { activeConversation } = useUIKit();
-  const { messages: contextMessageList } = useConversationMessageList(activeConversation?.id);
+  const { setHighlightedMessageId } = useChatActionContext('UIMessageList'); // 应该把这里的行为打散解构到不同的 hook 中.
+  const { messages: contextMessageList, hasMore, loading, loadMore: contextLoadMore } = useConversationMessageList(activeConversation?.id);
 
   /*
   const { messageList: enrichedMessageList } = useEnrichedMessageList({
@@ -72,7 +70,7 @@ export function UIMessageList <T extends MessageListProps>(
   useEffect(() => {
     (async () => {
       const parentElement = ulElement?.parentElement?.parentElement;
-      if (!isCompleted && parentElement?.clientHeight >= ulElement?.clientHeight) {
+      if (!loading && parentElement?.clientHeight >= ulElement?.clientHeight) {
         await loadMore();
       }
 
@@ -107,8 +105,7 @@ export function UIMessageList <T extends MessageListProps>(
 
   return (
     <div className={`message-list ${!firstRender ? 'hide' : ''}`} ref={messageListRef}>
-      {noMore}
-      {noMore && <p className="no-more">没有更多</p>}
+      {!hasMore && <p className="no-more">没有更多</p>}
       <InfiniteScroll
         className="message-list-infinite-scroll"
         hasMore

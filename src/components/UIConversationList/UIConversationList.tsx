@@ -6,9 +6,8 @@ import './styles/index.scss';
 
 export function UIConversationList() {
   const { activeProfile, activeConversation, setActiveConversation } = useUIKit();
-  const { loadMoreConversations } = useChatActionContext();
 
-  const { conversations } = useConversationList(activeProfile?.id);
+  const { conversations, loadMore, loading, hasMore  } = useConversationList(activeProfile?.id);
 
   return (
     <div className="uim-conversation">
@@ -17,7 +16,9 @@ export function UIConversationList() {
         activeConversation={activeConversation}
         setActiveConversation={setActiveConversation}
         conversations={conversations} 
-        loadMore={() => loadMoreConversations(activeProfile?.id)}
+        loadMore={loadMore}
+        loading={loading}
+        hasMore={hasMore}
       />
     </div>
   );
