@@ -5,7 +5,6 @@ import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessag
 export interface ChatActionContextValue {
   loadMoreMessages?: () => Promise<void>,
   sendMessage?: (message: Message, options?:any) => Promise<void>,
-  removeMessage?: (message: Message) => void,
   updateMessage?: (messages: Array<Message>) => void,
   createTextMessage?: (options: any/* CreateTextMessageProps*/) => Message,
   createFaceMessage?: (options: any/*CreateFaceMessageProps*/) => Message,
