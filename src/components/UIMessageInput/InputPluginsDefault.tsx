@@ -6,7 +6,6 @@ import { Plugins } from '../Plugins';
 import { useUploadElement } from './hooks/useUploadElement';
 import { useUIMessageInputContext } from '../../context/UIMessageInputContext';
 import { Icon, IconTypes } from '../Icon';
-import { useChatState } from '../../hooks';
 import { MessageType } from '../../types';
 import { useChatStateContext } from '../../context';
 

@@ -109,9 +109,9 @@ export function UIMessageInput<T extends UIMessageInputProps>(props: PropsWithCh
       <UIMessageInputProvider {...props}>
         {/*<UIForward />*/}
         <InputQuote />
+        <InputPlugins />
         <div className="uim-message-input-main">
           <div className="uim-message-input-box">
-            <InputPlugins />
             <Input />
           </div>
           {/*isTransmitter && <Transmitter />*/}

@@ -38,8 +38,6 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
   const [title, setTitle] = useState('');
   const [avatar, setAvatar] = useState<React.ReactElement | string>('');
 
-  console.log('title: ', title, conversation.name);
-
   useEffect(() => {
     setTitle(propTitle);
     if (propAvatar) {
@@ -57,7 +55,6 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
         setTitle('系统通知');
         break;
       default:
-        console.log('fuck?');
         setTitle('');
         break;
     }
