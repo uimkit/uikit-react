@@ -7,21 +7,12 @@ import { AppThunkContext } from "../../store/types";
 import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
 import { ChatActionContextValue, ChatActionProvider, UIKitProvider, useUIKit } from "../../context";
-<<<<<<< HEAD
-import { APIClient, Conversation, Message } from '../../types';
-=======
-import { notification } from 'antd';
 import { Profile, APIClient, Conversation, Message } from '../../types';
->>>>>>> 13cca9f667139855067204b99a3bce20ede93cdd
 import { fetchConversationsByAccount } from '../../store/conversations';
 import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
 import { useCreateMessage } from '../../hooks/useCreateMesage';
-<<<<<<< HEAD
 import { Toast } from '../Toast';
-=======
-import './styles/index.scss';
->>>>>>> 13cca9f667139855067204b99a3bce20ede93cdd
 
 import './styles/index.scss';
 
