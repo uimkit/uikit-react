@@ -4,8 +4,7 @@ import React, {
 
 import { Icon, IconTypes } from '../Icon';
 import type { MessageContextProps } from './MessageText';
-import { useChatActionContext } from '../../context';
-import { useChatState } from '../../hooks';
+import { useChatActionContext, useChatStateContext } from '../../context';
 
 function MessageAudioWithContext <T extends MessageContextProps>(
   props: PropsWithChildren<T>,
@@ -17,7 +16,7 @@ function MessageAudioWithContext <T extends MessageContextProps>(
   } = props;
 
   const { setAudioSource } = useChatActionContext('MessageAudioWithContext');
-  const { audioSource } = useChatState();
+  const { audioSource } = useChatStateContext();
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playClassName, setPlayClassName] = useState(false);

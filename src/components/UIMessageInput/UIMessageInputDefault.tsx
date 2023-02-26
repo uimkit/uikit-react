@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { formatEmojiString } from '../UIMessage/utils/emojiMap';
 import { useUIMessageInputContext } from '../../context/UIMessageInputContext';
-import { useChatState } from '../../hooks';
 import { MESSAGE_OPERATE } from '../../constants';
+import { useChatStateContext } from '../../context';
 
 export function UIMessageInputDefault(): React.ReactElement {
   const {
@@ -19,7 +19,7 @@ export function UIMessageInputDefault(): React.ReactElement {
   
   const {
     operateData,
-  } = useChatState();
+  } = useChatStateContext();
 
   // operateData
   useEffect(() => {

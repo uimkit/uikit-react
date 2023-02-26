@@ -16,7 +16,6 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
   const { activeProfile, activeContact, setActiveContact } = useUIKit();
 
   const { contacts, loading, hasMore, loadMore } = useContactList(activeProfile?.id);
-  console.log('hasMore: ', hasMore);
 
   return (
     <div className="uim-contact-list">

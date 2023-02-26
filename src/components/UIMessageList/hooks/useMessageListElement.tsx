@@ -21,21 +21,20 @@ function useMessageListElement <T extends MessageListElementProps>(
     intervalsTimer,
   } = props;
 
-  return useMemo(() => enrichedMessageList?.map((item: Message, index:number) => {
+  return useMemo(() => enrichedMessageList?.map((item: Message, index: number) => {
     const key = `${JSON.stringify(item)}${index}`;
-    const preMessageTImer = index > 0 ? enrichedMessageList[index - 1]?.sent_at: -1;
+    const preMessageTimer = index > 0 ? enrichedMessageList[index - 1]?.sent_at: -1;
     const currrentTimer = item?.sent_at || 0;
-    const isShowIntervalsTImer = preMessageTImer !== -1
-      ? (currrentTimer - preMessageTImer) >= intervalsTimer : false;
+    const isShowIntervalsTimer = preMessageTimer !== -1
+      ? (currrentTimer - preMessageTimer) >= intervalsTimer : false;
     return (
       <>
-        {
-         isShowIntervalsTImer && <div className="message-list-time" key={`${currrentTimer + index}`}>{currrentTimer ? getTimeStamp(currrentTimer * 1000) : 0}</div>
-       }
         <li className="message-list-item" key={key}>
+          {
+            isShowIntervalsTimer && <div className="message-list-time" key={`${currrentTimer + index}`}>{currrentTimer ? getTimeStamp(currrentTimer) : 0}</div>
+          }
           <UIMessage message={item} />
         </li>
-
       </>
     );
   }), [enrichedMessageList]);

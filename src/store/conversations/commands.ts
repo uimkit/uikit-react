@@ -2,7 +2,7 @@ import invariant from "invariant";
 import { Dispatch } from "redux";
 import { t } from "i18next";
 import { AppState, AppThunkContext, ThunkAction } from "../types";
-import { conversationListFetched, errorFetchingConversationList, FetchConversationListRequest, fetchingConversationList } from "./actions";
+import { ConversationListActionType, FetchConversationListRequest } from "./actions";
 
 /**
  * 查询服务商的所有会话列表
@@ -30,13 +30,24 @@ export const fetchConversationsByProvider = (provider: string, loadMore: boolean
 						limit
 					}
 					try {
-						dispatch(fetchingConversationList(request))
-						const response = await client.listConversations(request)
-						dispatch(conversationListFetched({ request, response }))
+						dispatch({
+              type: ConversationListActionType.FETCHING_CONVERSATION_LIST,
+              payload: request
+            });
+
+            const response = await client.listConversations(request)
+						dispatch({
+              type: ConversationListActionType.CONVERSATION_LIST_FETCHED,
+              payload: { request, response },
+            });
 					} catch (e: unknown) {
 						console.error("fetch conversations by provider error", e)
-						dispatch(errorFetchingConversationList({ request, error: e as Error }))
-						onError && onError(e, t([
+						dispatch({
+              type: ConversationListActionType.ERROR_FETCHING_CONVERSATION_LIST,
+              payload: { request, error: e as Error },
+            });
+
+            onError && onError(e, t([
 							`${provider}:chat:conversations:fetchListError`,
 							"default:chat:conversations:fetchListError"
 						]))
@@ -70,12 +81,23 @@ export const fetchConversationsByAccount = (accountId: string, loadMore: boolean
 			limit
 		}
 		try {
-			dispatch(fetchingConversationList(request))
-			const response = await client.listConversations(request)
-			dispatch(conversationListFetched({ request, response }))
+			dispatch({
+        type: ConversationListActionType.FETCHING_CONVERSATION_LIST,
+        payload: request,
+      });
+
+      const response = await client.listConversations(request)
+			dispatch({
+        type: ConversationListActionType.CONVERSATION_LIST_FETCHED,
+        payload: { request, response },
+      });
 		} catch (e: unknown) {
 			console.error("fetch conversations by account error", e)
-			dispatch(errorFetchingConversationList({ request, error: e as Error }))
+			dispatch({
+        type: ConversationListActionType.ERROR_FETCHING_CONVERSATION_LIST,
+        payload: { request, error: e as Error },
+      });
+
 			onError && onError(e, t([
 				`${account?.provider}:chat:conversations:fetchListError`,
 				"default:chat:conversations:fetchListError"

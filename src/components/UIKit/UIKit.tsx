@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect, useState, PropsWithChildren } from 'react';
+import React, { useMemo, useEffect, useState, PropsWithChildren } from 'react';
 import { Provider as ReduxProvider } from "react-redux";
 import { UIChat } from "../UIChat";
 
@@ -6,12 +6,10 @@ import { createAppStore } from "../../store";
 import { AppThunkContext } from "../../store/types";
 import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
-import { ChatActionContextValue, ChatActionProvider, UIKitProvider, useUIKit } from "../../context";
-import { Profile, APIClient, Conversation, Message, Contact } from '../../types';
-import { fetchConversationsByAccount } from '../../store/conversations';
+import { UIKitProvider, useUIKit } from "../../context";
+import { Profile, APIClient, Conversation, Contact } from '../../types';
 import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
-import { useCreateMessage } from '../../hooks/useCreateMesage';
 import { Toast } from '../Toast';
 
 import './styles/index.scss';
@@ -28,7 +26,7 @@ const getState = store.getState.bind(store)
 
 
 const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
-  const { children, cloudCustomData } = props;
+  const { children } = props;
 
   const dispatch = useDispatch();
   const { client } = useUIKit();
@@ -43,91 +41,16 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     }
   }, [client]);
 
-
-  const { activeConversation} = useUIKit();
-
-  const {
-    createTextMessage,
-    createFaceMessage,
-    createImageMessage,
-    createVideoMessage,
-    createFileMessage,
-    // createForwardMessage,
-    createCustomMessage,
-    createAudioMessage,
-    createTextAtMessage,
-    createLocationMessage,
-    createMergerMessage,
-  } = useCreateMessage({ client, activeConversation, cloudCustomData });
-
-
-
-
-  const loadMoreConversations = useCallback(async (accountId: string) => {
-    if (accountId) {
-      dispatch(fetchConversationsByAccount(accountId))
-    }
-  }, []);
-
-  const sendMessage = useCallback(async (message: Message, options?:any) => {
-    // updateMessage([message]);
-    try {
-      // TODO sendMessage
-      
-      // editLocalmessage(message);
-    } catch (error) {
-      Toast({ text: error, type: 'error' });
-
-      // editLocalmessage(message);
-      throw new Error(error);
-    }
-  }, []);
-
-  
-  const chatActionContextValue = useMemo<ChatActionContextValue>(() => ({
-    loadMoreConversations,
-    sendMessage,
-    createTextMessage,
-    createFaceMessage,
-    createImageMessage,
-    createVideoMessage,
-    createFileMessage,
-    // createForwardMessage,
-    createCustomMessage,
-    createAudioMessage,
-    createTextAtMessage,
-    createLocationMessage,
-    createMergerMessage,
-  }), [
-    loadMoreConversations,
-    sendMessage,
-    createTextMessage,
-    createFaceMessage,
-    createImageMessage,
-    createVideoMessage,
-    createFileMessage,
-    // createForwardMessage,
-    createCustomMessage,
-    createAudioMessage,
-    createTextAtMessage,
-    createLocationMessage,
-    createMergerMessage,
-  ]);
-
-  return (
-    <ChatActionProvider value={chatActionContextValue}>
-      {storeInited && (
-        <div className="uim-kit">
-          {children || (
-            <>
-              <UIAccountList />
-              <UIConversationList />
-              <UIChat />
-            </>
-          )}
-        </div>
+  return storeInited && (
+    <div className="uim-kit">
+      {children || (
+        <>
+          <UIAccountList />
+          <UIConversationList />
+          <UIChat />
+        </>
       )}
-    </ChatActionProvider>
+    </div>
   );
 };
 
@@ -135,7 +58,6 @@ export interface UIKitProps {
   client: APIClient;
   activeProfile?: Profile;
   activeConversation?: Conversation;
-  cloudCustomData?: string;
 }
 
 export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {

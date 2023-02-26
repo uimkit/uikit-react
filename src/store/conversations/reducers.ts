@@ -13,11 +13,15 @@ const sortConversations = (a: Conversation, b: Conversation): number => {
 
 export interface ConversationListIndexedByAccount {
 	// 查询请求
-	fetchingRequest: FetchConversationListRequest | null;
+	fetchingRequest?: FetchConversationListRequest | null;
 	// 上一次查询的游标
-	cursor: CursorListExtra | null;
+	cursor?: CursorListExtra | null;
 	// 会话列表
-	conversations: Conversation[];
+	conversations?: Conversation[];
+
+  loading?: boolean;
+
+  error?: Error;
 }
 
 export type ConversationListState = Record<string, ConversationListIndexedByAccount>
@@ -30,23 +34,23 @@ export const createConversationListReducer = () => (
 ): ConversationListState => {
 	switch (action.type) {
 		case ConversationListActionType.FETCHING_CONVERSATION_LIST: {
-			return fetchingConversationList(state, action.payload);
+			return handleFetchingConversationList(state, action.payload);
 		}
 		case ConversationListActionType.CONVERSATION_LIST_FETCHED: {
-			return conversationListFetched(state, action.payload);
+			return handleConversationListFetched(state, action.payload);
 		}
 		case ConversationListActionType.ERROR_FETCHING_CONVERSATION_LIST: {
-			return errorFetchingConversationList(state, action.payload);
+			return handleErrorFetchingConversationList(state, action.payload);
 		}
 		case ConversationListActionType.CONVERSATION_RECEIVED: {
-			return conversationReceived(state, action.payload);
+			return handleConversationReceived(state, action.payload);
 		}
 		default:
 			return state;
 	}
 }
 
-const fetchingConversationList = (
+const handleFetchingConversationList = (
 	state: ConversationListState,
 	payload: FetchConversationListRequest
 ): ConversationListState => {
@@ -56,12 +60,13 @@ const fetchingConversationList = (
 		...state,
 		[account_id]: {
 			...stateByAccount,
-			fetchingRequest: payload
+			fetchingRequest: payload,
+      loading: true,
 		}
 	}
 }
 
-const conversationListFetched = (
+const handleConversationListFetched = (
 	state: ConversationListState,
 	payload: FetchConversationListSuccess
 ): ConversationListState => {
@@ -93,17 +98,18 @@ const conversationListFetched = (
 		[account_id]: {
 			...stateByAccount,
 			fetchingRequest: null,
+      loading: false,
 			cursor: extra,
 			conversations: results
 		}
 	}
 };
 
-const errorFetchingConversationList = (
+const handleErrorFetchingConversationList = (
 	state: ConversationListState,
 	payload: FetchConversationListError
 ): ConversationListState => {
-	const { request } = payload;
+	const { request, error } = payload;
 	const { account_id } = request;
 	const stateByAccount = state[account_id] || newState();
 	return {
@@ -111,11 +117,13 @@ const errorFetchingConversationList = (
 		[account_id]: {
 			...stateByAccount,
 			fetchingRequest: null,
+      error,
+      loading: false,
 		}
 	}
 }
 
-const conversationReceived = (
+const handleConversationReceived = (
 	state: ConversationListState,
 	payload: Conversation
 ): ConversationListState => {

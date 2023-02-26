@@ -1,10 +1,9 @@
 import React, { PropsWithChildren, useContext } from 'react';
 import { Message } from '../types';
+import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessage';
 
 export interface ChatActionContextValue {
   loadMoreMessages?: () => Promise<void>,
-  loadMoreConversations?: (accountId: string) => Promise<void>,
-  loadMoreContacts?: (accountId: string) => Promise<void>;
   sendMessage?: (message: Message, options?:any) => Promise<void>,
   removeMessage?: (message: Message) => void,
   updateMessage?: (messages: Array<Message>) => void,
@@ -20,17 +19,12 @@ export interface ChatActionContextValue {
   createLocationMessage?: (options: any/*CreateLocationMessageProps*/) => Message,
   createMergerMessage?: (options: any/*CreateMergerMessageProps*/) => Message,
   editLocalmessage?: (message: Message) => void,
-  operateMessage?: (data?: any/*OperateMessageParams*/) => void,
+  operateMessage?: (data?: OperateMessageParams) => void,
   revokeMessage?: (message:Message) => Promise<Message>,
   setAudioSource?: (source: HTMLAudioElement | null) => void,
   setVideoSource?: (source: HTMLVideoElement | null) => void,
   setHighlightedMessageId?: (highlightedMessageId: string) => void,
   updataUploadPenddingMessageList?: (message?:Message) => void,
-
-  pinConversation?: (conversationID: string, pinned: boolean) => void;
-  deleteConversation?: (conversationID: string) => void;
-
-  deleteContact?: (contactID: string) => void;
 }
 
 export const ChatActionContext = React.createContext<ChatActionContextValue | undefined>(

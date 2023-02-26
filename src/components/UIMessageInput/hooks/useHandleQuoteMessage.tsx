@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MESSAGE_OPERATE } from '../../../constants';
-// import { useChatStateContext } from '../../../context';
 import { MessageType, Message } from '../../../types';
-import { useChatState } from '../../../hooks/useChatState';
+import { useChatStateContext } from '../../../context';
 
 const quoteConfigType = {
   [MessageType.Text]: 1,
@@ -24,7 +23,7 @@ const quoteConfigForShow = {
 };
 
 export function useHandleQuoteMessage(msg?: Message) {
-  const { operateData } = useChatState();
+  const { operateData } = useChatStateContext();
 
   const [cloudCustomData, setCloudCustomData] = useState({ messageReply: null });
 

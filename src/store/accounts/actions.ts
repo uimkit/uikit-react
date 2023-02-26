@@ -12,11 +12,6 @@ export interface AccountFetchedAction {
 	payload: IMAccount
 }
 
-export const accountFetched = (payload: IMAccount): AccountFetchedAction => ({
-	type: AccountListActionType.ACCOUNT_FETCHED,
-	payload
-})
-
 export type FetchAccountListRequest = ListIMAccountsParameters
 
 export type FetchAccountListResponse = ListIMAccountsResponse
@@ -48,24 +43,10 @@ export interface AccountListFetchedAction {
 	payload: FetchAccountListSuccess;
 }
 
-export const accountListFetched = (
-	payload: FetchAccountListSuccess
-): AccountListFetchedAction => ({
-	type: AccountListActionType.ACCOUNT_LIST_FETCHED,
-	payload
-})
-
 export interface ErrorFetchingAccountListAction {
 	type: typeof AccountListActionType.ERROR_FETCHING_ACCOUNT_LIST;
 	payload: FetchAccountListError;
 }
-
-export const errorFetchingAccountList = (
-	payload: FetchAccountListError
-): ErrorFetchingAccountListAction => ({
-	type: AccountListActionType.ERROR_FETCHING_ACCOUNT_LIST,
-	payload
-})
 
 export type AccountListActions =
 	| AccountFetchedAction

@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useState, useEffect } from 'react';
 import { Message } from '../../types';
 import {
   useChatActionContext,
+  useChatStateContext,
   useComponentContext,
   useUIKit,
 } from '../../context';
@@ -12,7 +13,7 @@ import { InfiniteScroll, InfiniteScrollProps } from '../InfiniteScrollPaginator'
 import { EmptyStateIndicator as DefaultEmptyStateIndicator } from '../EmptyStateIndicator';
 
 import './styles/index.scss';
-import { useChatState, useConversationMessageList } from '../../hooks';
+import { useConversationMessageList } from '../../hooks';
 
 export interface MessageListProps extends InfiniteScrollProps {
   className?: string,
@@ -37,17 +38,17 @@ export function UIMessageList <T extends MessageListProps>(
   const {
     highlightedMessageId: contextHighlightedMessageId,
     messageListRef,
-    // UIMessageListConfig,
-  } = useChatState();
+    UIMessageListConfig,
+  } = useChatStateContext();
 
   const isSameLastMessageID = true;
 
   const { UIMessage, EmptyStateIndicator = DefaultEmptyStateIndicator } = useComponentContext('UIMessageList');
 
   const highlightedMessageId = propsHighlightedMessageId
-  // || UIMessageListConfig?.highlightedMessageId
+  || UIMessageListConfig?.highlightedMessageId
   || contextHighlightedMessageId;
-  const intervalsTimer = (propsIntervalsTimer /*|| UIMessageListConfig?.intervalsTimer*/ || 30) * 60;
+  const intervalsTimer = (propsIntervalsTimer || UIMessageListConfig?.intervalsTimer || 30) * 60;
 
   const { activeConversation } = useUIKit();
   const { setHighlightedMessageId } = useChatActionContext('UIMessageList'); // 应该把这里的行为打散解构到不同的 hook 中.
@@ -57,9 +58,9 @@ export function UIMessageList <T extends MessageListProps>(
   const { messageList: enrichedMessageList } = useEnrichedMessageList({
     messageList: propsMessageList || UIMessageListConfig?.messageList || contextMessageList,
   });*/
-  const enrichedMessageList = propsMessageList /*|| UIMessageListConfig?.messageList*/ || contextMessageList
+  const enrichedMessageList = propsMessageList || contextMessageList
 
-  const loadMore = propsLoadMore /*|| UIMessageListConfig?.loadMore*/ || contextLoadMore;
+  const loadMore = propsLoadMore || UIMessageListConfig?.loadMore || contextLoadMore;
 
   const elements = useMessageListElement({
     enrichedMessageList,

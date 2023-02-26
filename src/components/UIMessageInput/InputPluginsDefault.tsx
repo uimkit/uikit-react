@@ -8,6 +8,7 @@ import { useUIMessageInputContext } from '../../context/UIMessageInputContext';
 import { Icon, IconTypes } from '../Icon';
 import { useChatState } from '../../hooks';
 import { MessageType } from '../../types';
+import { useChatStateContext } from '../../context';
 
 export function InputPluginsDefault():React.ReactElement {
   const {
@@ -15,7 +16,7 @@ export function InputPluginsDefault():React.ReactElement {
     pluginConfig: propsPluginConfig,
   } = useUIMessageInputContext('UIMessageInputDefault');
 
-  const { UIMessageInputConfig } = useChatState();
+  const { UIMessageInputConfig } = useChatStateContext();
 
   const propPlugins = propsPluginConfig?.plugins
   || UIMessageInputConfig?.pluginConfig?.plugins || [];

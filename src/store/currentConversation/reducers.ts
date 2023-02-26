@@ -28,23 +28,23 @@ export const createCurrentConversationReducer = () => (
 ): CurrentConversationState => {
 	switch (action.type) {
 		case CurrentConversationActionType.FETCHING_CURRENT_CONVERSATION: {
-			return fetchingCurrentConversation(state, action.payload);
+			return handleFetchingCurrentConversation(state, action.payload);
 		}
 		case CurrentConversationActionType.FETCHING_CURRENT_CONVERSATION_BY_PARTICIPANT: {
-			return fetchingCurrentConversationByParticipant(state, action.payload);
+			return handleFetchingCurrentConversationByParticipant(state, action.payload);
 		}
 		case CurrentConversationActionType.CURRENT_CONVERSATION_FETCHED: {
-			return currentConversationFetched(state, action.payload);
+			return handleCurrentConversationFetched(state, action.payload);
 		}
 		case CurrentConversationActionType.LEAVE_CONVERSATION: {
-			return leaveConversation(state);
+			return handleLeaveConversation(state);
 		}
 		default:
 			return state;
 	}
 }
 
-const fetchingCurrentConversation = (
+const handleFetchingCurrentConversation = (
 	state: CurrentConversationState,
 	conversationId: string
 ): CurrentConversationState => {
@@ -59,7 +59,7 @@ const fetchingCurrentConversation = (
 }
 
 
-const fetchingCurrentConversationByParticipant = (
+const handleFetchingCurrentConversationByParticipant = (
 	state: CurrentConversationState,
 	participantId: string
 ): CurrentConversationState => {
@@ -73,7 +73,7 @@ const fetchingCurrentConversationByParticipant = (
 	};
 }
 
-const currentConversationFetched = (
+const handleCurrentConversationFetched = (
 	state: CurrentConversationState,
 	payload: CurrentConversationFetchedPayload
 ): CurrentConversationState => {
@@ -92,7 +92,7 @@ const currentConversationFetched = (
 	return state
 }
 
-const leaveConversation = (
+const handleLeaveConversation = (
 	state: CurrentConversationState
 ): CurrentConversationState => {
 	return {

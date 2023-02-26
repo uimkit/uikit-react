@@ -3,11 +3,10 @@ import './styles/index.scss';
 
 import { Plugins, PluginsProps } from '../Plugins';
 import { Icon, IconTypes } from '../Icon';
-import { useUIMessageContext } from '../../context';
+import { useChatStateContext, useUIMessageContext } from '../../context';
 import { useMessagePluginElement, useMessageHandler } from './hooks';
 import { MESSAGE_FLOW, MESSAGE_STATUS } from '../../constants';
 import { MessageType } from '../../types';
-import { useChatState } from '../../hooks';
 
 enum PluginsNameEnum {
   quote = 'quote',
@@ -42,7 +41,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const pluginsRef = useRef(null);
 
   const { message, plugin: contextPlugin } = useUIMessageContext('MessagePlugins');
-  const { messageListRef } = useChatState();
+  const { messageListRef } = useChatStateContext();
   const {
     handleDelMessage,
     handleRevokeMessage,

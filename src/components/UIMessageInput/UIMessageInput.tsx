@@ -1,17 +1,14 @@
 import React, { MutableRefObject, PropsWithChildren } from 'react';
-import { MessageInputContextProvider, UnknowPorps, useComponentContext, useUIKit } from '../../context';
+import { UIMessageInputContextProvider, UnknowPorps, useChatStateContext, useComponentContext, useUIKit } from '../../context';
 import { useCreateMessageInputContext } from './hooks/useCreateMessageInputContext';
 import { useMessageInputState } from './hooks/useMessageInputState';
-import { useChatState } from '../../hooks/useChatState';
 import { EmptyStateIndicator } from '../EmptyStateIndicator';
 import { InputQuoteDefault } from './InputQuoteDefault';
 import { UIMessageInputDefault } from './UIMessageInputDefault';
 import { InputPluginsDefault } from './InputPluginsDefault';
-
-import './styles/index.scss';
 import { ConversationType } from '../../types';
-import { UIMessageInputContextProvider } from '../../context/UIMessageInputContext';
 import clsx from 'clsx';
+import './styles/index.scss';
 
 
 
@@ -58,7 +55,7 @@ function UIMessageInputProvider<T extends UIMessageInputProps>(props: PropsWithC
 
   const contextDisabled = activeConversation?.type === ConversationType.System;
 
-  const { textareaRef, UIMessageInputConfig } = useChatState();
+  const { textareaRef, UIMessageInputConfig } = useChatStateContext();
 
   const focus = propsFoces || UIMessageInputConfig?.focus;
 
@@ -91,7 +88,7 @@ export function UIMessageInput<T extends UIMessageInputProps>(props: PropsWithCh
     className: propsClassName,
   } = props;
 
-  const { UIMessageInputConfig } = useChatState();
+  const { UIMessageInputConfig } = useChatStateContext();
 
   const className = propsClassName || UIMessageInputConfig?.className;
   const isTransmitter = propsIsTransmitter || UIMessageInputConfig?.isTransmitter || false;

@@ -5,7 +5,6 @@ import { ConversationListReducer } from './conversations';
 import { CurrentConversationReducer } from "./currentConversation";
 import { MessageListReducer } from "./messages";
 import { ContactListReducer } from "./contacts";
-import { ChatStateReducer } from "./chatState";
 
 /**
  * Combine all of the reducers in this application
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   currentConversation: CurrentConversationReducer,
   messages: MessageListReducer,
   contacts: ContactListReducer,
-  chatState: ChatStateReducer,
 });
 
 export default rootReducer;

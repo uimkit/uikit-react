@@ -5,6 +5,8 @@ import './styles/index.scss';
 import { Icon, IconTypes } from '../Icon';
 import { Plugins } from '../Plugins';
 import { useChatActionContext, useUIKit } from '../../context';
+import { usePinConversation } from '../../hooks/usePinConversation';
+import { useDeleteConversation } from '../../hooks/useDeleteConversation';
 
 export function UIConversationPreviewContent<T extends UIConversationPreviewComponentProps>(
   props: T,
@@ -42,7 +44,8 @@ export function UIConversationPreviewContent<T extends UIConversationPreviewComp
   };
 
   const { activeConversation } = useUIKit('UIConversationPreviewContent');
-  const { pinConversation, deleteConversation } = useChatActionContext();
+  const { mutate: pinConversation } = usePinConversation();
+  const { mutate: deleteConversation } = useDeleteConversation();
 
   const moreHandle = (type: string) => {
     const { id, pinned } = conversation;

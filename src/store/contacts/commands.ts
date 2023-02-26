@@ -2,7 +2,7 @@ import invariant from "invariant";
 import { Dispatch } from "redux";
 import { t } from 'i18next';
 import { AppState, AppThunkContext, ThunkAction } from "../types";
-import { contactListFetched, errorFetchingContactList, FetchContactListRequest, fetchingContactList } from "./actions";
+import { ContactListActionType, FetchContactListRequest } from "./actions";
 
 /**
  * 查询服务商的所有联系人列表
@@ -30,13 +30,24 @@ export const fetchContactsByProvider = (provider: string, loadMore: boolean = fa
 						limit
 					}
 					try {
-						dispatch(fetchingContactList(request))
-						const response = await context.client.listContacts(request)
-						dispatch(contactListFetched({ request, response }))
+						dispatch({
+              type: ContactListActionType.FETCHING_CONTACT_LIST,
+              payload: request
+            });
+
+            const response = await context.client.listContacts(request)
+						dispatch({
+              type: ContactListActionType.CONTACT_LIST_FETCHED,
+              payload: { request, response }
+            });
 					} catch (e: unknown) {
 						console.error("fetch contacts by provider error", e)
-						dispatch(errorFetchingContactList({ request, error: e as Error }))
-						onError && onError(e, t([
+						dispatch({
+              type: ContactListActionType.ERROR_FETCHING_CONTACT_LIST,
+              payload: { request, error: e as Error }
+            });
+
+            onError && onError(e, t([
 							`${provider}:chat:contacts:fetchListError`,
 							"default:chat:contacts:fetchListError"
 						]))
@@ -73,13 +84,24 @@ export const fetchContactsByAccount = (accountId: string, loadMore: boolean = fa
 			limit
 		}
 		try {
-			dispatch(fetchingContactList(request))
-			const response = await context.client.listContacts(request)
-			dispatch(contactListFetched({ request, response }))
+			dispatch({
+        type: ContactListActionType.FETCHING_CONTACT_LIST,
+        payload: request
+      });
+
+      const response = await context.client.listContacts(request)
+
+      dispatch({
+        type: ContactListActionType.CONTACT_LIST_FETCHED,
+        payload: { request, response }
+      });
 		} catch (e: unknown) {
-			console.error("fetch contacts by account error", e)
-			dispatch(errorFetchingContactList({ request, error: e as Error }))
-			onError && onError(e, t([
+			dispatch({
+        type: ContactListActionType.ERROR_FETCHING_CONTACT_LIST,
+        payload: { request, error: e as Error }
+      });
+
+      onError && onError(e, t([
 				`${account?.provider}:chat:contacts:fetchListError`,
 				"default:chat:contacts:fetchListError"
 			]))

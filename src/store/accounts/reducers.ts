@@ -19,13 +19,13 @@ export const createAccountListReducer = () => (
 ): AccountListState => {
 	switch (action.type) {
 		case AccountListActionType.ACCOUNT_FETCHED: {
-			return accountFetched(state, action.payload);
+			return handleAccountFetched(state, action.payload);
 		}
 		case AccountListActionType.FETCHING_ACCOUNT_LIST: {
-			return fetchingAccountList(state, action.payload);
+			return handleFetchingAccountList(state, action.payload);
 		}
 		case AccountListActionType.ACCOUNT_LIST_FETCHED: {
-			return accountListFetched(state, action.payload);
+			return handleAccountListFetched(state, action.payload);
 		}
 		case AccountListActionType.ERROR_FETCHING_ACCOUNT_LIST: {
 			return { ...state, fetchingRequest: null };
@@ -35,7 +35,7 @@ export const createAccountListReducer = () => (
 	}
 }
 
-const accountFetched = (
+const handleAccountFetched = (
 	state: AccountListState,
 	payload: IMAccount
 ): AccountListState => {
@@ -54,7 +54,7 @@ const accountFetched = (
 	}
 }
 
-const fetchingAccountList = (
+const handleFetchingAccountList = (
 	state: AccountListState,
 	payload: FetchAccountListRequest
 ): AccountListState => {
@@ -62,7 +62,7 @@ const fetchingAccountList = (
 }
 
 
-const accountListFetched = (
+const handleAccountListFetched = (
 	state: AccountListState,
 	payload: FetchAccountListSuccess
 ): AccountListState => {

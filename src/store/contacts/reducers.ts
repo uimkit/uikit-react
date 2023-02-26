@@ -13,11 +13,14 @@ const sortContacts = (a: Contact, b: Contact): number => {
 
 export interface ContactListIndexedByAccount {
 	// 查询请求
-	fetchingRequest: FetchContactListRequest | null;
+	fetchingRequest?: FetchContactListRequest | null;
+  loading?: boolean;
 	// 上一次查询的游标
-	cursor: CursorListExtra | null;
+	cursor?: CursorListExtra | null;
 	// 联系人列表
-	contacts: Contact[];
+	contacts?: Contact[];
+
+  error?: Error;
 }
 
 export type ContactListState = Record<string, ContactListIndexedByAccount>
@@ -30,23 +33,23 @@ export const createContactListReducer = () => (
 ): ContactListState => {
 	switch (action.type) {
 		case ContactListActionType.FETCHING_CONTACT_LIST: {
-			return fetchingContactList(state, action.payload);
+			return handleFetchingContactList(state, action.payload);
 		}
 		case ContactListActionType.CONTACT_LIST_FETCHED: {
-			return contactListFetched(state, action.payload);
+			return handleContactListFetched(state, action.payload);
 		}
 		case ContactListActionType.ERROR_FETCHING_CONTACT_LIST: {
-			return errorFetchingContactList(state, action.payload);
+			return handleErrorFetchingContactList(state, action.payload);
 		}
 		case ContactListActionType.CONTACT_RECEIVED: {
-			return contactReceived(state, action.payload);
+			return handleContactReceived(state, action.payload);
 		}
 		default:
 			return state;
 	}
 }
 
-const fetchingContactList = (
+const handleFetchingContactList = (
 	state: ContactListState,
 	payload: FetchContactListRequest
 ): ContactListState => {
@@ -56,12 +59,14 @@ const fetchingContactList = (
 		...state,
 		[account_id]: {
 			...stateByAccount,
-			fetchingRequest: payload
+			fetchingRequest: payload,
+      loading: true,
+      error: null,
 		}
 	}
 }
 
-const contactListFetched = (
+const handleContactListFetched = (
 	state: ContactListState,
 	payload: FetchContactListSuccess
 ): ContactListState => {
@@ -93,17 +98,19 @@ const contactListFetched = (
 		[account_id]: {
 			...stateByAccount,
 			fetchingRequest: null,
+      loading: false,
+      error: null,
 			cursor: extra,
-			contacts: results
+			contacts: results,
 		}
 	}
 };
 
-const errorFetchingContactList = (
+const handleErrorFetchingContactList = (
 	state: ContactListState,
 	payload: FetchContactListError
 ): ContactListState => {
-	const { request } = payload;
+	const { request, error } = payload;
 	const { account_id } = request;
 	const stateByAccount = state[account_id] || newState();
 	return {
@@ -111,11 +118,13 @@ const errorFetchingContactList = (
 		[account_id]: {
 			...stateByAccount,
 			fetchingRequest: null,
+      loading: false,
+      error,
 		}
 	}
 }
 
-const contactReceived = (
+const handleContactReceived = (
 	state: ContactListState,
 	payload: Contact
 ): ContactListState => {

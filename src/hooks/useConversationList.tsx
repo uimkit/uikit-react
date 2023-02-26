@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { Conversation } from "../types";
-import { fetchConversationsByAccount, getConversationsByAccount, hasMoreConversationsByAccount, isFetchingConversationsByAccount } from "../store/conversations";
+import { ConversationListIndexedByAccount, fetchConversationsByAccount, getConversationsByAccount, getConversationsStateByAccount, hasMoreConversationsByAccount, isFetchingConversationsByAccount } from "../store/conversations";
 import { useDispatch } from '../store/useDispatch';
 import { useSelector } from 'react-redux';
 import { AppState } from '../store/types';
@@ -10,6 +10,7 @@ export interface UseConversationListResult {
   loadMore: () => void;
   loading: boolean;
   hasMore: boolean;
+  error: Error;
 }
 
 export function useConversationList(accountId: string): UseConversationListResult {
@@ -28,14 +29,13 @@ export function useConversationList(accountId: string): UseConversationListResul
   }, [accountId]);
 
 
-  const conversations = useSelector<AppState, Conversation[]>(getConversationsByAccount(accountId));
-  const hasMore = useSelector<AppState, boolean>(hasMoreConversationsByAccount(accountId));
-  const loading = useSelector<AppState, boolean>(isFetchingConversationsByAccount(accountId));
+  const { conversations, cursor, loading, error } = useSelector<AppState, ConversationListIndexedByAccount>(getConversationsStateByAccount(accountId));
 
   return {
+    loadMore,
     conversations,
     loading,
-    loadMore,
-    hasMore
+    error,
+    hasMore: cursor?.has_next ?? false,
   };
 }

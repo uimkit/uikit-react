@@ -27,36 +27,15 @@ export interface FetchingContactListAction {
 	payload: FetchContactListRequest;
 }
 
-export const fetchingContactList = (
-	payload: FetchContactListRequest
-): FetchingContactListAction => ({
-	type: ContactListActionType.FETCHING_CONTACT_LIST,
-	payload
-})
-
 export interface ContactListFetchedAction {
 	type: typeof ContactListActionType.CONTACT_LIST_FETCHED;
 	payload: FetchContactListSuccess;
 }
 
-export const contactListFetched = (
-	payload: FetchContactListSuccess
-): ContactListFetchedAction => ({
-	type: ContactListActionType.CONTACT_LIST_FETCHED,
-	payload
-})
-
 export interface ErrorFetchingContactListAction {
 	type: typeof ContactListActionType.ERROR_FETCHING_CONTACT_LIST;
 	payload: FetchContactListError;
 }
-
-export const errorFetchingContactList = (
-	payload: FetchContactListError
-): ErrorFetchingContactListAction => ({
-	type: ContactListActionType.ERROR_FETCHING_CONTACT_LIST,
-	payload
-})
 
 export interface ContactReceivedAction {
 	type: typeof ContactListActionType.CONTACT_RECEIVED;

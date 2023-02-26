@@ -5,6 +5,7 @@ import './styles/index.scss';
 import { Icon, IconTypes } from '../Icon';
 import { Plugins } from '../Plugins';
 import { useChatActionContext, useUIKit } from '../../context';
+import { useDeleteContact } from '../../hooks/useDeleteContact';
 
 export function unMemoContactPreviewContent<T extends UIContactPreviewComponentProps>(
   props: T,
@@ -36,7 +37,7 @@ export function unMemoContactPreviewContent<T extends UIContactPreviewComponentP
     setIsHover(false);
   };
   const { activeContact } = useUIKit('UIContactPreviewContent');
-  const { deleteContact } = useChatActionContext();
+  const { mutate: deleteContact } = useDeleteContact();
 
   const moreHandle = (type: string) => {
     switch (type) {

@@ -5,7 +5,7 @@ import { t } from "i18next";
 import { AppState, AppThunkContext, ThunkAction } from "../types";
 import { Message, ListMessagesParameters, SendMessageToConversationParameters } from "../../types";
 import { errorFetchingMessageList, fetchingMessageList, messageDeleted, messageListFetched, messageReceived } from "./actions";
-import { conversationReceived, getConversationById } from "../conversations";
+import { ConversationListActionType, getConversationById } from "../conversations";
 import last from "lodash.last";
 
 /**
@@ -42,7 +42,10 @@ export const deleteMessage = (message: Message): ThunkAction<Promise<void>> => {
 				const lastMessage = last(messages[conversationId]?.messages ?? [])
 				conversation.last_message = lastMessage
 				conversation.active_at = lastMessage?.sent_at ?? conversation.created_at
-				dispatch(conversationReceived(conversation))
+				dispatch({
+          type: ConversationListActionType.CONVERSATION_RECEIVED,
+          payload: conversation
+        });
 			}
 
 			await client.deleteMessage({ message_id: message.id })
@@ -113,7 +116,10 @@ const onMessageSent = (dispatch: Dispatch, getState: () => AppState, localMessag
 	const conversation = getConversationById(localMessage.conversation_id)(getState())
 	conversation.last_message = newMessage
 	conversation.active_at = newMessage.sent_at
-	dispatch(conversationReceived(conversation))
+	dispatch({
+    type: ConversationListActionType.CONVERSATION_RECEIVED,
+    payload: conversation,
+  });
 }
 
 /**

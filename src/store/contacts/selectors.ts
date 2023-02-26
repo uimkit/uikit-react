@@ -4,7 +4,7 @@ import flatten from 'lodash.flatten';
 import { Contact, CursorListExtra } from "../../types";
 import { AppState } from "../types";
 import { AccountListState } from "../accounts";
-import { ContactListState } from "./reducers";
+import { ContactListIndexedByAccount, ContactListState } from "./reducers";
 
 
 
@@ -15,8 +15,6 @@ const sortContacts = (a: Contact, b: Contact): number => {
 	}
 	return !!a.marked ? -1 : 1
 }
-
-
 
 const getContactListStateSlice = (state: AppState) => state.contacts;
 
@@ -30,6 +28,13 @@ export const getContactById = (accountId: string, contactId: string) => createSe
 	}
 )
 
+
+export const getContactsByAccountState = (accountId: string) => createSelector(
+	[getContactListStateSlice],
+	(state: ContactListState): ContactListIndexedByAccount => {
+		return state[accountId] ?? {};
+	}
+)
 
 // 账号的联系人列表
 export const getContactsByAccount = (accountId: string) => createSelector(
@@ -52,6 +57,13 @@ export const hasMoreContactsByAccount = (accountId: string) => createSelector(
 	[getContactListStateSlice],
 	(state: ContactListState): boolean => {
 		return state[accountId]?.cursor?.has_next ?? false
+	}
+)
+
+export const errorGetContactsByAccount = (accountId: string) => createSelector(
+	[getContactListStateSlice],
+	(state: ContactListState): Error => {
+		return state[accountId]?.error;
 	}
 )
 

@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactEventHandler } from 'react';
 import { Message } from '../../types';
 
-import { UnknowPorps, useComponentContext } from '../../context';
+import { UnknowPorps, useChatStateContext, useComponentContext } from '../../context';
 
 import { messageShowType, UIMessageContextProvider } from '../../context/UIMessageContext';
 import { useMessageHandler } from './hooks';
@@ -10,7 +10,6 @@ import './styles/index.scss';
 import { UIMessageDefault } from './UIMessageDefault';
 import { MessagePlugins as MessagePluginsDefault, MessagePluginsProps } from './MessagePlugins';
 import { MessageContext as MessageContextDefault } from './MessageContext';
-import { useChatState } from '../../hooks';
 
 interface UIMessageBasicProps {
   className?: string,
@@ -85,7 +84,7 @@ function UIMessageWithContext <T extends UIMessageProps>(
 
   const {
     messageConfig,
-  } = useChatState();
+  } = useChatStateContext();
 
   const UIMessageUIComponent = propUIMessage || UIMessageDefault;
   const MessagePlugins = propMessagePlugins || ContextMessagePlugins || MessagePluginsDefault;

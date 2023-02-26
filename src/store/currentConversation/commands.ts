@@ -3,8 +3,8 @@ import { Dispatch } from "redux";
 import { t } from "i18next";
 import { AppState, AppThunkContext, ThunkAction } from "../types";
 import { ConversationType, Contact, Group } from "../../types";
-import { currentConversationFetched, fetchingCurrentConversation, fetchingCurrentConversationByParticipant, leaveConversation } from "./actions";
-import { conversationReceived } from "../conversations";
+import { CurrentConversationActionType, fetchingCurrentConversationByParticipant } from "./actions";
+import { ConversationListActionType } from "../conversations";
 
 /**
  * 进入私聊会话
@@ -19,7 +19,9 @@ export const enterPrivateConversation = (accountId: string, userId: string): Thu
 		invariant(client, "requires client")
 		try {
 			// 先离开之前的会话
-			dispatch(leaveConversation())
+			dispatch({
+        type: CurrentConversationActionType.LEAVE_CONVERSATION
+      });
 
 			// 开始进入会话
 			dispatch(fetchingCurrentConversationByParticipant(userId))
@@ -32,8 +34,14 @@ export const enterPrivateConversation = (accountId: string, userId: string): Thu
 			])
 
 			conversation.unread = 0
-			dispatch(currentConversationFetched({ conversation, account, participant }))
-			dispatch(conversationReceived(conversation))
+			dispatch({
+        type: CurrentConversationActionType.CURRENT_CONVERSATION_FETCHED,
+        payload: { conversation, account, participant },
+      });
+			dispatch({
+        type: ConversationListActionType.CONVERSATION_RECEIVED,
+        payload: conversation
+      });
 
 			// 清除未读数，异步处理即可
 			client.resetConversationUnread({ conversation_id: conversation.id })
@@ -57,10 +65,15 @@ export const enterConversation = (id: string): ThunkAction<Promise<void>> => {
 		invariant(client, "requires client")
 		try {
 			// 先离开之前的会话
-			dispatch(leaveConversation())
+			dispatch({
+        type: CurrentConversationActionType.LEAVE_CONVERSATION
+      });
 
 			// 开始进入会话
-			dispatch(fetchingCurrentConversation(id))
+			dispatch({
+        type: CurrentConversationActionType.FETCHING_CURRENT_CONVERSATION,
+        payload: id
+      });
 
 			// 获取当前会话信息
 			const conversation = await client.retrieveConversation({ conversation_id: id })
@@ -73,8 +86,14 @@ export const enterConversation = (id: string): ThunkAction<Promise<void>> => {
 			}
 
 			conversation.unread = 0
-			dispatch(currentConversationFetched({ conversation, account, participant }))
-			dispatch(conversationReceived(conversation))
+			dispatch({
+        type: CurrentConversationActionType.CURRENT_CONVERSATION_FETCHED,
+        payload: { conversation, account, participant },
+      });
+			dispatch({
+        type: ConversationListActionType.CONVERSATION_RECEIVED,
+        payload: conversation
+      });
 
 			// 清除未读数，异步处理即可
 			client.resetConversationUnread({ conversation_id: conversation.id })

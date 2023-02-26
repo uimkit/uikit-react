@@ -59,7 +59,7 @@ export const getTimeStamp = (time: number) => {
     return '';
   }
   if (!isThisYear(time)) {
-    return format(time, 'yyyy MMM dd');
+    return format(time, 'yyyy MM dd');
   }
   if (isToday(time)) {
     return format(time, 'p');
@@ -70,5 +70,5 @@ export const getTimeStamp = (time: number) => {
   if (isThisWeek(time)) {
     return format(time, 'eeee');
   }
-  return format(time, 'MMM dd');
+  return format(time, 'MM dd');
 };

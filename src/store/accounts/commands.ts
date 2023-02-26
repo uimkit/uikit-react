@@ -2,7 +2,7 @@ import invariant from "invariant";
 import { Dispatch } from "redux";
 import { t } from 'i18next';
 import { AppState, AppThunkContext, ThunkAction } from "../types";
-import { accountFetched, accountListFetched, errorFetchingAccountList, fetchingAccountList } from "./actions";
+import { AccountListActionType, fetchingAccountList } from "./actions";
 
 /**
  * 查询指定账号
@@ -16,7 +16,10 @@ export const fetchAccount = (id): ThunkAction<Promise<void>> => {
 		invariant(client, "requires client")
 		try {
 			const account = await client.retrieveIMAccount({ account_id: id, subscribe: true })
-			dispatch(accountFetched(account))
+			dispatch({
+        type: AccountListActionType.ACCOUNT_FETCHED,
+        payload: account
+      });
 		} catch (e: unknown) {
 			console.error("fetch account error", e)
 			onError && onError(e, t("default:chat:accounts:fetchError"))
@@ -40,15 +43,23 @@ export const fetchAllAccounts = (limit = 100): ThunkAction<Promise<void>> => {
 			dispatch(fetchingAccountList(request))
 			try {
 				const response = await client.listIMAccounts(request)
-				dispatch(accountListFetched({ request, response }))
-				if (response.data.length < limit) {
+				dispatch({
+          type: AccountListActionType.ACCOUNT_LIST_FETCHED,
+          payload: { request, response }
+        });
+
+        if (response.data.length < limit) {
 					break
 				} else {
 					offset += limit
 				}
 			} catch (e: unknown) {
-				dispatch(errorFetchingAccountList({ request, error: e as Error }))
-				onError && onError(e, t("default:chat:accounts:fetchAllError"))
+				dispatch({
+          type: AccountListActionType.ERROR_FETCHING_ACCOUNT_LIST,
+          payload: { request, error: e as Error },
+        });
+
+        onError && onError(e, t("default:chat:accounts:fetchAllError"))
 				break
 			}
 		}

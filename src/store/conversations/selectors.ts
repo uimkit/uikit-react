@@ -7,6 +7,7 @@ import { Conversation, ConversationType, CursorListExtra } from "../../types";
 import { AppState } from "../types";
 import { AccountListState } from "../accounts";
 import { ConversationListState } from "./reducers";
+import { ConversationListIndexedByAccount } from "./reducers";
 
 
 
@@ -44,6 +45,15 @@ export const getConversationByParticipant = (account: string, type: Conversation
 	[getConversationListStateSlice],
 	(state: ConversationListState): Conversation | null => {
 		return state[account]?.conversations?.find(it => it.account === account && it.type === type && it.participant === participant) ?? null
+	}
+)
+
+
+// 账号的会话游标
+export const getConversationsStateByAccount = (accountId: string) => createSelector(
+	[getConversationListStateSlice],
+	(state: ConversationListState): ConversationListIndexedByAccount => {
+		return state[accountId] ?? {};
 	}
 )
 
