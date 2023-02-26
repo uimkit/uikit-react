@@ -17,11 +17,13 @@ function MessageTextWithContext <T extends MessageContextProps>(
     children,
   } = props;
 
+  console.log('context111: ', context);
   return (
     <div className={`bubble message-text bubble-${message.flow ?? 'in'} ${message?.conversationType === ConversationType.Group ? 'group' : ''}`}>
       <div className="message-text-content">
         {context.text.map((item, index) => {
-          const key = message.ID + index;
+          const key = message.id + index;
+
           if (item.name === 'text') {
             return <p className="message-text-content-p" key={item.src + key}>{item.text}</p>;
           }

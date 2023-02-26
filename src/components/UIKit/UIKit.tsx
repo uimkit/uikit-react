@@ -7,12 +7,21 @@ import { AppThunkContext } from "../../store/types";
 import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
 import { ChatActionContextValue, ChatActionProvider, UIKitProvider, useUIKit } from "../../context";
+<<<<<<< HEAD
 import { APIClient, Conversation, Message } from '../../types';
+=======
+import { notification } from 'antd';
+import { Profile, APIClient, Conversation, Message } from '../../types';
+>>>>>>> 13cca9f667139855067204b99a3bce20ede93cdd
 import { fetchConversationsByAccount } from '../../store/conversations';
 import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
 import { useCreateMessage } from '../../hooks/useCreateMesage';
+<<<<<<< HEAD
 import { Toast } from '../Toast';
+=======
+import './styles/index.scss';
+>>>>>>> 13cca9f667139855067204b99a3bce20ede93cdd
 
 import './styles/index.scss';
 
@@ -133,6 +142,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
 export interface UIKitProps {
   client: APIClient;
+  activeProfile?: Profile;
   activeConversation?: Conversation;
   cloudCustomData?: string;
 }
@@ -140,14 +150,22 @@ export interface UIKitProps {
 export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
   const {
     client,
-    activeConversation,
+    activeProfile,
+    activeConversation: propActiveConversation,
     children,
   } = props;
-  
+  const [activeConversation, setActiveConversation] = useState<Conversation | undefined>();
+
+  useEffect(() => {
+    setActiveConversation(propActiveConversation);
+  }, [propActiveConversation]);
+
   const providerContextValue = useMemo(() => ({
     client,
+    activeProfile,
     activeConversation,
-  }), [client, activeConversation]);
+    setActiveConversation,
+  }), [client, activeProfile, activeConversation, setActiveConversation]);
 
   return (
     <UIKitProvider value={providerContextValue}>

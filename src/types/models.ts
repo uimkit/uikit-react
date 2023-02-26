@@ -1,5 +1,11 @@
-export interface IMAccount {
+/**
+ * 用户档案，IMAccount 应该继承这个
+ */
+export interface Profile {
   id: string;
+}
+
+export interface IMAccount extends Profile {
   name: string;
   provider: string;
   avatar: string;
@@ -256,18 +262,6 @@ export interface Group {
   name: string;
   avatar: string;
 }
-
-/**
- * 用户档案，IMAccount 应该继承这个
- */
-export interface Profile {
-  id: string;
-}
-
-
-
-
-
 
 
 

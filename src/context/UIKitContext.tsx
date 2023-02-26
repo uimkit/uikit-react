@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState, useMemo, useContext } from 'react';
+import React, { PropsWithChildren, useState, useMemo, useContext, useEffect } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 dayjs.locale('zh-cn');
@@ -6,15 +6,14 @@ dayjs.locale('zh-cn');
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-import { IMAccount, Conversation } from "../types";
+import { Profile, Conversation } from "../types";
 
 import { APIClient } from '../types';
 
 
 export interface UIKitContextProps {
   client: APIClient;
-  activeAccount: IMAccount;
-  setActiveAccount: (account: IMAccount) => void;
+  activeProfile: Profile;
   activeConversation: Conversation;
   setActiveConversation: (conversation: Conversation) => void;
 }
@@ -26,20 +25,8 @@ export interface UIKitProviderOptions {
 };
 
 export function UIKitProvider({ value, children }: PropsWithChildren<{ value: UIKitProviderOptions }>) {
-  const { client } = value;
-  const [activeAccount, setActiveAccount] = useState<IMAccount | undefined>();
-  const [activeConversation, setActiveConversation] = useState<Conversation | undefined>();
-
-  const contextValue = useMemo(() => ({
-    client,
-    activeAccount,
-    setActiveAccount,
-    activeConversation,
-    setActiveConversation,
-  }), [value, activeAccount, setActiveAccount, activeConversation, setActiveConversation]);
-
   return (
-    <UIKitContext.Provider value={contextValue}>
+    <UIKitContext.Provider value={value}>
       {children}
     </UIKitContext.Provider>
   );
