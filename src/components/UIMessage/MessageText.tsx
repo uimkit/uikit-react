@@ -17,7 +17,6 @@ function MessageTextWithContext <T extends MessageContextProps>(
     children,
   } = props;
 
-  console.log('context111: ', context);
   return (
     <div className={`bubble message-text bubble-${message.flow ?? 'in'} ${message?.conversationType === ConversationType.Group ? 'group' : ''}`}>
       <div className="message-text-content">

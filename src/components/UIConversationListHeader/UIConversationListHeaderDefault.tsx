@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { Icon, IconTypes } from "../Icon";
+import { Icon, IconTypes } from '../Icon';
 
-export default function ConversationListHeader() {
+export interface UIConversationListHeaderDefaultProps {}
+
+
+export function UIConversationListHeaderDefault<T extends UIConversationListHeaderDefaultProps>(props: T) {
   const [conversationCreated, setConversationCreated] = useState(false);
 
   const handleConversationCreate = () => {

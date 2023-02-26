@@ -7,7 +7,7 @@ import { AppThunkContext } from "../../store/types";
 import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
 import { ChatActionContextValue, ChatActionProvider, UIKitProvider, useUIKit } from "../../context";
-import { Profile, APIClient, Conversation, Message } from '../../types';
+import { Profile, APIClient, Conversation, Message, Contact } from '../../types';
 import { fetchConversationsByAccount } from '../../store/conversations';
 import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
@@ -143,20 +143,28 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
     client,
     activeProfile,
     activeConversation: propActiveConversation,
+    activeContact: propActiveContact,
     children,
   } = props;
   const [activeConversation, setActiveConversation] = useState<Conversation | undefined>();
+  const [activeContact, setActiveContact] = useState<Contact | undefined>();
 
   useEffect(() => {
     setActiveConversation(propActiveConversation);
   }, [propActiveConversation]);
+
+  useEffect(() => {
+    setActiveContact(propActiveContact);
+  }, [propActiveContact]);
 
   const providerContextValue = useMemo(() => ({
     client,
     activeProfile,
     activeConversation,
     setActiveConversation,
-  }), [client, activeProfile, activeConversation, setActiveConversation]);
+    activeContact,
+    setActiveContact,
+  }), [client, activeProfile, activeConversation, setActiveConversation, activeContact, setActiveContact]);
 
   return (
     <UIKitProvider value={providerContextValue}>

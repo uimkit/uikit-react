@@ -20,7 +20,8 @@ export interface IMAccount extends Profile {
 export interface Contact {
   id: string;
   account: string;
-
+  avatar: string;
+  gender: number;
   marked: boolean;
   created_at: number;
 }

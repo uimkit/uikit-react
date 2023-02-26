@@ -6,16 +6,18 @@ dayjs.locale('zh-cn');
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
-import { Profile, Conversation } from "../types";
+import { Profile, Conversation, Contact } from "../types";
 
 import { APIClient } from '../types';
 
 
 export interface UIKitContextProps {
   client: APIClient;
-  activeProfile: Profile;
-  activeConversation: Conversation;
-  setActiveConversation: (conversation: Conversation) => void;
+  activeProfile?: Profile;
+  activeConversation?: Conversation;
+  setActiveConversation?: (conversation: Conversation) => void;
+  activeContact?: Contact;
+  setActiveContact?: (contact: Contact) => void;
 }
 
 const UIKitContext = React.createContext<UIKitContextProps | undefined>(undefined);

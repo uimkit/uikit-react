@@ -4,6 +4,7 @@ import { Message } from '../types';
 export interface ChatActionContextValue {
   loadMoreMessages?: () => Promise<void>,
   loadMoreConversations?: (accountId: string) => Promise<void>,
+  loadMoreContacts?: (accountId: string) => Promise<void>;
   sendMessage?: (message: Message, options?:any) => Promise<void>,
   removeMessage?: (message: Message) => void,
   updateMessage?: (messages: Array<Message>) => void,
@@ -28,6 +29,8 @@ export interface ChatActionContextValue {
 
   pinConversation?: (conversationID: string, pinned: boolean) => void;
   deleteConversation?: (conversationID: string) => void;
+
+  deleteContact?: (contactID: string) => void;
 }
 
 export const ChatActionContext = React.createContext<ChatActionContextValue | undefined>(

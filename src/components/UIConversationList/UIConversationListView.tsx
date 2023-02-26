@@ -1,7 +1,8 @@
 import React from 'react';
 import { Conversation } from "../../types";
-import { InfiniteList } from '../InfiniteList';
 import { UIConversationPreview, UIConversationPreviewComponentProps } from '../UIConversationPreview/UIConversationPreview';
+import { EmptyStateIndicator } from '../EmptyStateIndicator';
+import { InfiniteScroll } from '../InfiniteScrollPaginator';
 
 export type UIConversationListViewProps = {
   activeConversation?: Conversation;
@@ -20,25 +21,34 @@ export function UIConversationListView({
   hasMore,
   Preview,
 }: UIConversationListViewProps) {
+  const noMore = true;
+
   return (
-    <InfiniteList
-      itemSize={64}
-      items={conversations}
-      isLoadingMore={false}
-      loadingMoreTip={'加载更多'}
-      hasMore={hasMore}
-      noMoreTip={'没有更多'}
-      onLoadMore={loadMore}
-      render={(conversation) => (
-        <UIConversationPreview 
-          key={conversation.id} 
-          conversation={conversation}
-          activeConversation={activeConversation}
-          setActiveConversation={setActiveConversation}
-          Preview={Preview}
-          conversationUpdateCount={0}
-        />
-      )}
-    />
+    <div className="conversation-list">
+      <InfiniteScroll
+        className="conversation-list-infinite-scroll"
+        hasMore={hasMore}
+        loadMore={loadMore}
+        threshold={1}
+      >
+        <ul>
+          {
+            conversations?.length > 0 ? (
+              conversations.map(conversation => (
+                <UIConversationPreview 
+                  key={conversation.id} 
+                  conversation={conversation}
+                  activeConversation={activeConversation}
+                  setActiveConversation={setActiveConversation}
+                  Preview={Preview}
+                  conversationUpdateCount={0}
+                />
+              ))
+            ) : <EmptyStateIndicator listType="conversation" />
+          }
+        </ul>
+      </InfiniteScroll>
+      {noMore && <p className="no-more">没有更多</p>}
+    </div>
   );
 }

@@ -48,6 +48,7 @@ export const getDisplayTitle = (
   };
   return !searchValue ? title : handleTitle(title);
 };
+
 export const getDisplayImage = (conversation: Conversation) => {
   const { type } = conversation;
   // const { avatar } = getMessageProfile(conversation);

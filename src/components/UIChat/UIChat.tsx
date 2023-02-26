@@ -1,7 +1,6 @@
 import React, { PropsWithChildren, useMemo } from 'react';
 import { UIMessageInput as UIMessageInputElement, UIMessageInputBasicProps } from '../UIMessageInput';
 
-import { ResizeObserver } from 'resize-observer'
 import { UIMessageList } from '../UIMessageList';
 import { ComponentContextValue, ComponentProvider, UnknowPorps } from '../../context/ComponentContext';
 import {
@@ -35,19 +34,6 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     InputQuote,
     children,
   } = props;
-
-  /*
-  useEffect(() => {
-    if (!document) return
-
-    const resizeObserver = new ResizeObserver(refreshTopOffset)
-    resizeObserver.observe(document.body)
-    return () => {
-      resizeObserver.disconnect()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  */
 
   const componentContextValue: ComponentContextValue = useMemo(
     () => ({

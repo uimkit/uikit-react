@@ -1,6 +1,6 @@
 import { useChatActionContext, useUIKit } from "../../context";
 import { UIConversationListView } from "./UIConversationListView";
-import ConversationListHeader from "./ConversationListHeader";
+import { UIConversationListHeader } from "../UIConversationListHeader";
 import { useConversationList } from "../../hooks/useConversationList";
 import './styles/index.scss';
 
@@ -12,7 +12,7 @@ export function UIConversationList() {
 
   return (
     <div className="uim-conversation">
-      <ConversationListHeader />
+      <UIConversationListHeader />
       <UIConversationListView 
         activeConversation={activeConversation}
         setActiveConversation={setActiveConversation}

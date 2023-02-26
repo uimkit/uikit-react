@@ -1,4 +1,4 @@
-.uim-conversation {
+.uim-contact-list {
   min-width: 300px;
   max-width: 400px;
   width: 30%;
@@ -7,15 +7,9 @@
   position: relative;
   border-right: 1px solid #F9FAFB;
   text-align: initial;
-  .uim-conversation-header {
+  .uim-contact-header {
     display: flex;
     padding: 10px 20px;
-    .uim-conversation-create-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 10px;
-    }
   }
   .no-result {
     padding: 0 20px;
