@@ -38,6 +38,8 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
   const [title, setTitle] = useState('');
   const [avatar, setAvatar] = useState<React.ReactElement | string>('');
 
+  console.log('title: ', title, conversation.name);
+
   useEffect(() => {
     setTitle(propTitle);
     if (propAvatar) {
@@ -52,16 +54,17 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
         handleGroup(/*conversation.groupProfile*/conversation, conversation);
         break;
       case ConversationType.System:
-        setTitle('System Notice');
+        setTitle('系统通知');
         break;
       default:
+        console.log('fuck?');
         setTitle('');
         break;
     }
   }, [conversation]);
 
   const handleC2C = (conversation: Conversation, userProfile: any) => {
-    if (!title) {
+    if (!propTitle) {
       setTitle(userProfile?.name || userProfile?.id);
     }
 
@@ -71,7 +74,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
   };
 
   const handleGroup = (conversation: Conversation, groupProfile: any) => {
-    if (!title) {
+    if (!propTitle) {
       setTitle(groupProfile?.name || groupProfile?.id);
     }
     if (!propAvatar) {
