@@ -2,7 +2,7 @@ import {
   format, isToday, isYesterday, formatDistance, isThisYear, isThisWeek,
 } from 'date-fns';
 import React from 'react';
-import { Conversation, ConversationType, Group, Profile } from '../../types';
+import { Conversation, ConversationType, Group, MessageType, Profile } from '../../types';
 // import { defaultGroupAvatarWork, defaultUserAvatar } from '../Avatar';
 import { formatEmojiString } from '../UIMessage/utils/emojiMap';
 
@@ -119,8 +119,17 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
       whiteSpace: 'nowrap',
     }}
     >
-      <span>{from}</span>
-      <span>{conversation.last_message?.revoked ? 'recalled a message' : formatEmojiString(conversation.last_message?.text, 1)}</span>
+      <span>{conversation.last_message && (
+        conversation.last_message?.revoked ? '撤回了一条消息' : (
+        <>
+          {conversation.last_message.type === MessageType.Text && formatEmojiString(conversation.last_message?.text, 1) }
+          {conversation.last_message.type === MessageType.Image && '[图片]' }
+          {conversation.last_message.type === MessageType.Video && '[视频]' }
+          {conversation.last_message.type === MessageType.File && '[文件]' }
+          {conversation.last_message.type === MessageType.Voice && '[语音]' }
+          {conversation.last_message.type === MessageType.Location && '[位置]' }
+        </>
+      ))}</span>
     </div>
   );
 };
