@@ -7,6 +7,7 @@ import { useChatStateContext, useUIMessageContext } from '../../context';
 import { useMessagePluginElement, useMessageHandler } from './hooks';
 import { MESSAGE_FLOW, MESSAGE_STATUS } from '../../constants';
 import { MessageType } from '../../types';
+import { UIM } from '../../hooks';
 
 enum PluginsNameEnum {
   quote = 'quote',
@@ -109,7 +110,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const DeleteElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span className="del">Delete</span>
+        <span className="del">删除</span>
         <Icon width={20} height={20} type={IconTypes.DEL} />
       </div>
     ),
@@ -118,14 +119,15 @@ export function MessagePlugins <T extends MessagePluginsProps>(
       handleDelMessage(e);
     },
     message,
-    isShow: pluginConfig.delete.isShow && message?.status === MESSAGE_STATUS.SUCCESS,
+    isShow: pluginConfig.delete.isShow /* TODO && message?.status === MESSAGE_STATUS.SUCCESS*/,
     relateMessageType: pluginConfig.delete.relateMessageType,
   });
+
 
   const ReplyElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span>Quote</span>
+        <span>引用</span>
         <Icon width={20} height={20} type={IconTypes.QUOTE} />
       </div>
     ),
@@ -157,7 +159,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const ResendElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span>Resend</span>
+        <span>重发</span>
         <Icon width={20} height={20} type={IconTypes.REPLY} />
       </div>
     ),

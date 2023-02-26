@@ -3,6 +3,8 @@ import { Message } from '../../../types';
 import { MESSAGE_FLOW, MESSAGE_OPERATE } from '../../../constants';
 import { Toast } from '../../Toast';
 import { useChatActionContext, useUIKit } from '../../../context';
+import { useDispatch } from '../../../store/useDispatch';
+import { deleteMessageLocal } from '../../../store/messages';
 
 interface MessageHandlerProps {
   handleError?: (error) => void,
@@ -15,8 +17,9 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
     handleError,
   } = props;
 
+  const dispatch = useDispatch();
+
   const {
-    removeMessage,
     editLocalmessage,
     operateMessage,
     revokeMessage,
@@ -25,13 +28,14 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
 
   const handleDelMessage = useCallback(async (event?) => {
     event.preventDefault();
-    if (!message?.id || !client || !removeMessage) {
+    if (!message?.id || !client) {
       return;
     }
 
     try {
-      await client.deleteMessage([message]);
-      removeMessage(message);
+      console.log('删除消息');
+      await client.deleteMessage({ message_id: message.id });
+      dispatch(deleteMessageLocal(message));
     } catch (error) {
       if (handleError) {
         handleError({

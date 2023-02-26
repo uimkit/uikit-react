@@ -3,7 +3,6 @@
   flex: 1;
   display: flex;
   align-items: center;
-  cursor: pointer;
   font-family: SF Pro Text;
   font-size: 14px;
   font-family: PingFangSC-Medium;
@@ -351,6 +350,7 @@
 .message-plugin {
   width: 32px;
   margin: 0 5px;
+  cursor: pointer;
   .icon-more {
     transform: scale(1.5);
   }
