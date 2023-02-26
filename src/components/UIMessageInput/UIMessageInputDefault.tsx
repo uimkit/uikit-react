@@ -60,7 +60,7 @@ export function UIMessageInputDefault(): React.ReactElement {
         !disabled
         && (
         <textarea
-          placeholder="send a message"
+          placeholder="请输入消息"
           value={text}
           ref={textareaRef}
           onChange={handleChange}
