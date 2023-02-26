@@ -8,12 +8,12 @@ import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
 import { ChatActionContextValue, ChatActionProvider, UIKitProvider, useUIKit } from "../../context";
 import { notification } from 'antd';
-import { APIClient, Conversation, Message } from '../../types';
-import './styles/index.scss';
+import { Profile, APIClient, Conversation, Message } from '../../types';
 import { fetchConversationsByAccount } from '../../store/conversations';
 import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
 import { useCreateMessage } from '../../hooks/useCreateMesage';
+import './styles/index.scss';
 
 
 
@@ -136,6 +136,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
 export interface UIKitProps {
   client: APIClient;
+  activeProfile?: Profile;
   activeConversation?: Conversation;
   cloudCustomData?: string;
 }
@@ -143,14 +144,22 @@ export interface UIKitProps {
 export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
   const {
     client,
-    activeConversation,
+    activeProfile,
+    activeConversation: propActiveConversation,
     children,
   } = props;
-  
+  const [activeConversation, setActiveConversation] = useState<Conversation | undefined>();
+
+  useEffect(() => {
+    setActiveConversation(propActiveConversation);
+  }, [propActiveConversation]);
+
   const providerContextValue = useMemo(() => ({
     client,
+    activeProfile,
     activeConversation,
-  }), [client, activeConversation]);
+    setActiveConversation,
+  }), [client, activeProfile, activeConversation, setActiveConversation]);
 
   return (
     <UIKitProvider value={providerContextValue}>

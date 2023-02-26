@@ -63,12 +63,11 @@ function MessageContextWithContext <T extends MessageContextProps>(
     [MessageType.Location]: LocationElement,
   };
 
-  const Elements = CustemComponents[message?.type] || components[message?.type];
-  return Elements
-  && (
-  <Elements context={context} message={message}>
-    <MessageStatus message={message} />
-  </Elements>
+  const Component = CustemComponents[message?.type] ?? components[message?.type];
+  return Component && (
+    <Component context={context} message={message}>
+      <MessageStatus message={message} />
+    </Component>
   );
 }
 

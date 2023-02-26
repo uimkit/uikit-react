@@ -59,7 +59,7 @@ export function MessageBubble<T extends MessageBubbleProps>(
   };
 
   const handleReplyMessage = () => {
-    // setHighlightedMessageId(replyMessage?.ID);
+    // setHighlightedMessageId(replyMessage?.id);
   };
 
   return (

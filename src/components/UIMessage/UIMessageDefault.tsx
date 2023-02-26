@@ -91,9 +91,6 @@ function UIMessageDefaultWithContext <T extends UIMessageProps>(
 const MemoizedUIMessageDefault = React.memo(UIMessageDefaultWithContext) as typeof UIMessageDefaultWithContext;
 
 export function UIMessageDefault(props: UIMessageProps):React.ReactElement {
-  const {
-    message,
-  } = props;
   return (
     <MemoizedUIMessageDefault
       {...props}

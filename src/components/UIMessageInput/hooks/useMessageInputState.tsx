@@ -49,7 +49,6 @@ const reducer = (state:IinitState, action) => {
 };
 
 export const useMessageInputState = (props: UIMessageInputProps) => {
-  console.log('useMessageInputState1', props)
   const [state, dispatch] = useReducer(reducer, initState);
   const { focus, textareaRef } = props;
 
