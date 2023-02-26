@@ -11,7 +11,7 @@ interface ToastProps {
 
 export function Toast<
 T extends ToastProps
->(props:React.PropsWithChildren<T>) {
+>(props: React.PropsWithChildren<T>) {
   const {
     type = 'info',
     text,

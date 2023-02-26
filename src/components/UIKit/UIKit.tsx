@@ -7,24 +7,20 @@ import { AppThunkContext } from "../../store/types";
 import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
 import { ChatActionContextValue, ChatActionProvider, UIKitProvider, useUIKit } from "../../context";
-import { notification } from 'antd';
 import { APIClient, Conversation, Message } from '../../types';
-import './styles/index.scss';
 import { fetchConversationsByAccount } from '../../store/conversations';
 import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
 import { useCreateMessage } from '../../hooks/useCreateMesage';
+import { Toast } from '../Toast';
 
+import './styles/index.scss';
 
 
 const appThunkContext: AppThunkContext = {
 	// 全局的错误处理
 	onError: (e: any, title?: string) => {
-		notification.error({
-			message: title,
-			description: e.message,
-			duration: 5
-		})
+    Toast({ text: e.message, type: 'error' });
 	}
 }
 const store = createAppStore(appThunkContext)
@@ -80,7 +76,8 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
       
       // editLocalmessage(message);
     } catch (error) {
-      notification.error({ message: error });
+      Toast({ text: error, type: 'error' });
+
       // editLocalmessage(message);
       throw new Error(error);
     }

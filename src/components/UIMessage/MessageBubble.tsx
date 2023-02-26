@@ -5,9 +5,7 @@ import React, {
 } from 'react';
 import { Message } from "../../types";
 import { MESSAGE_STATUS } from '../../constants';
-import Icon from '@ant-design/icons/lib/components/Icon';
-import { LoadingOutlined } from '@ant-design/icons';
-// import { Icon, IconTypes } from '../Icon';
+import { Icon, IconTypes } from '../Icon';
 // import { useMessageReply } from './hooks/useMessageReply';
 // import { MessageProgress } from './MessageProgress';
 
@@ -21,7 +19,7 @@ export interface MessageBubbleProps {
 
 export function MessageBubble<T extends MessageBubbleProps>(
   props: PropsWithChildren<T>,
-):React.ReactElement {
+): React.ReactElement {
   const {
     message,
     children,
@@ -107,7 +105,7 @@ export function MessageBubble<T extends MessageBubbleProps>(
         }
         {
           message?.status === MESSAGE_STATUS.UNSEND
-          && <Icon width={10} height={10} component={LoadingOutlined} />
+          && <Icon width={10} height={10} type={IconTypes.PROGRESS} />
         }
       </div>
     </div>
