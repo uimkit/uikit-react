@@ -85,8 +85,8 @@ const contactListFetched = (
 		}
 	})
 
-	// 排序
-	results.sort(sortContacts)
+	// 让后端排序，不要在前端排序
+	// results.sort(sortContacts)
 
 	return {
 		...state,

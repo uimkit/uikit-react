@@ -63,7 +63,10 @@ export const fetchContactsByAccount = (accountId: string, loadMore: boolean = fa
 		const state = getState();
 		const account = state.accounts.accounts.find(it => it.id === accountId)
 		const cursor = state.contacts[accountId]?.cursor;
-		const request: FetchContactListRequest = {
+  
+    console.log('上一次的cursor: ', cursor);
+
+    const request: FetchContactListRequest = {
 			account_id: accountId,
 			direction: "after",
 			cursor: (loadMore && cursor) ? cursor.end_cursor : "",

@@ -13,21 +13,17 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
   const {
     Preview,
   } = props;
-
-  const noMore = true;
-  const hasMore = true;
-
-  const { loadMoreContacts: loadMore } = useChatActionContext();
   const { activeProfile, activeContact, setActiveContact } = useUIKit();
 
-  const { contacts } = useContactList(activeProfile?.id);
+  const { contacts, hasMore, loadMore } = useContactList(activeProfile?.id);
+  console.log('hasMore: ', hasMore);
 
   return (
     <div className="uim-contact-list">
       <InfiniteScroll
         className="contact-list-infinite-scroll"
-        hasMore={hasMore}
-        loadMore={loadMore}
+        hasMoreNewer={hasMore}
+        loadMoreNewer={loadMore}
         threshold={1}
       >
         <ul>
@@ -46,7 +42,7 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
           }
         </ul>
       </InfiniteScroll>
-      {noMore && <p className="no-more">没有更多</p>}
+      {!hasMore && <p className="no-more">没有更多</p>}
     </div>
   );
 }

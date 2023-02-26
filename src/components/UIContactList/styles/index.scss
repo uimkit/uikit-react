@@ -1,4 +1,8 @@
 .uim-contact-list {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+
   min-width: 300px;
   max-width: 400px;
   width: 30%;
