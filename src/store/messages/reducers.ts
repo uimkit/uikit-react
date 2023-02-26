@@ -26,23 +26,23 @@ export const createMessageListReducer = () => (
 	switch (action.type) {
 		// 查询消息列表
 		case MessageListActionType.FETCHING_MESSAGE_LIST: {
-			return fetchingMessageList(state, action.payload);
+			return handleFetchingMessageList(state, action.payload);
 		}
 		// 查询消息列表完成
 		case MessageListActionType.MESSAGE_LIST_FETCHED: {
-			return messageListFetched(state, action.payload);
+			return handleMessageListFetched(state, action.payload);
 		}
 		// 查询消息列表错误
 		case MessageListActionType.ERROR_FETCHING_MESSAGE_LIST: {
-			return errorFetchingMessageList(state, action.payload);
+			return handleErrorFetchingMessageList(state, action.payload);
 		}
 		// 收到消息
 		case MessageListActionType.MESSAGE_RECEIVED: {
-			return messageReceived(state, action.payload);
+			return handleMessageReceived(state, action.payload);
 		}
 		// 删除消息
 		case MessageListActionType.MESSAGE_DELETED: {
-			return messageDeleted(state, action.payload);
+			return handleMessageDeleted(state, action.payload);
 		}
 		default:
 			return state;
@@ -56,7 +56,7 @@ export const createMessageListReducer = () => (
  * @param payload 
  * @returns 
  */
-const fetchingMessageList = (
+const handleFetchingMessageList = (
 	state: MessageListState,
 	payload: FetchMessageListRequest
 ): MessageListState => {
@@ -89,7 +89,7 @@ const fetchingMessageList = (
  * @param payload 
  * @returns 
  */
-const messageListFetched = (
+const handleMessageListFetched = (
 	state: MessageListState,
 	payload: FetchMessageListSuccess
 ): MessageListState => {
@@ -148,7 +148,7 @@ const messageListFetched = (
  * @param payload 
  * @returns 
  */
-const errorFetchingMessageList = (
+const handleErrorFetchingMessageList = (
 	state: MessageListState,
 	payload: FetchMessageListError
 ): MessageListState => {
@@ -182,7 +182,7 @@ const errorFetchingMessageList = (
  * @param payload 
  * @returns 
  */
-const messageReceived = (
+const handleMessageReceived = (
 	state: MessageListState,
 	payload: Message
 ): MessageListState => {
@@ -213,7 +213,7 @@ const messageReceived = (
  * @param state 
  * @param payload 
  */
-const messageDeleted = (
+const handleMessageDeleted = (
 	state: MessageListState,
 	payload: MessageDeletedPayload
 ): MessageListState => {

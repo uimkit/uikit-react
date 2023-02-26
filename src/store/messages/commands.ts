@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 import { t } from "i18next";
 import { AppState, AppThunkContext, ThunkAction } from "../types";
 import { Message, ListMessagesParameters, SendMessageToConversationParameters } from "../../types";
-import { errorFetchingMessageList, fetchingMessageList, messageDeleted, messageListFetched, messageReceived } from "./actions";
+import { MessageListActionType, errorFetchingMessageList, fetchingMessageList, messageDeleted, messageListFetched, messageReceived } from "./actions";
 import { ConversationListActionType, getConversationById } from "../conversations";
 import last from "lodash.last";
 
@@ -16,7 +16,10 @@ import last from "lodash.last";
  */
 export const updateMessage = (message: Message): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, _getState: () => AppState, _context: AppThunkContext): Promise<void> => {
-		dispatch(messageReceived(message))
+		dispatch({
+      type: MessageListActionType.MESSAGE_RECEIVED,
+      payload: message,
+    });
 	}
 }
 
@@ -31,7 +34,10 @@ export const deleteMessage = (message: Message): ThunkAction<Promise<void>> => {
 		const { client, onError } = context
 		invariant(client, "requires client")
 		try {
-			dispatch(messageDeleted(message))
+			dispatch({
+        type: MessageListActionType.MESSAGE_DELETED,
+        payload: message,
+      });
 
 			// 更新会话摘要
 			const { conversations, messages } = getState()
@@ -69,7 +75,10 @@ export const sendMessage = (message: Message): ThunkAction<Promise<void>> => {
 		invariant(client, "requires client")
 		try {
 			// 本地先追加消息
-			dispatch(messageReceived(message))
+			dispatch({
+        type: MessageListActionType.MESSAGE_RECEIVED,
+        payload: message,
+      });
 
 			// 发送
 			const sendReq: SendMessageToConversationParameters = {
@@ -95,13 +104,16 @@ export const sendMessage = (message: Message): ThunkAction<Promise<void>> => {
 			// 发送消息失败
 			console.error("send message to conversation error", e)
 			onError && onError(e, t("default:chat:messages:sendError"))
-			dispatch(messageReceived({
-				...message,
-				sending: false,
-				succeeded: false,
-				failed: true,
-				failed_reason: ''
-			}))
+			dispatch({
+        type: MessageListActionType.MESSAGE_RECEIVED,
+        payload: {
+          ...message,
+          sending: false,
+          succeeded: false,
+          failed: true,
+          failed_reason: ''
+        },
+      });
 		}
 	}
 }
@@ -109,8 +121,14 @@ export const sendMessage = (message: Message): ThunkAction<Promise<void>> => {
 const onMessageSent = (dispatch: Dispatch, getState: () => AppState, localMessage: Message, message: Message) => {
 	// 用后端返回的消息替换掉前端展示的
 	const newMessage = { ...localMessage, ...message }
-	dispatch(messageDeleted({ id: localMessage.id, conversation_id: localMessage.conversation_id }))
-	dispatch(messageReceived(newMessage))
+	dispatch({
+    type: MessageListActionType.MESSAGE_DELETED,
+    payload: { id: localMessage.id, conversation_id: localMessage.conversation_id },
+  });
+	dispatch({
+    type: MessageListActionType.MESSAGE_RECEIVED,
+    payload: newMessage,
+  });
 
 	// 更新前端的会话摘要和排序
 	const conversation = getConversationById(localMessage.conversation_id)(getState())
@@ -142,7 +160,10 @@ export const resendMessage = (message: Message): ThunkAction<Promise<void>> => {
 		}
 		try {
 			// 先更新本地消息状态 
-			dispatch(messageReceived(newMessage))
+			dispatch({
+        type: MessageListActionType.MESSAGE_RECEIVED,
+        payload: newMessage,
+      });
 
 			// 重发消息
 			const sendResp = await client.resendMessage({ message_id: message.id })
@@ -157,13 +178,16 @@ export const resendMessage = (message: Message): ThunkAction<Promise<void>> => {
 			// 发送消息失败
 			console.error("resend message error ", e)
 			onError && onError(e, t("default:chat:messages:resendError"))
-			dispatch(messageReceived({
-				...newMessage,
-				sending: false,
-				succeeded: false,
-				failed: true,
-				failed_reason: ''
-			}))
+			dispatch({
+        type: MessageListActionType.MESSAGE_RECEIVED,
+        payload: {
+          ...newMessage,
+          sending: false,
+          succeeded: false,
+          failed: true,
+          failed_reason: ''
+        },
+      });
 		}
 	}
 }
@@ -190,12 +214,23 @@ export const fetchConversationNewMessages = (conversationId: string, limit = 50)
 		}
 
 		try {
-			dispatch(fetchingMessageList(request))
-			const response = await client.listMessages(request)
-			dispatch(messageListFetched({ request, response }))
+			dispatch({
+        type: MessageListActionType.FETCHING_MESSAGE_LIST,
+        payload: request,
+      });
+
+      const response = await client.listMessages(request)
+			dispatch({
+        type: MessageListActionType.MESSAGE_LIST_FETCHED,
+        payload: { request, response },
+      });
 		} catch (e: unknown) {
-			dispatch(errorFetchingMessageList({ request, error: e as Error }))
-			onError && onError(e, t("default:chat:messages:fetchListError"))
+			dispatch({
+        type: MessageListActionType.ERROR_FETCHING_MESSAGE_LIST,
+        payload: { request, error: e as Error },
+      });
+
+      onError && onError(e, t("default:chat:messages:fetchListError"))
 		}
 	}
 }
@@ -223,12 +258,23 @@ export const fetchConversationHistoryMessages = (conversationId: string, limit =
 		}
 
 		try {
-			dispatch(fetchingMessageList(request))
-			const response = await client.listMessages(request)
-			dispatch(messageListFetched({ request, response }))
+			dispatch({
+        type: MessageListActionType.FETCHING_MESSAGE_LIST,
+        payload: request,
+      });
+
+      const response = await client.listMessages(request)
+			dispatch({
+        type: MessageListActionType.MESSAGE_LIST_FETCHED,
+        payload: { request, response },
+      });
 		} catch (e: unknown) {
-			dispatch(errorFetchingMessageList({ request, error: e as Error }))
-			onError && onError(e, t("default:chat:messages:fetchListError"))
+			dispatch({
+        type: MessageListActionType.ERROR_FETCHING_MESSAGE_LIST,
+        payload: { request, error: e as Error },
+      });
+
+      onError && onError(e, t("default:chat:messages:fetchListError"))
 		}
 	}
 }
