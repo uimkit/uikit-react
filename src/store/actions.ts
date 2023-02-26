@@ -1,6 +1,5 @@
 import { AccountListActions } from "./accounts";
 import { ConversationListActions } from "./conversations";
-import { CurrentConversationActions } from "./currentConversation";
 import { MessageListActions } from "./messages";
 import { ContactListActions } from "./contacts";
 
@@ -17,6 +16,5 @@ import { ContactListActions } from "./contacts";
 export type AppActions =
   | AccountListActions
   | ConversationListActions
-  | CurrentConversationActions
   | MessageListActions
   | ContactListActions

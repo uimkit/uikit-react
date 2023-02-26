@@ -2,7 +2,6 @@ import { combineReducers } from "redux";
 
 import { AccountListReducer } from "./accounts";
 import { ConversationListReducer } from './conversations';
-import { CurrentConversationReducer } from "./currentConversation";
 import { MessageListReducer } from "./messages";
 import { ContactListReducer } from "./contacts";
 
@@ -12,7 +11,6 @@ import { ContactListReducer } from "./contacts";
 const rootReducer = combineReducers({
   accounts: AccountListReducer,
   conversations: ConversationListReducer,
-  currentConversation: CurrentConversationReducer,
   messages: MessageListReducer,
   contacts: ContactListReducer,
 });
