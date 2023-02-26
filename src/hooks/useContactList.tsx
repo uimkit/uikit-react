@@ -3,11 +3,12 @@ import { Contact } from "../types";
 import { useDispatch } from '../store/useDispatch';
 import { useSelector } from 'react-redux';
 import { AppState } from '../store/types';
-import { fetchContactsByAccount, getContactsByAccount, hasMoreContactsByAccount } from '../store/contacts';
+import { fetchContactsByAccount, getContactsByAccount, hasMoreContactsByAccount, isFetchingContactsByAccount } from '../store/contacts';
 
 export interface UseContactListResult {
   contacts: Contact[];
   hasMore: boolean;
+  loading: boolean;
   loadMore: () => void;
 }
 
@@ -28,10 +29,13 @@ export function useContactList(accountId: string): UseContactListResult {
 
   const hasMore = useSelector(hasMoreContactsByAccount(accountId))
 
+  const loading = useSelector(isFetchingContactsByAccount(accountId));
+
   const contacts = useSelector<AppState, Contact[]>(getContactsByAccount(accountId));
 
   return {
     hasMore,
+    loading,
     contacts,
     loadMore,
   };

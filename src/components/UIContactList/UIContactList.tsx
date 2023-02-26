@@ -15,7 +15,7 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
   } = props;
   const { activeProfile, activeContact, setActiveContact } = useUIKit();
 
-  const { contacts, hasMore, loadMore } = useContactList(activeProfile?.id);
+  const { contacts, loading, hasMore, loadMore } = useContactList(activeProfile?.id);
   console.log('hasMore: ', hasMore);
 
   return (
@@ -24,7 +24,7 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
         className="contact-list-infinite-scroll"
         hasMoreNewer={hasMore}
         loadMoreNewer={loadMore}
-        threshold={1}
+        threshold={150}
       >
         <ul>
           {
@@ -42,6 +42,7 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
           }
         </ul>
       </InfiniteScroll>
+      {loading && <p className="loading">正在加载</p>}
       {!hasMore && <p className="no-more">没有更多</p>}
     </div>
   );
