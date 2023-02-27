@@ -4,7 +4,7 @@ import './styles/index.scss';
 import { EmojiPicker } from './EmojiPicker';
 import { Plugins } from '../Plugins';
 import { useUploadElement } from './hooks/useUploadElement';
-import { useUIMessageInputContext } from '../../context/UIMessageInputContext';
+import { useMessageInputContext } from '../../context';
 import { Icon, IconTypes } from '../Icon';
 import { MessageType } from '../../types';
 import { useChatStateContext } from '../../context';
@@ -13,7 +13,7 @@ export function InputPluginsDefault():React.ReactElement {
   const {
     sendUploadMessage,
     pluginConfig: propsPluginConfig,
-  } = useUIMessageInputContext('UIMessageInputDefault');
+  } = useMessageInputContext('UIMessageInputDefault');
 
   const { UIMessageInputConfig } = useChatStateContext();
 

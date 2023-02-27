@@ -17,8 +17,10 @@ import { useHandleMessage } from './hooks/useHandleMessage';
 import { Toast } from '../Toast';
 import { Message } from '../../types';
 import { useCreateMessage } from '../../hooks/useCreateMesage';
-
-
+import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/EmojiContext';
+import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
+import { EmojiMartData } from '@emoji-mart/data';
+import defaultEmojiData from '../../uim-emoji.json';
 
 export interface UIChatProps {
   EmptyPlaceholder?: React.ReactElement;
@@ -33,6 +35,14 @@ export interface UIChatProps {
   cloudCustomData?: string;
   UIMessageInputConfig?: UIMessageInputBasicProps;
   UIMessageListConfig?: MessageListProps;
+  
+  /** 自定义的表情数据集，可以覆盖默认来自 `emoji-mart` 的 `facebook.json` 表情数据集 */
+  emojiData?: EmojiMartData;
+  /** 自定义 表情选择 UI组件, 覆盖默认来自 `emoji-mart` 的 Picker */
+  EmojiPicker?: EmojiContextValue['EmojiPicker'];
+
+  /** 自定义 表情 UI 组件, 遵循 `emoji-mart` 的接口规范 */
+  Emoji?: EmojiContextValue['Emoji'];
 } 
 
 export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): React.ReactElement {
@@ -48,6 +58,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     UIMessageListConfig,
     MessageContext,
     cloudCustomData,
+    emojiData = defaultEmojiData,
     children,
   } = props;
 
@@ -153,19 +164,39 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     [],
   );
 
+
+  const emojiConfig: EmojiConfig = {
+    commonEmoji,
+    defaultMinimalEmojis,
+    emojiData,
+    emojiSetDef,
+  };
+
+  const emojiContextValue: EmojiContextValue = useMemo(
+    () => ({
+      Emoji: props.Emoji,
+      emojiConfig,
+      // EmojiIndex: props.EmojiIndex,
+      EmojiPicker: props.EmojiPicker,
+    }),
+    [],
+  );
+
   return (
     <div className={`chat`}>
       <ChatStateContextProvider value={chatStateContextValue}>
         <ChatActionProvider value={chatActionContextValue}>
-          <ComponentProvider value={componentContextValue}>
-            {children || (
-              <>
-                <UIChatHeaderElement />
-                <UIMessageList />
-                <UIMessageInputElement />
-              </>
-            )}
-          </ComponentProvider>
+          <EmojiProvider value={emojiContextValue}>
+            <ComponentProvider value={componentContextValue}>
+              {children || (
+                <>
+                  <UIChatHeaderElement />
+                  <UIMessageList />
+                  <UIMessageInputElement />
+                </>
+              )}
+            </ComponentProvider>
+          </EmojiProvider>          
         </ChatActionProvider>
       </ChatStateContextProvider>
     </div>

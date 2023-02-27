@@ -4,6 +4,7 @@ import type { UIMessageInputProps } from '../UIMessageInput';
 import { useEmojiPicker } from './useEmojiPicker';
 import { useMessageInputText } from './useMessageInputText';
 import { useUploadPicker } from './useUploadPicker';
+import { useEmojiIndex } from './useEmojiIndex';
 
 export interface IbaseStateProps {
   state: IinitState,
@@ -84,6 +85,9 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
     textareaRef,
     insertText,
   });
+
+  useEmojiIndex();
+
 
   return {
     ...state,

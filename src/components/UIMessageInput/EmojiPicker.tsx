@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUIMessageInputContext } from '../../context/UIMessageInputContext';
+import { useMessageInputContext } from '../../context';
 import { Icon, IconTypes } from '../Icon';
 import { Popup } from '../Popup';
 import {
@@ -20,7 +20,7 @@ export function EmojiPicker():React.ReactElement {
   const {
     onSelectEmoji,
     sendFaceMessage,
-  } = useUIMessageInputContext('UIMessageInputDefault');
+  } = useMessageInputContext('UIMessageInputDefault');
 
   const handleSelectEmoji = (e) => {
     const emoji: EmojiData = {

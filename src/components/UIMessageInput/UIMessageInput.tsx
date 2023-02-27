@@ -1,5 +1,5 @@
 import React, { MutableRefObject, PropsWithChildren } from 'react';
-import { UIMessageInputContextProvider, UnknowPorps, useChatStateContext, useComponentContext, useUIKit } from '../../context';
+import { MessageInputContextProvider, UnknowPorps, useChatStateContext, useComponentContext, useUIKit } from '../../context';
 import { useCreateMessageInputContext } from './hooks/useCreateMessageInputContext';
 import { useMessageInputState } from './hooks/useMessageInputState';
 import { EmptyStateIndicator } from '../EmptyStateIndicator';
@@ -7,6 +7,8 @@ import { InputQuoteDefault } from './InputQuoteDefault';
 import { UIMessageInputDefault } from './UIMessageInputDefault';
 import { InputPluginsDefault } from './InputPluginsDefault';
 import { ConversationType } from '../../types';
+import { DefaultTriggerProvider } from './DefaultTriggerProvider';
+
 import clsx from 'clsx';
 import './styles/index.scss';
 
@@ -69,9 +71,9 @@ function UIMessageInputProvider<T extends UIMessageInputProps>(props: PropsWithC
   });
 
   return (
-    <UIMessageInputContextProvider value={messageInputContextValue}>
+    <MessageInputContextProvider value={messageInputContextValue}>
       { children }
-    </UIMessageInputContextProvider>
+    </MessageInputContextProvider>
   );
 }
 
@@ -97,6 +99,7 @@ export function UIMessageInput<T extends UIMessageInputProps>(props: PropsWithCh
     UIMessageInput: ContextInput,
     InputPlugins: ContextInputPlugins,
     InputQuote: ContextInputQuote,
+    TriggerProvider = DefaultTriggerProvider,
   } = useComponentContext('UIMessageInput');
 
   const Input = propsUIMessageInput || ContextInput || UIMessageInputDefault;
@@ -112,7 +115,9 @@ export function UIMessageInput<T extends UIMessageInputProps>(props: PropsWithCh
         <InputPlugins />
         <div className="uim-message-input-main">
           <div className="uim-message-input-box">
-            <Input />
+            <TriggerProvider>
+              <Input />
+            </TriggerProvider>
           </div>
           {/*isTransmitter && <Transmitter />*/}
         </div>

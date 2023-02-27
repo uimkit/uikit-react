@@ -11,9 +11,12 @@
     "dev": "pnpm rollup -c -w"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
+    "emoji-mart": "^5.5.2",
     "i18next": "^22.4.6",
     "invariant": "^2.2.4",
     "lodash.first": "^3.0.0",

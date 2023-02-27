@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useContext } from 'react';
 import { UIChatHeaderDefaultProps } from '../components';
 import { MessageContextProps, UIMessageProps } from '../components/UIMessage';
 import { EmptyStateIndicatorProps } from '../components/EmptyStateIndicator';
-import { UIConversationHeaderDefaultProps } from '../components/UIConversationHeader/UIConversationHeaderDefault';
+import { UIConversationHeaderDefaultProps } from '../components/UIConversationListHeader/UIConversationHeaderDefault';
 
 export interface UnknowPorps {
   [propsName: string]: any
@@ -18,6 +18,7 @@ export interface ComponentContextValue {
   InputPlugins?: React.ComponentType<UnknowPorps>,
   MessagePlugins?: React.ComponentType<UnknowPorps>,
   InputQuote?: React.ComponentType<UnknowPorps>,
+  TriggerProvider?: React.ComponentType;
 }
 
 export const ComponentContext = React.createContext<ComponentContextValue | undefined>(undefined);
