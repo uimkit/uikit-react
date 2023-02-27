@@ -11,10 +11,10 @@ import {
 
 import { EmojiMartData } from '@emoji-mart/data';
 
-import type { SuggestionCommand, SuggestionUser } from '../ChatAutoComplete/ChatAutoComplete';
+import type { SuggestionCommand, SuggestionUser } from '../UIChatAutoComplete';
 import type { UICommandItemProps } from '../UICommandItem';
 import type { EmoticonItemProps } from '../EmoticonItem';
-// import type { UserItemProps } from '../UserItem/UserItem';
+import type { UIUserItemProps } from '../UIUserItem';
 
 import type { CustomTrigger, DefaultStreamChatGenerics, UnknownType } from '../../types';
 
@@ -29,11 +29,9 @@ export type CommandTriggerSetting<
 
 export type EmojiTriggerSetting = TriggerSetting<EmoticonItemProps, EmojiMartData>;
 
-/*
 export type UserTriggerSetting<
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
-> = TriggerSetting<UserItemProps, SuggestionUser<StreamChatGenerics>>;
-*/
+> = TriggerSetting<UIUserItemProps, SuggestionUser<StreamChatGenerics>>;
 
 export type TriggerSetting<T extends UnknownType = UnknownType, U = UnknownType> = {
   component: string | React.ComponentType<T>;

@@ -1,3 +1,4 @@
+export * from './TranslationContext';
 export * from './UIKitContext';
 export * from './ComponentContext';
 export * from './ChatActionContext';

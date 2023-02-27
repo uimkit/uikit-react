@@ -6,13 +6,15 @@ import { createAppStore } from "../../store";
 import { AppThunkContext } from "../../store/types";
 import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
-import { UIKitProvider, useUIKit } from "../../context";
+import { SupportedTranslations, TranslationProvider, UIKitProvider, useUIKit } from "../../context";
 import { Profile, APIClient, Conversation, Contact } from '../../types';
 import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
 import { Toast } from '../Toast';
 
 import './styles/index.scss';
+import { useTranslators } from './hooks/useTranslators';
+import { Uimi18n } from '../../i18n';
 
 
 const appThunkContext: AppThunkContext = {
@@ -58,6 +60,11 @@ export interface UIKitProps {
   client: APIClient;
   activeProfile?: Profile;
   activeConversation?: Conversation;
+  activeContact?: Contact;
+  /** Sets the default fallback language for UI component translation, defaults to 'en' for English */
+  defaultLanguage?: SupportedTranslations;
+  /** Instance of Stream i18n */
+  i18nInstance?: Uimi18n;
 }
 
 export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
@@ -66,6 +73,8 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
     activeProfile,
     activeConversation: propActiveConversation,
     activeContact: propActiveContact,
+    defaultLanguage,
+    i18nInstance,
     children,
   } = props;
   const [activeConversation, setActiveConversation] = useState<Conversation | undefined>();
@@ -88,9 +97,16 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
     setActiveContact,
   }), [client, activeProfile, activeConversation, setActiveConversation, activeContact, setActiveContact]);
 
+  const { translators } = useTranslators({
+    defaultLanguage,
+    i18nInstance,
+  });
+
   return (
     <UIKitProvider value={providerContextValue}>
-      <ReduxProvider store={store} children={<UIKitInner {...props}>{children}</UIKitInner>} />
+      <TranslationProvider value={translators}>
+        <ReduxProvider store={store} children={<UIKitInner {...props}>{children}</UIKitInner>} />
+      </TranslationProvider>
     </UIKitProvider>
   );
 }
