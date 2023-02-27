@@ -1,4 +1,4 @@
-import { Dispatch, useReducer } from 'react';
+import { Dispatch, Reducer, useReducer } from 'react';
 import { CONSTANT_DISPATCH_TYPE } from '../../../constants';
 import type { UIMessageInputProps } from '../UIMessageInput';
 import { useEmojiPicker } from './useEmojiPicker';
@@ -69,7 +69,14 @@ const messageInputReducer = (
 };
 
 export const useMessageInputState = (props: UIMessageInputProps) => {
-  const [state, dispatch] = useReducer(messageInputReducer, initialStateValue, initState);
+  const [state, dispatch] = useReducer(
+    messageInputReducer as Reducer<
+      MessageInputState,
+      MessageInputReducerAction
+    >, 
+    initialStateValue, 
+    initState,
+  );
   const { focus } = props;
 
   const {

@@ -14,8 +14,7 @@ declare global {
 
 // Setup Redux Dev Tools
 export const composeEnhancers =
-	(process.env.NODE_ENV === "development" &&
-    typeof window !== 'undefined' &&
+	(typeof window !== 'undefined' &&
 		(window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
 	compose;
 

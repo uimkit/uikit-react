@@ -24,7 +24,7 @@ function MessageCustomWithContext <T extends MessageContextProps>(
   };
 
   return (
-    <div className={`bubble message-custom bubble-${message.flow}  ${message?.conversationType === ConversationType.Group ? 'group' : ''}`}>
+    <div className={`bubble message-custom bubble-${message.flow}  ${message?.conversation_type === ConversationType.Group ? 'group' : ''}`}>
       {handleContext(context?.custom)}
       {children}
     </div>

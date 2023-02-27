@@ -665,7 +665,7 @@ export class Uimi18n {
   async setLanguage(language: string) {
     this.currentLanguage = language;
 
-    if (!this.initialized) return;
+    if (!this.initialized) return null;
 
     try {
       const t = await this.i18nInstance.changeLanguage(language);

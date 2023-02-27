@@ -1,4 +1,5 @@
-import { useChatActionContext, useUIKit } from "../../context";
+import React from 'react';
+import { useUIKit } from "../../context";
 import { UIConversationListView } from "./UIConversationListView";
 import { UIConversationListHeader } from "../UIConversationListHeader";
 import { useConversationList } from "../../hooks/useConversationList";

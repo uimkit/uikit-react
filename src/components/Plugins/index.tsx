@@ -1,4 +1,5 @@
 import React, {
+  ForwardedRef,
   forwardRef,
   PropsWithChildren, useImperativeHandle, useState,
 } from 'react';
@@ -21,8 +22,8 @@ export interface PluginsProps {
 
 function PluginsWithContext<T extends PluginsProps>(
   props:PropsWithChildren<T>,
-  ref,
-):React.ReactElement {
+  ref: ForwardedRef<any>,
+): React.ReactElement {
   const {
     plugins = [],
     showNumber,
@@ -34,7 +35,7 @@ function PluginsWithContext<T extends PluginsProps>(
   } = props;
 
   useImperativeHandle(ref, () => ({
-    closeMore: (newVal) => {
+    closeMore: () => {
       setShow(false);
     },
   }));

@@ -1,4 +1,3 @@
-import { ChatState } from '../../store/chatState';
 import { Message, MessageType } from '../../types';
 
 export const handleMessage = (messageList: Array<Message>): Array<Message> => {

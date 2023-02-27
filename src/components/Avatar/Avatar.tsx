@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Icon, IconTypes } from '../Icon';
 import './styles/index.scss';
+import { getWholeChar } from '../../utils';
 
 export interface AvatarProps {
   image?: string | null,
+  // 用于 fallback
+  name?: string;
+  
   /** click event handler */
   onClick?: (event: React.BaseSyntheticEvent) => void,
   /** mouseOver event handler */
@@ -22,12 +26,16 @@ export interface AvatarProps {
 export function Avatar<T extends AvatarProps>(props:T):React.ReactElement {
   const {
     image,
+    name,
     size = 32,
     shape = 'circle',
     update,
     onClick,
     list = [],
   } = props;
+
+  const nameStr = name?.toString() || '';
+  const alt = getWholeChar(nameStr, 0);
 
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -89,7 +97,7 @@ export function Avatar<T extends AvatarProps>(props:T):React.ReactElement {
           className={`avatar-image ${loaded ? 'avatar-image-loaded' : ''}`}
           onError={() => setError(true)}
           onLoad={() => setLoaded(true)}
-          alt={image}
+          alt={alt}
           src={image}
         />
       ) : (

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import clsx from 'clsx';
 
-export const Item = React.forwardRef(function Item(props: any, innerRef) {
+export const Item = React.forwardRef(function Item(props: any, innerRef: React.Ref<HTMLAnchorElement>) {
   const {
     className,
     component: Component,
@@ -16,39 +16,21 @@ export const Item = React.forwardRef(function Item(props: any, innerRef) {
 
   const selectItem = useCallback(() => onSelectHandler(item), [item, onClickHandler]);
 
-  /*
-  if (themeVersion === '2')
-    return (
-      <li
-        className={clsx(className, { 'str-chat__suggestion-item--selected': selected })}
-        style={style}
-      >
-        <a
-          href=''
-          onClick={onClickHandler}
-          onFocus={selectItem}
-          onMouseEnter={selectItem}
-          ref={innerRef}
-        >
-          <Component entity={item} selected={selected} />
-        </a>
-      </li>
-    );
-  */
 
   return (
-    <li className={clsx('rta__item', className)} style={style}>
-      <button
-        className={clsx('rta__entity', { 'rta__entity--selected': selected })}
+    <li
+      className={clsx(className, { 'uim-suggestion-item--selected': selected })}
+      style={style}
+    >
+      <a
+        href=''
         onClick={onClickHandler}
         onFocus={selectItem}
         onMouseEnter={selectItem}
         ref={innerRef}
       >
-        <div tabIndex={-1}>
-          <Component entity={item} selected={selected} />
-        </div>
-      </button>
+        <Component entity={item} selected={selected} />
+      </a>
     </li>
   );
 });

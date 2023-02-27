@@ -4,7 +4,7 @@ import { Avatar as DefaultAvatar } from '../Avatar';
 import './styles/index.scss';
 import { Icon, IconTypes } from '../Icon';
 import { Plugins } from '../Plugins';
-import { useChatActionContext, useUIKit } from '../../context';
+import { useUIKit } from '../../context';
 import { usePinConversation } from '../../hooks/usePinConversation';
 import { useDeleteConversation } from '../../hooks/useDeleteConversation';
 
@@ -74,7 +74,7 @@ export function UIConversationPreviewContent<T extends UIConversationPreviewComp
       ref={conversationPreviewButton}
     >
       <div className="avatar">
-        <Avatar image={displayImage} name={displayTitle} size={40} />
+        <Avatar image={displayImage} name={conversation.name} size={40} />
       </div>
       <div className="content">
         <div className="title">

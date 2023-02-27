@@ -44,7 +44,7 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
         });
       } else {
         Toast({ text: 'Error deleting message', type: 'error' });
-        throw new Error(error);
+        throw error;
       }
     }
   }, [message]);
@@ -71,7 +71,7 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
       } else {
         const text = message.flow === MESSAGE_FLOW.OUT ? 'The message recall exceeded the time limit (default 2 minutes)' : 'Error revoke Message';
         Toast({ text, type: 'error' });
-        throw new Error(error);
+        throw error;
       }
     }
   }, [message]);
@@ -119,8 +119,8 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
           error,
         });
       } else {
-        Toast({ text: error, type: 'error' });
-        throw new Error(error);
+        Toast({ text: (error as Error).message, type: 'error' });
+        throw error;
       }
     }
   }, [message]);

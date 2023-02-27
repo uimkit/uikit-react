@@ -24,7 +24,7 @@ export function UIMessageInputDefault(): React.ReactElement {
   // operateData
   useEffect(() => {
     if (operateData[MESSAGE_OPERATE.REVOKE]) {
-      setText(formatEmojiString(operateData[MESSAGE_OPERATE.REVOKE].payload.text, 1));
+      setText(formatEmojiString(operateData[MESSAGE_OPERATE.REVOKE].text, 1));
     }
   }, [operateData]);
 

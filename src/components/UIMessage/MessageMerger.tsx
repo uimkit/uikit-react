@@ -12,7 +12,7 @@ function MessageMergerWithContext <T extends MessageContextProps>(
   } = props;
 
   return (
-    <div className={`bubble message-merger bubble-${message.flow} ${message?.conversationType === ConversationType.Group ? 'group' : ''}`}>
+    <div className={`bubble message-merger bubble-${message.flow} ${message?.conversation_type === ConversationType.Group ? 'group' : ''}`}>
       <h3>{context.title}</h3>
       <ul className="message-merger-list">
         {

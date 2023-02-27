@@ -5,8 +5,6 @@ import type { EmojiTriggerSetting } from '../DefaultTriggerProvider';
 
 
 export const useEmojiTrigger = (): EmojiTriggerSetting => {
-  // const { themeVersion } = useChatContext('useEmojiTrigger');
-
   return {
     component: EmoticonItem,
     dataProvider: async (query, _, onReady) => {

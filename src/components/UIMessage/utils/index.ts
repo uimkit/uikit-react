@@ -1,9 +1,8 @@
-import { Conversation, ConversationType, Group, GroupTipOperationType, Message, MessageType } from '../../../types';
+import { Conversation, ConversationType, GroupTipOperationType, Message, MessageType } from '../../../types';
 import { decodeText } from './decodeText';
 import { MESSAGE_STATUS } from '../../../constants';
 import { JSONStringToParse } from '../../utils';
-import { t } from 'i18next';
-
+import { TFunction } from 'i18next';
 
 // Handling avatars
 export function handleAvatar(item: any) {
@@ -39,7 +38,7 @@ export function handleName(item: Conversation) {
       name = item?.name; // item.groupProfile.name || item?.groupProfile?.groupID || '';
       break;
     default:
-      name = t('系统通知');
+      name = '系统通知';
       break;
   }
   return name;
@@ -47,9 +46,9 @@ export function handleName(item: Conversation) {
 // Handle whether there is someone@
 export function handleAt(item: any) {
   const List = [
-    `[${t('UIConversation.有人@我')}]`,
-    `[${t('UIConversation.@所有人')}]`,
-    `[${t('UIConversation.@所有人')}][${t('UIConversation.有人@我')}]`,
+    `['UIConversation.有人@我']`,
+    `['UIConversation.@所有人']`,
+    `['UIConversation.@所有人']['UIConversation.有人@我']`,
   ];
   let showAtType = '';
   for (let index = 0; index < item.groupAtInfoList.length; index += 1) {
@@ -60,7 +59,7 @@ export function handleAt(item: any) {
   return showAtType;
 }
 // Internal display of processing message box
-export function handleShowLastMessage(item: Conversation) {
+export function handleShowLastMessage(t: TFunction, item: Conversation) {
   const { last_message } = item;
   const conversation = item;
   let showNick = '';
@@ -100,7 +99,7 @@ export function handleShowLastMessage(item: Conversation) {
 }
 
 // Handling system tip message display
-export function handleTipMessageShowContext(message: Message) {
+export function handleTipMessageShowContext(t: TFunction, message: Message) {
   const options = {
     message,
     text: '',
@@ -122,7 +121,7 @@ export function handleTipMessageShowContext(message: Message) {
       options.text = `${t('message.tip.member')}：${userName} ${t('message.tip.quit group')}`;
       break;
     case GroupTipOperationType.MemberKickedOut:
-      options.text = `${t('message.tip.member')}：${userName} ${t('message.tip.by')}${message.payload.operatorID}${t(
+      options.text = `${t('message.tip.member')}：${userName} ${t('message.tip.by')}${message.tip.operatorID}${t(
         'message.tip.kicked out of group',
       )}`;
       break;
@@ -134,10 +133,10 @@ export function handleTipMessageShowContext(message: Message) {
       break;
     case GroupTipOperationType.GroupProfileUpdated:
       // options.text =  `${userName} 修改群组资料`;
-      options.text = handleTipGrpUpdated(message);
+      options.text = handleTipGrpUpdated(t, message);
       break;
     case GroupTipOperationType.MemberProfileUpdated:
-      message.payload.memberList.map((member:any) => {
+      message.tip.memberList.map((member:any) => {
         if (member.muteTime > 0) {
           options.text = `${t('message.tip.member')}：${member.userID}${t('message.tip.muted')}`;
         } else {
@@ -153,7 +152,7 @@ export function handleTipMessageShowContext(message: Message) {
   return options;
 }
 
-function handleTipGrpUpdated(message: Message) {
+function handleTipGrpUpdated(t: TFunction, message: Message) {
   const { tip } = message;
   const { newGroupProfile } = tip;
   const { operatorID } = tip;
@@ -281,7 +280,7 @@ export function handleMergerMessageShowContext(item: Message) {
 }
 
 // Parse audio and video call messages
-export function extractCallingInfoFromMessage(message: Message) {
+export function extractCallingInfoFromMessage(t: TFunction,message: Message) {
   let callingmessage:any = {};
   let objectData:any = {};
   try {
@@ -339,15 +338,15 @@ export function extractCallingInfoFromMessage(message: Message) {
 }
 
 // Parsing and handling custom message display
-export function handleCustomMessageShowContext(item: Message) {
+export function handleCustomMessageShowContext(t: TFunction, item: Message) {
   return {
     message: item,
-    custom: extractCallingInfoFromMessage(item) || item?.payload || `[${t('message.custom.custom')}]`,
+    custom: extractCallingInfoFromMessage(t, item) || item?.calling || `[${t('message.custom.custom')}]`,
   };
 }
 
 // Parsing and handling system message display
-export function translateGroupSystemNotice(message: Message) {
+export function translateGroupSystemNotice(t: TFunction, message: Message) {
   const groupName = message.group_system_notice.groupProfile.name || message.group_system_notice.groupProfile.groupID;
   switch (message.group_system_notice.operationType) {
     case 1:

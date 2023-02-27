@@ -1,15 +1,32 @@
 {
   "name": "@uimkit/uikit-react",
   "version": "1.0.0",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "main1": "dist/cjs/index.js",
-  "module1": "dist/esm/index.js",
+  "source": "src/index.ts",
+  "typings": "dist/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "style": "dist/index.css",
   "license": "MIT",
+  "jsdelivr": "./dist/browser.full-bundle.min.js",
+  "keywords": [
+    "chat",
+    "messaging",
+    "conversation",
+    "react",
+    "聊天",
+    "uim"
+  ],
   "scripts": {
-    "build": "pnpm rollup -c",
-    "dev": "pnpm rollup -c -w"
+    "build": "rollup -c",
+    "start": "tsc --watch",
+    "dev": "pnpm rollup -c -w",
+    "types": "tsc --strict"
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
@@ -35,23 +52,30 @@
   "devDependencies": {
     "@ant-design/icons": "^4.8.0",
     "@babel/core": "^7.21.0",
+    "@babel/plugin-transform-runtime": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.0",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^8.5.0",
     "@rollup/plugin-url": "^7.0.0",
+    "@types/emoji-mart": "^3.0.9",
     "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
     "@types/react-redux": "^7.1.25",
     "autoprefixer": "^10.4.13",
+    "babel-plugin-dynamic-import-node": "^2.3.3",
     "cuid": "2.1.8",
     "eslint": "^8.34.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
     "moment": "^2.29.4",
     "postcss": "^8.4.20",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -59,6 +83,7 @@
     "postcss-preset-env": "^7.8.3",
     "rc-virtual-list": "^3.4.13",
     "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.8",
@@ -67,10 +92,13 @@
     "resize-observer": "^1.0.4",
     "rollup": "^2.79.0",
     "rollup-plugin-dts": "^4.2.2",
+    "rollup-plugin-insert": "^1.3.2",
+    "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-re": "^1.0.7",
     "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-visualizer": "^5.9.0",
     "sass": "^1.54.9",
     "tslib": "^2.5.0",
     "typescript": "4.9.4"
@@ -78,6 +106,12 @@
   "peerDependencies": {
     "date-fns": "^2.29.3",
     "react": ">=16.9.0",
+    "react-dom": ">=16.9.0",
     "tslib": "^2.5.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "npx commitlint --edit $1"
+    }
   }
 }

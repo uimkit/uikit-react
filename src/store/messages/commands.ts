@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 import { t } from "i18next";
 import { AppState, AppThunkContext, ThunkAction } from "../types";
 import { Message, ListMessagesParameters, SendMessageToConversationParameters } from "../../types";
-import { MessageListActionType, errorFetchingMessageList, fetchingMessageList, messageDeleted, messageListFetched, messageReceived } from "./actions";
+import { MessageListActionType } from "./actions";
 import { ConversationListActionType, getConversationById } from "../conversations";
 import last from "lodash.last";
 

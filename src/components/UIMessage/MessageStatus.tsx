@@ -18,7 +18,7 @@ function MessageStatustWithContext <T extends MessageContextProps>(
     isShowTime,
   } = useUIMessageContext('MessageStatustWithContext');
 
-  const timeElement = (typeof isShowTime === 'undefined' || isShowTime) && <div className="time">{message?.time ? getTimeStamp(message.time * 1000) : 0}</div>;
+  const timeElement = (typeof isShowTime === 'undefined' || isShowTime) && <div className="time">{message?.sent_at ? getTimeStamp(message.sent_at) : 0}</div>;
 
   return (
     <div className="message-status">

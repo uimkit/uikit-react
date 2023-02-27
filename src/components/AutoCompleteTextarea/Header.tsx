@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslationContext } from '../../context/TranslationContext';
 
 export type CurrentTrigger<T extends string = string> = '/' | '@' | ':' | T;

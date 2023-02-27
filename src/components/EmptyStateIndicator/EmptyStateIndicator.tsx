@@ -1,15 +1,20 @@
 import React, { PropsWithChildren } from 'react';
+import { useTranslationContext } from '../../context';
 
 export interface EmptyStateIndicatorProps{
   /** List Type: conversation | message */
-  listType?: 'conversation' | 'message' | 'chat';
+  listType?: 'conversation' | 'contact' | 'message' | 'chat';
 }
 
 function UnMemoizedEmptyStateIndicator
 <T extends EmptyStateIndicatorProps>(props: PropsWithChildren<T>) {
   const { listType } = props;
 
-  if (listType === 'conversation') { return <p role="listitem">暂时还没有会话</p>; }
+  const { t } = useTranslationContext('EmptyStateIndicator');
+
+  if (listType === 'conversation') { return <p role="listitem">{t('You have no conversations currently')}</p>; }
+
+  if (listType === 'contact') { return <p role="listitem">{t('You have no contacts currently')}</p>; }
 
   if (listType === 'message') return null;
 

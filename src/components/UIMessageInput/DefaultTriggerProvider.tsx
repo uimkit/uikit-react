@@ -9,14 +9,13 @@ import {
   useMessageInputContext,
 } from '../../context/MessageInputContext';
 
-import { EmojiMartData } from '@emoji-mart/data';
-
 import type { SuggestionCommand, SuggestionUser } from '../UIChatAutoComplete';
 import type { UICommandItemProps } from '../UICommandItem';
 import type { EmoticonItemProps } from '../EmoticonItem';
 import type { UIUserItemProps } from '../UIUserItem';
 
 import type { CustomTrigger, DefaultStreamChatGenerics, UnknownType } from '../../types';
+import { Emoji, EmojiSetDef } from '../../context/EmojiContext';
 
 export type AutocompleteMinimalData = {
   id?: string;
@@ -27,7 +26,7 @@ export type CommandTriggerSetting<
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
 > = TriggerSetting<UICommandItemProps, SuggestionCommand<StreamChatGenerics>>;
 
-export type EmojiTriggerSetting = TriggerSetting<EmoticonItemProps, EmojiMartData>;
+export type EmojiTriggerSetting = TriggerSetting<EmoticonItemProps, Emoji>;
 
 export type UserTriggerSetting<
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics

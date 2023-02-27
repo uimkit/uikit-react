@@ -16,7 +16,7 @@ function MessageFileWithContext <T extends MessageContextProps>(
       href={context.url}
       download={context.name}
       target="_parent"
-      className={`bubble message-file bubble-${message.flow} ${message?.conversationType === ConversationType.Group ? 'group' : ''}`}
+      className={`bubble message-file bubble-${message.flow} ${message?.conversation_type === ConversationType.Group ? 'group' : ''}`}
       rel="noreferrer"
     >
       <main className="message-file-main">

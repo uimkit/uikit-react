@@ -203,7 +203,7 @@ export interface APIClient {
    * 之前写法太奇怪， 要去掉 callback
    * @param params 
    */
-  sendMessage(message: any | Message, callback: (accountId, event) => void, opts?: SendMessageOptions): Promise<any>;
+  sendMessage(message: any | Message, callback: (accountId: string, event: any) => void, opts?: SendMessageOptions): Promise<any>;
 
   /**
    * 删除消息的接口

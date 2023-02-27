@@ -5,14 +5,13 @@ import './styles/index.scss';
 import { useComponentContext } from '../../context';
 
 export interface UIConversationListHeaderProps {
-  UIConversationHeader?: React.ComponentType<UIConversationListHeaderDefaultProps>,
+  UIConversationListHeader?: React.ComponentType<UIConversationListHeaderDefaultProps>,
 }
 
 export function UIConversationListHeader<T extends UIConversationListHeaderProps>(
   props: PropsWithChildren<T>,
 ): React.ReactElement {
   const {
-    title,
     UIConversationListHeader: propsUIConversationListHeader,
   } = props;
 

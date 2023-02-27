@@ -17,7 +17,7 @@ export type ComponentContextValue<
 > = {
   UIMessage?: React.ComponentType<UIMessageProps | UnknowPorps>;
   UIChatHeader?: React.ComponentType<UIChatHeaderDefaultProps>;
-  UIConversationHeader?: React.ComponentType<UIConversationListHeaderDefaultProps>;
+  UIConversationListHeader?: React.ComponentType<UIConversationListHeaderDefaultProps>;
   AutocompleteSuggestionHeader?: React.ComponentType<SuggestionListHeaderProps>;
   AutocompleteSuggestionItem?: React.ComponentType<SuggestionItemProps<StreamChatGenerics>>;
   AutocompleteSuggestionList?: React.ComponentType<SuggestionListProps<StreamChatGenerics>>;
@@ -45,17 +45,21 @@ export function ComponentProvider({
   );
 }
 
-export function useComponentContext<
+export const useComponentContext = <
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
   V extends CustomTrigger = CustomTrigger
 >(
   componentName?: string,
-) {
+) => {
   const contextValue = useContext(ComponentContext);
 
   if (!contextValue) {
-    return {} as ComponentContextValue;
+    console.warn(
+      `The useComponentContext hook was called outside of the ComponentContext provider. Make sure this hook is called within a child of the Channel component. The errored call is located in the ${componentName} component.`,
+    );
+
+    return {} as ComponentContextValue<StreamChatGenerics, V>;
   }
 
-  return contextValue as ComponentContextValue;
+  return contextValue as ComponentContextValue<StreamChatGenerics, V>;
 }

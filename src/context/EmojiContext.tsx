@@ -1,9 +1,14 @@
 import React, { PropsWithChildren, useContext } from 'react';
 
-import { Picker, Emoji as EmojiT } from 'emoji-mart';
-import { EmojiMartData } from '@emoji-mart/data'
+import { Emoji as EmojiT } from 'emoji-mart';
+import { EmojiMartData } from '@emoji-mart/data';
 
 import type { UnknownType } from '../types';
+
+export type Emoji = {
+  id: string;
+  name: string;
+}
 
 export type CommonEmoji = {
   custom: boolean;
@@ -42,14 +47,11 @@ export type EmojiContextValue = {
 };
 
 const DefaultEmoji = React.lazy(async () => {
-  //@ts-expect-error
-  const emoji = await import('emoji-mart');
-  return { default: emoji.Emoji };
+  const emoji = await import('@emoji-mart/react');
+  return { default: emoji.default }; // TODO 这里应该是要得到 Emoji 渲染组件
 });
 
 const DefaultEmojiPicker = React.lazy(async () => {
-  // @ts-expect-error
-  // const emojiPicker = await import('emoji-mart/dist/components/picker/nimble-picker.js');
   const emojiPicker = await import('@emoji-mart/react');
   return { default: emojiPicker.default };
 });

@@ -12,17 +12,13 @@ import { PluginConfigProps } from '../components';
 import { Emoji } from '@emoji-mart/data';// 有点污染;
 
 
-interface dispatchParams {
-  type: string,
-  value?: string,
-}
 export type MessageInputContextValue<
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
   V extends CustomTrigger = CustomTrigger
 > = {
   text?: string;
   disabled?: boolean;
-  dispatch?: (params: dispatchParams) => void;
+  // dispatch?: (params: dispatchParams) => void;
   handleChange?: ChangeEventHandler<HTMLTextAreaElement>;
   handleSubmit?: (event: React.BaseSyntheticEvent) => void;
   handleKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;

@@ -8,7 +8,6 @@ import { createListeners } from "../../store/listener";
 import { useDispatch } from "../../store/useDispatch";
 import { SupportedTranslations, TranslationProvider, UIKitProvider, useUIKit } from "../../context";
 import { Profile, APIClient, Conversation, Contact } from '../../types';
-import { UIAccountList } from '../UIAccountList';
 import { UIConversationList } from '../UIConversationList';
 import { Toast } from '../Toast';
 
@@ -47,7 +46,6 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     <div className="uim-kit">
       {children || (
         <>
-          <UIAccountList />
           <UIConversationList />
           <UIChat />
         </>

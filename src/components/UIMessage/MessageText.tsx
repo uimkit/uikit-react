@@ -18,7 +18,7 @@ function MessageTextWithContext <T extends MessageContextProps>(
   } = props;
 
   return (
-    <div className={`bubble message-text bubble-${message.flow ?? 'in'} ${message?.conversationType === ConversationType.Group ? 'group' : ''}`}>
+    <div className={`bubble message-text bubble-${message.flow ?? 'in'} ${message?.conversation_type === ConversationType.Group ? 'group' : ''}`}>
       <div className="message-text-content">
         {context.text.map((item, index) => {
           const key = message.id + index;

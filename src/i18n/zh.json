@@ -1,5 +1,9 @@
 {
   "Attach files": "添加文件",
   "Cancel": "取消",
-  "Type your message": "请输入消息"
+  "Type your message": "请输入消息",
+  "You have no conversations currently": "还没有会话",
+  "You have no contacts currently": "还没有联系人",
+  "loading...": "正在加载",
+  "No more": "没有更多"
 }

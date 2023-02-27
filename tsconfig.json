@@ -1,12 +1,43 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["src/@types/*"]
+    },
+    "target": "es5",
+    "allowUnusedLabels": false,
+    "jsx": "react",
+    "lib": ["esnext", "DOM"],
+    "importsNotUsedAsValues": "preserve",
+    "module": "esnext", // 生成代码的模板标准
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "jsx": "react-jsx",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,//检查函数是否不含有隐式返回值
+    "noImplicitUseStrict": false, // 是否禁止无隐式严格模式
+    "noStrictGenericChecks": true, // 是否禁用严格的泛型检查
+    "noUnusedLocals": false,//是否检查未使用的局部变量
+    "noUnusedParameters": false, //是否检查未使用的参数
+    "skipLibCheck": false,
+    "strictNullChecks": false, // 是否启用严格的空检查
+    "resolveJsonModule": true,//是否解析 JSON 模块
+    "allowSyntheticDefaultImports": true,
+    "noEmitOnError": false,//有错误时不进行编译
+    "noImplicitAny": false,// 不允许隐式的any类型
+    "allowJs": true,
+    "checkJs": false,
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "declarationMap": true,
+    "types": []
   },
-  "include": [
-    "src"
+  "include": ["./src/**/*"],
+  "exclude": [
+    "./src/mock-builders",
+    "node_modules",
+    "babel.config.js",
+    "jest.config.js",
+    "**/__tests__/*.test.js"
   ]
 }

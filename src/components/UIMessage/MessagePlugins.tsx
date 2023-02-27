@@ -7,7 +7,6 @@ import { useChatStateContext, useUIMessageContext } from '../../context';
 import { useMessagePluginElement, useMessageHandler } from './hooks';
 import { MESSAGE_FLOW, MESSAGE_STATUS } from '../../constants';
 import { MessageType } from '../../types';
-import { UIM } from '../../hooks';
 
 enum PluginsNameEnum {
   quote = 'quote',

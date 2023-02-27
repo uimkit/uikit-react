@@ -26,12 +26,3 @@ export const LoadingErrorIndicator = React.memo(
   UnMemoizedLoadingErrorIndicator,
   (prevProps, nextProps) => prevProps.error?.message === nextProps.error?.message,
 ) as typeof UnMemoizedLoadingErrorIndicator;
-Footer
-© 2023 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub

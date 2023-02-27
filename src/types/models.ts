@@ -1,45 +1,3 @@
-/**
- * 用户档案，IMAccount 应该继承这个
- */
-export interface Profile {
-  id: string;
-}
-
-export interface IMAccount extends Profile {
-  name: string;
-  provider: string;
-  avatar: string;
-
-  
-  created_at: number;
-}
-
-/**
- * 联系人
- */
-export interface Contact {
-  id: string;
-  account: string;
-  avatar: string;
-  gender: number;
-  marked: boolean;
-  created_at: number;
-}
-
-/**
- * 群成员
- */
-export interface GroupMember {
-
-}
-
-/**
- * 动态 / 朋友圈
- */
-export interface Moment {
-
-} 
-
 export enum MessageType {
   // 文本消息
   Text = 'text',
@@ -74,6 +32,49 @@ export enum MessageType {
   GroupSystemNotice = 'group_system_notice',
 }
 
+
+/**
+ * 用户档案，IMAccount 应该继承这个
+ */
+export interface Profile {
+  id: string;
+}
+
+export interface IMAccount extends Profile {
+  provider: string;
+  name: string;
+  avatar: string;
+
+  created_at: number;
+}
+
+/**
+ * 联系人
+ */
+export interface Contact {
+  id: string;
+  account: string;
+  avatar: string;
+  name: string;
+  gender: number;
+  marked: boolean;
+  created_at: number;
+}
+
+/**
+ * 群成员
+ */
+export interface GroupMember {
+
+}
+
+/**
+ * 动态 / 朋友圈
+ */
+export interface Moment {
+
+} 
+
 export interface ImageMessageBody {
   url: string;
 }
@@ -83,13 +84,14 @@ export interface VoiceMessageBody {}
 export interface VideoMessageBody {}
 
 export interface CallingMessagePayload {
-
+  data: any;
 }
 
 export interface GroupSystemNoticeMessagePayload {
   groupProfile: any;
   operatorID: string;
   operationType: number;
+  userDefinedField: any;
 }
 
 export enum GroupTipOperationType {
@@ -149,6 +151,7 @@ export interface Message {
    * 消息所属的会话 ID
    */
   conversation_id: string;
+  conversation_type: ConversationType;
 
   /**
    * TODO 发送方的 id

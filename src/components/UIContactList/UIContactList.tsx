@@ -1,4 +1,5 @@
-import { useChatActionContext, useUIKit } from "../../context";
+import React from 'react';
+import { useTranslationContext, useUIKit } from "../../context";
 import { useContactList } from "../../hooks/useContactList";
 import { EmptyStateIndicator } from "../EmptyStateIndicator";
 import { InfiniteScroll } from "../InfiniteScrollPaginator";
@@ -13,6 +14,8 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
   const {
     Preview,
   } = props;
+  const { t } = useTranslationContext();
+
   const { activeProfile, activeContact, setActiveContact } = useUIKit();
 
   const { contacts, loading, hasMore, loadMore } = useContactList(activeProfile?.id);
@@ -41,8 +44,8 @@ export function UIContactList<T extends UIContactListProps>(props: T) {
           }
         </ul>
       </InfiniteScroll>
-      {loading && <p className="loading">正在加载</p>}
-      {!hasMore && <p className="no-more">没有更多</p>}
+      {loading && <p className="loading">{t('loading...')}</p>}
+      {!hasMore && <p className="no-more">{t('No more')}</p>}
     </div>
   );
 }

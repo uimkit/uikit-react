@@ -20,8 +20,7 @@ import { useCreateMessage } from '../../hooks/useCreateMesage';
 import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/EmojiContext';
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
 import { EmojiMartData } from '@emoji-mart/data';
-// import defaultEmojiData from '../../uim-emoji.json';
-import defaultEmojiData from '@emoji-mart/data'
+import defaultEmojiData from '@emoji-mart/data';
 
 
 export interface UIChatProps {
@@ -60,7 +59,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     UIMessageListConfig,
     MessageContext,
     cloudCustomData,
-    emojiData = defaultEmojiData,
+    emojiData = defaultEmojiData as EmojiMartData,
     children,
   } = props;
 
@@ -114,9 +113,9 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
       // TODO sendMessage
       // editLocalmessage(message);
     } catch (error) {
-      Toast({ text: error, type: 'error' });
+      Toast({ text: (error as Error).message, type: 'error' });
       // editLocalmessage(message);
-      throw new Error(error);
+      throw error;
     }
   }, []);
 

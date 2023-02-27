@@ -43,7 +43,7 @@ function UIMessageDefaultWithContext <T extends UIMessageProps>(
     <div
       className={
       `message-default
-      ${(message?.type === MessageType.GroupTip || message?.isRevoked) ? 'tip' : message?.flow}
+      ${(message?.type === MessageType.GroupTip || message?.revoked) ? 'tip' : message?.flow}
       ${className}
       `
       }
@@ -57,12 +57,12 @@ function UIMessageDefaultWithContext <T extends UIMessageProps>(
         && (<MessageSystem message={message} />)
       }
       {
-        message?.isRevoked
+        message?.revoked
         && (<MessageRevoke message={message} />)
       }
       {message?.type !== MessageType.GroupTip
       && message?.type !== MessageType.GroupSystemNotice
-      && !message?.isRevoked
+      && !message?.revoked
       && (
       <div
         className={`${message?.flow ?? 'in'}`}

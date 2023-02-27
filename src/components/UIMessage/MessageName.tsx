@@ -1,7 +1,7 @@
 import React, {
   PropsWithChildren,
 } from 'react';
-import { Message } from '../../types';
+import { ConversationType, Message } from '../../types';
 import { messageShowType } from '../../context';
 
 export interface MessageNameProps {
@@ -22,7 +22,7 @@ export function MessageName <T extends MessageNameProps>(
   } = props;
 
   const show = (showType === messageShowType.ALL || message?.flow === showType)
-  && message?.conversationType === TIM.TYPES.CONV_GROUP;
+  && message?.conversation_type === ConversationType.Group;
 
   if (!show || showType === messageShowType.NONE) {
     return null;

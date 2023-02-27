@@ -1,3 +1,4 @@
+import { useTranslationContext } from '../../../context';
 import { Message, MessageType } from '../../../types';
 import {
   handleAudioMessageShowContext,
@@ -18,6 +19,8 @@ interface messageContextParams {
 }
 
 export const useMessageContextHandler = <T extends messageContextParams>(params:T) => {
+  const { t } = useTranslationContext();
+  
   const {
     message,
   } = params;
@@ -43,7 +46,7 @@ export const useMessageContextHandler = <T extends messageContextParams>(params:
         context = handleFileMessageShowContext(message);
         break;
       case MessageType.Custom:
-        context = handleCustomMessageShowContext(message);
+        context = handleCustomMessageShowContext(t, message);
         break;
       case MessageType.Merger:
         context = handleMergerMessageShowContext(message);
@@ -52,10 +55,10 @@ export const useMessageContextHandler = <T extends messageContextParams>(params:
         context = handleLocationMessageShowContext(message);
         break;
       case MessageType.GroupTip:
-        context = handleTipMessageShowContext(message);
+        context = handleTipMessageShowContext(t, message);
         break;
       case MessageType.GroupSystemNotice:
-        context = translateGroupSystemNotice(message);
+        context = translateGroupSystemNotice(t, message);
         break;
 
       default:

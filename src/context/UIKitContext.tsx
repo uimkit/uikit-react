@@ -1,10 +1,4 @@
-import React, { PropsWithChildren, useState, useMemo, useContext, useEffect } from 'react';
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
-dayjs.locale('zh-cn');
-
-import relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime);
+import React, { PropsWithChildren, useContext } from 'react';
 
 import { Profile, Conversation, Contact } from "../types";
 
@@ -34,5 +28,14 @@ export function UIKitProvider({ value, children }: PropsWithChildren<{ value: UI
   );
 }
 
-export const useUIKit = (componentName?: string): UIKitContextProps =>
-  useContext(UIKitContext) as UIKitContextProps;
+export const useUIKit = (componentName?: string): UIKitContextProps => {
+  const context = useContext(UIKitContext) as UIKitContextProps;
+  if (!context)  {
+    console.warn(
+      `The useChatContext hook was called outside of the ChatContext provider. Make sure this hook is called within a child of the Chat component. The errored call is located in the ${componentName} component.`,
+    );
+    return {} as UIKitContextProps;
+  }
+
+  return context as UIKitContextProps;
+}

@@ -6,7 +6,6 @@ import { LoadingIndicator } from '../Loading/LoadingIndicator';
 import { useMessageInputContext } from '../../context/MessageInputContext';
 import { useComponentContext } from '../../context/ComponentContext';
 
-import type { EmojiMartData } from '@emoji-mart/data';
 import { SearchIndex } from 'emoji-mart';
 import type { TriggerSettings } from '../UIMessageInput/DefaultTriggerProvider';
 
@@ -28,14 +27,14 @@ export type SuggestionItemProps<
 > = {
   className: string;
   component: React.ComponentType<{
-    entity: EmojiMartData | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>;
+    entity: any/* Emoji */ | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>;
     selected: boolean;
   }>;
-  item: EmojiMartData | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>;
+  item: any/* Emoji */ | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>;
   key: React.Key;
   onClickHandler: (event: React.BaseSyntheticEvent) => void;
   onSelectHandler: (
-    item: EmojiMartData | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>,
+    item: any/* Emoji */ | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>,
   ) => void;
   selected: boolean;
   style: React.CSSProperties;
@@ -131,7 +130,7 @@ const UnMemoizedChatAutoComplete = <
         const emoji = found
           .filter(Boolean)
           .slice(0, 10)
-          .find(({ emoticons }: EmojiData) => !!emoticons?.includes(word));
+          .find(({ emoticons }: any/* Emoji */) => !!emoticons?.includes(word));
         if (!emoji || !('native' in emoji)) return null;
         return emoji.native;
       };

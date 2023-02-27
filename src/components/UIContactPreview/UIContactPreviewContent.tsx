@@ -4,7 +4,7 @@ import { Avatar as DefaultAvatar } from '../Avatar/index';
 import './styles/index.scss';
 import { Icon, IconTypes } from '../Icon';
 import { Plugins } from '../Plugins';
-import { useChatActionContext, useUIKit } from '../../context';
+import { useUIKit } from '../../context';
 import { useDeleteContact } from '../../hooks/useDeleteContact';
 
 export function unMemoContactPreviewContent<T extends UIContactPreviewComponentProps>(
@@ -63,7 +63,7 @@ export function unMemoContactPreviewContent<T extends UIContactPreviewComponentP
       ref={contactPreviewButton}
     >
       <div className="avatar">
-        <Avatar image={displayImage} name={displayTitle} size={40} />
+        <Avatar image={displayImage} name={contact.name} size={40} />
       </div>
       <div className="content">
         <div className="title">

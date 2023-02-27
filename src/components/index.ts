@@ -2,7 +2,6 @@ export * from './Avatar';
 export * from './UIKit';
 export * from './UIChat';
 export * from './UIChatHeader';
-export * from './UIAccountList';
 export * from './UIConversationList';
 export * from './UIConversationListHeader';
 export * from './UIConversationPreview';
