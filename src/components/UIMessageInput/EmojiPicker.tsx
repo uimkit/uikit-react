@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
-import { useMessageInputContext } from '../../context';
+import React, { useEffect, useState } from 'react';
+import { useMessageInputContext, useTranslationContext } from '../../context';
 import { Icon, IconTypes } from '../Icon';
 import { Popup } from '../Popup';
-import {
-  emojiUrl, emojiName, emojiMap,
-  // bigEmojiList, faceUrl, IBigEmojiListItem,
-} from '../UIMessage/utils/emojiMap';
+import data, { Emoji } from '@emoji-mart/data'
+import { useEmojiContext } from '../../context/EmojiContext';
 
-import type { EmojiData } from './hooks';
 
-export function EmojiPicker():React.ReactElement {
+export type EmojiPickerProps = {
+
+};
+
+export function EmojiPicker(props: EmojiPickerProps): React.ReactElement {
+  const { t, userLanguage } = useTranslationContext('EmojiPicker');
+  const { emojiConfig, EmojiPicker: EmojiPickerComponent } = useEmojiContext();
+
+  const [i18n, setI18n] = useState();
+
+  useEffect(() => {
+    (async function() {
+      const i18n = await import(`@emoji-mart/data/i18n/${userLanguage}.json`);
+      setI18n(i18n);
+      console.log('设置表情 i18n: ', i18n);
+    })();
+  }, [userLanguage]);
+
+
   const [show, setShow] = useState(false);
   const [index, setIndex] = useState(0);
   const [className, setClassName] = useState('');
@@ -17,30 +32,27 @@ export function EmojiPicker():React.ReactElement {
   const handleShow = () => {
     setShow(!show);
   };
+
   const {
     onSelectEmoji,
     sendFaceMessage,
   } = useMessageInputContext('UIMessageInputDefault');
 
-  const handleSelectEmoji = (e) => {
-    const emoji: EmojiData = {
-      index,
-      data: e.target.dataset.data,
-    };
-    if (!emoji.data) {
-      return;
-    }
+  const handleSelectEmoji = (emoji: Emoji) => {
     if (index === 0) {
       onSelectEmoji(emoji);
     } else {
       sendFaceMessage(emoji);
-      handleShow();
     }
+    handleShow();
   };
 
   const handleVisible = (data) => {
     setClassName(`${!data.top && 'emoji-plugin-top'} ${!data.left && 'emoji-plugin-right'}`);
   };
+
+  const { emojiData } = emojiConfig ?? {};
+  if (!emojiData) return null;
 
   return (
     <div className="emoji-picker input-plugin-popup">
@@ -51,27 +63,11 @@ export function EmojiPicker():React.ReactElement {
         close={handleShow}
         handleVisible={handleVisible}
       >
-        <ul className="face-list">
-          {
-            index === 0 && emojiName.map((item:string, emojiIndex:number) => {
-              const key = item + emojiIndex;
-              return (
-                <li
-                  role="menuitem"
-                  className="face-list-item"
-                  key={key}
-                  onClick={handleSelectEmoji}
-                >
-                  <img
-                    src={`${emojiUrl + emojiMap[item]}`}
-                    alt=""
-                    data-data={item}
-                  />
-                </li>
-              );
-            })
-          }
-        </ul>
+        <EmojiPickerComponent 
+          i18n={i18n}
+          data={data} 
+          onEmojiSelect={handleSelectEmoji}
+        />
       </Popup>
     </div>
   );

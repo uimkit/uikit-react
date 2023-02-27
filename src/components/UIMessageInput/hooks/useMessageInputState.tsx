@@ -6,7 +6,6 @@ import { useMessageInputText } from './useMessageInputText';
 import { useUploadPicker } from './useUploadPicker';
 import { useEmojiIndex } from './useEmojiIndex';
 import { Message } from '../../../types';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 export interface IbaseStateProps {
   state: MessageInputState,
@@ -71,7 +70,7 @@ const messageInputReducer = (
 
 export const useMessageInputState = (props: UIMessageInputProps) => {
   const [state, dispatch] = useReducer(messageInputReducer, initialStateValue, initState);
-  const { focus, textareaRef } = props;
+  const { focus } = props;
 
   const {
     sendUploadMessage,
@@ -81,6 +80,7 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
   });
 
   const {
+    textareaRef,
     handleChange,
     handleSubmit,
     handleKeyDown,
@@ -91,7 +91,6 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
   } = useMessageInputText({
     state,
     dispatch,
-    textareaRef,
     focus,
     sendUploadMessage,
   });

@@ -51,21 +51,22 @@ function UIMessageInputProvider<T extends UIMessageInputProps>(props: PropsWithC
     disabled: propsDisabled,
     focus: propsFoces,
     pluginConfig,
-    textareaRef: propsTextareaRef,
+    // textareaRef: propsTextareaRef,
   } = props;
+  const { UIMessageInputConfig } = useChatStateContext();
+
   const messageInputState = useMessageInputState(props);
   const { activeConversation } = useUIKit();
 
   const contextDisabled = activeConversation?.type === ConversationType.System;
 
-  const { textareaRef, UIMessageInputConfig } = useChatStateContext();
 
   const focus = propsFoces || UIMessageInputConfig?.focus;
 
   const messageInputContextValue = useCreateMessageInputContext({
     ...messageInputState,
     ...props,
-    textareaRef: propsTextareaRef || UIMessageInputConfig?.textareaRef || textareaRef,
+    // textareaRef: propsTextareaRef || UIMessageInputConfig?.textareaRef || textareaRef,
     disabled: propsDisabled || UIMessageInputConfig?.disabled || contextDisabled,
     focus: typeof (focus) === 'boolean' ? focus : true,
     pluginConfig,

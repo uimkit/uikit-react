@@ -38,7 +38,7 @@ export type EmojiConfig = {
 export type EmojiContextValue = {
   emojiConfig: EmojiConfig;
   Emoji?: React.ComponentType<typeof EmojiT.Props>;
-  EmojiPicker?: React.ComponentType<typeof Picker.Props>;
+  EmojiPicker?: React.ComponentType<any>;
 };
 
 const DefaultEmoji = React.lazy(async () => {

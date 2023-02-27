@@ -3,14 +3,9 @@ import {
   PropsWithChildren,
   useCallback,
 } from 'react';
-import { emojiEnKey } from '../../UIMessage/utils/emojiMap';
 import type { IbaseStateProps } from './useMessageInputState';
 import { useChatActionContext } from '../../../context';
-
-export interface EmojiData {
-  index: number,
-  data: string,
-}
+import { Emoji } from '@emoji-mart/data';
 
 interface useEmojiPickerProps extends IbaseStateProps {
   textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>,
@@ -25,11 +20,12 @@ export function useEmojiPicker<T extends useEmojiPickerProps>(props:PropsWithChi
 
   const { sendMessage, createFaceMessage } = useChatActionContext('useEmojiPicker');
 
-  const onSelectEmoji = (emoji:EmojiData) => {
-    insertText(emojiEnKey[emoji.data]);
-  };
+  const onSelectEmoji = useCallback((emoji: any) => {
+    insertText(emoji.native);
+    textareaRef?.current?.focus();
+  }, [insertText]);
 
-  const sendFaceMessage = useCallback((emoji:EmojiData) => {
+  const sendFaceMessage = useCallback((emoji: Emoji) => {
     const message = createFaceMessage({
       payload: emoji,
     });

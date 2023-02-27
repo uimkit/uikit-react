@@ -9,6 +9,7 @@ import React, {
 import { TriggerSettings } from '../components/UIMessageInput/DefaultTriggerProvider';
 import { CustomTrigger, DefaultStreamChatGenerics } from '../types';
 import { PluginConfigProps } from '../components';
+import { Emoji } from '@emoji-mart/data';// 有点污染;
 
 
 interface dispatchParams {
@@ -26,7 +27,7 @@ export type MessageInputContextValue<
   handleSubmit?: (event: React.BaseSyntheticEvent) => void;
   handleKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
   textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>;
-  onSelectEmoji?: (emoji: any/*EmojiData*/) => void;
+  onSelectEmoji?: (emoji: Emoji) => void;
   sendFaceMessage?: (emoji: any /*EmojiData*/) => void;
   sendUploadMessage?: (file: any/*filesData*/, type: any/*MESSAGE_TYPE_NAME*/) => void;
   insertText?: (textToInsert: string) => void;

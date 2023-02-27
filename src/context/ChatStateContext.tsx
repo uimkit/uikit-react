@@ -11,7 +11,7 @@ export interface ChatStateContextValue {
   lastMessageID?:string,
   isSameLastMessageID?: boolean,
   messageListRef?: RefObject<HTMLDivElement>,
-  textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>,
+  // textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>,
   operateData?: OperateMessageParams,
   messageConfig?: UIMessageProps,
   cloudCustomData?: string,

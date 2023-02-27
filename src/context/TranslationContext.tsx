@@ -49,7 +49,7 @@ export const defaultDateTimeParser = (input?: TDateTimeParserInput) => Dayjs(inp
 export const TranslationContext = React.createContext<TranslationContextValue>({
   t: defaultTranslatorFunction,
   tDateTimeParser: defaultDateTimeParser,
-  userLanguage: 'en',
+  userLanguage: 'zh',
 });
 
 export const TranslationProvider = ({

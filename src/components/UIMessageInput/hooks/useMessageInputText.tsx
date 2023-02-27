@@ -2,19 +2,22 @@ import React, {
   useCallback,
   ChangeEventHandler,
   MutableRefObject,
+  useEffect,
+  useRef,
 } from 'react';
 import { CONSTANT_DISPATCH_TYPE, MESSAGE_OPERATE } from '../../../constants';
 import { formatEmojiString } from '../../UIMessage/utils/emojiMap';
 import { useHandleQuoteMessage } from './useHandleQuoteMessage';
-import type { IbaseStateProps, ICursorPos } from './useMessageInputState';
+import type { IbaseStateProps, ICursorPos, MessageInputReducerAction } from './useMessageInputState';
 import { filesData } from './useUploadPicker';
 import { MessageType } from '../../../types';
 import { useChatActionContext, useUIKit } from '../../../context';
 
 interface useMessageInputTextProps extends IbaseStateProps {
   focus?: boolean,
-  textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>,
-  sendUploadMessage?: (file: filesData, type: MessageType) => void
+  sendUploadMessage?: (file: filesData, type: MessageType) => void; // XXX 这个不应该在这里吧?
+  additionalTextareaProps?: React.TextareaHTMLAttributes<HTMLTextAreaElement>; // 本来应该在 UIMessageInputProps 中
+  dispatch: React.Dispatch<MessageInputReducerAction>;
 }
 
 export const useMessageInputText = (props: useMessageInputTextProps) => {
@@ -22,9 +25,30 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
     state,
     dispatch,
     focus,
-    textareaRef,
     sendUploadMessage,
+    additionalTextareaProps,
   } = props;
+
+  const textareaRef = useRef<HTMLTextAreaElement>();
+
+  // Focus
+  useEffect(() => {
+    if (focus && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [focus]);
+
+  // Text + cursor position
+  const newCursorPosition = useRef<number>();
+
+  useEffect(() => {
+    const textareaElement = textareaRef.current;
+    if (textareaElement && newCursorPosition.current !== undefined) {
+      textareaElement.selectionStart = newCursorPosition.current;
+      textareaElement.selectionEnd = newCursorPosition.current;
+      newCursorPosition.current = undefined;
+    }
+  }, [newCursorPosition]);
 
   const { client } = useUIKit();
   const { sendMessage, createTextMessage, operateMessage } = useChatActionContext('UIMessageInput');
@@ -124,18 +148,38 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
 
   const insertText = useCallback(
     (textToInsert: string) => {
+      const { maxLength } = additionalTextareaProps || {};
+
+      if (!textareaRef.current) {
+        dispatch({
+          getNewText: (text) => {
+            const updatedText = text + textToInsert;
+            if (maxLength && updatedText.length > maxLength) {
+              return updatedText.slice(0, maxLength);
+            }
+            return updatedText;
+          },
+          type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
+        });
+        return;
+      }
+
+      const { selectionEnd, selectionStart } = textareaRef.current;
+      newCursorPosition.current = selectionStart + textToInsert.length;
+
       dispatch({
-        type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
-        getNewText: (text:string) => `${text.slice(0, state.cursorPos.start)}${textToInsert}${text.slice(state.cursorPos.start)}`,
-      });
-      dispatch({
-        type: CONSTANT_DISPATCH_TYPE.SET_CURSOR_POS,
-        value: {
-          start: state.cursorPos.start + textToInsert.length,
-          end: state.cursorPos.end + textToInsert.length,
+        getNewText: (prevText) => {
+          const updatedText =
+            prevText.slice(0, selectionStart) + textToInsert + prevText.slice(selectionEnd);
+
+          if (maxLength && updatedText.length > maxLength) {
+            return updatedText.slice(0, maxLength);
+          }
+
+          return updatedText;
         },
+        type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
       });
-      textareaRef?.current?.focus();
     },
     [textareaRef, state],
   );
@@ -162,6 +206,7 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
   );
 
   return {
+    textareaRef,
     handleChange,
     handleSubmit,
     handleKeyDown,
