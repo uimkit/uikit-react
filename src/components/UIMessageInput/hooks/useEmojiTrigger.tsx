@@ -14,6 +14,7 @@ export const useEmojiTrigger = (): EmojiTriggerSetting => {
         return [];
       }
       const emojis = await SearchIndex?.search(query) || [];
+      console.log('emojis: ', emojis, query);
       // emojiIndex.search sometimes returns undefined values, so filter those out first
       const result = emojis.filter(Boolean).slice(0, /* TODO themeVersion === '2' ? 7 : */10);
       if (onReady) onReady(result, query);
@@ -23,7 +24,7 @@ export const useEmojiTrigger = (): EmojiTriggerSetting => {
     output: (entity) => ({
       caretPosition: 'next',
       key: entity.id,
-      text: `${'native' in entity ? entity.native : ''}`,
+      text: `${'native' in entity ? entity.native : `${entity.name}`}`,
     }),
   };
 };

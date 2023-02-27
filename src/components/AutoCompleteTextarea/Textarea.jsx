@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Textarea from 'react-textarea-autosize';
+import Textarea from 'react-textarea-autosize'; // 暂时不需要用到，不需要自增(grow) 内容高度
 import getCaretCoordinates from 'textarea-caret';
 import { isValidElementType } from 'react-is';
 import clsx from 'clsx';
@@ -135,7 +135,7 @@ export class ReactTextareaAutocomplete extends React.Component {
     this._replaceWord();
   };
 
-  _replaceWord = () => {
+  _replaceWord = async () => {
     const { value } = this.state;
 
     const lastWordRegex = /([^\s]+)(\s*)$/;
@@ -146,7 +146,7 @@ export class ReactTextareaAutocomplete extends React.Component {
 
     const spaces = match[2];
 
-    const newWord = this.props.replaceWord(lastWord);
+    const newWord = await this.props.replaceWord(lastWord);
     if (newWord == null) return;
 
     const textBeforeWord = value.slice(0, this.getCaretPosition() - match[0].length);
@@ -215,7 +215,6 @@ export class ReactTextareaAutocomplete extends React.Component {
 
     const modifiedText = textToModify.substring(0, startOfTokenPosition) + newTokenString;
     const valueToReplace = textareaValue.replace(textToModify, modifiedText);
-
     // set the new textarea value and after that set the caret back to its position
     this.setState(
       {
@@ -223,6 +222,7 @@ export class ReactTextareaAutocomplete extends React.Component {
         value: valueToReplace,
       },
       () => {
+        console.log('文字变更了');
         // fire onChange event after successful selection
         const e = new CustomEvent('change', { bubbles: true });
         this.textareaRef.dispatchEvent(e);
@@ -498,6 +498,7 @@ export class ReactTextareaAutocomplete extends React.Component {
 
       lastToken = tokenMatch && tokenMatch[tokenMatch.length - 1].trim();
 
+      // 根据 关键字符 设置当前 trigger
       currentTrigger = (lastToken && Object.keys(trigger).find((a) => a === lastToken[0])) || null;
     }
 
@@ -654,6 +655,9 @@ export class ReactTextareaAutocomplete extends React.Component {
 
     const triggerProps = this.getTriggerProps();
 
+    console.log('triggerProps.values: ', triggerProps.values);
+    console.log('currentTrigger: ', triggerProps.currentTrigger);
+
     if (
       triggerProps.values &&
       triggerProps.currentTrigger &&
@@ -706,7 +710,7 @@ export class ReactTextareaAutocomplete extends React.Component {
         style={containerStyle}
       >
         {this.renderSuggestionListContainer()}
-        <Textarea
+        <textarea
           data-testid='message-input'
           {...this._cleanUpProps()}
           className={clsx('rta__textarea', className)}

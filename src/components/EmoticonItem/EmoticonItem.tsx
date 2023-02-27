@@ -40,7 +40,7 @@ const UnMemoizedEmoticonItem: React.FC<EmoticonItemProps> = (props) => {
   return (
     <div className='str-chat__emoji-item'>
       <span className='str-chat__emoji-item--entity'>{entity.native}</span>
-      <span className='str-chat__emoji-item--name'>{renderName()}</span>
+      <span className='str-chat__emoji-item--name'>renderName: {renderName()}</span>
     </div>
   );
 };

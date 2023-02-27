@@ -11,6 +11,7 @@ import { DefaultTriggerProvider } from './DefaultTriggerProvider';
 
 import clsx from 'clsx';
 import './styles/index.scss';
+import { UIMessageInputFlat } from './UIMessageInputFlat';
 
 
 
@@ -102,7 +103,7 @@ export function UIMessageInput<T extends UIMessageInputProps>(props: PropsWithCh
     TriggerProvider = DefaultTriggerProvider,
   } = useComponentContext('UIMessageInput');
 
-  const Input = propsUIMessageInput || ContextInput || UIMessageInputDefault;
+  const Input = propsUIMessageInput || ContextInput || /*UIMessageInputDefault*/UIMessageInputFlat;
   const InputPlugins = propsInputPlugins
   || ContextInputPlugins || InputPluginsDefault || EmptyStateIndicator;
   const InputQuote = propsInputQuote || ContextInputQuote || InputQuoteDefault;

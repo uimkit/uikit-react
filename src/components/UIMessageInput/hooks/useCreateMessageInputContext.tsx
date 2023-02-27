@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
+import { MessageInputContextValue } from '../../../context';
 
-export const useCreateMessageInputContext = (value: any) => {
+export const useCreateMessageInputContext = (value: MessageInputContextValue) => {
   const {
     textareaRef,
     handleChange,
@@ -10,7 +11,7 @@ export const useCreateMessageInputContext = (value: any) => {
     sendFaceMessage,
     disabled,
     focus,
-    operateData,
+    // operateData,
     pluginConfig,
   } = value;
 
@@ -24,7 +25,7 @@ export const useCreateMessageInputContext = (value: any) => {
       sendFaceMessage,
       disabled,
       focus,
-      operateData,
+      // operateData,
       pluginConfig,
       ...value,
     }),
@@ -37,7 +38,7 @@ export const useCreateMessageInputContext = (value: any) => {
       sendFaceMessage,
       disabled,
       focus,
-      operateData,
+      // operateData,
       pluginConfig,
     ],
   );

@@ -9,8 +9,10 @@ export const useEmojiIndex = () => {
   const { emojiData } = emojiConfig || {};
 
   useEffect(() => {
-    console.log('初始化表情数据集');
-    init(emojiData);
+    if (emojiData) {
+      console.log('初始化表情数据集');
+      init({ data: emojiData });
+    }
   }, [emojiData]);
 
   return SearchIndex;

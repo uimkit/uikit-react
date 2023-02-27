@@ -55,7 +55,6 @@ export function UIMessageInputDefault(): React.ReactElement {
 
   return (
     <div className={`input-box ${disabled ? 'disabled' : ''} ${focused ? 'uim-kit-input-box--focus' : 'uim-kit-input-box--blur'}`}>
-      <div className="input-visibility-content">{text}</div>
       {
         !disabled
         && (

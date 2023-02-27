@@ -20,7 +20,9 @@ import { useCreateMessage } from '../../hooks/useCreateMesage';
 import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/EmojiContext';
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
 import { EmojiMartData } from '@emoji-mart/data';
-import defaultEmojiData from '../../uim-emoji.json';
+// import defaultEmojiData from '../../uim-emoji.json';
+import defaultEmojiData from '@emoji-mart/data'
+
 
 export interface UIChatProps {
   EmptyPlaceholder?: React.ReactElement;

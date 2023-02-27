@@ -5,15 +5,17 @@ import { useEmojiPicker } from './useEmojiPicker';
 import { useMessageInputText } from './useMessageInputText';
 import { useUploadPicker } from './useUploadPicker';
 import { useEmojiIndex } from './useEmojiIndex';
+import { Message } from '../../../types';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 export interface IbaseStateProps {
-  state: IinitState,
+  state: MessageInputState,
   dispatch: Dispatch<MessageInputReducerAction>,
 }
 
-export interface IinitState {
-  text?: string,
-  cursorPos?: ICursorPos,
+export interface MessageInputState {
+  text?: string;
+  cursorPos?: ICursorPos;
 }
 
 export interface ICursorPos {
@@ -21,17 +23,19 @@ export interface ICursorPos {
   end?: number,
 }
 
+type SetTextAction = {
+  getNewText: (currentStateText: string) => string;
+  type: CONSTANT_DISPATCH_TYPE.SET_TEXT;
+};
+
 export type MessageInputReducerAction =
-  | {
-    type: CONSTANT_DISPATCH_TYPE.SET_TEXT;
-    getNewText: (text: string) => void,
-  }
+  | SetTextAction
   | {
     type: CONSTANT_DISPATCH_TYPE.SET_CURSOR_POS;
     value: ICursorPos
   }
 
-const initState: IinitState = {
+const initialStateValue: MessageInputState = {
   text: '',
   cursorPos: {
     start: 0,
@@ -39,7 +43,23 @@ const initState: IinitState = {
   },
 };
 
-const reducer = (state:IinitState, action) => {
+
+/**
+ * Initializes the state. Empty if the message prop is falsy.
+ */
+const initState = (
+  message?: Message,
+): MessageInputState => {
+  return {
+    // mentioned_users,
+    text: message.text ?? '',
+  };
+}
+
+const messageInputReducer = (
+  state: MessageInputState, 
+  action: MessageInputReducerAction,
+) => {
   switch (action.type) {
     case CONSTANT_DISPATCH_TYPE.SET_TEXT:
       return { ...state, text: action?.getNewText(state.text) };
@@ -50,7 +70,7 @@ const reducer = (state:IinitState, action) => {
 };
 
 export const useMessageInputState = (props: UIMessageInputProps) => {
-  const [state, dispatch] = useReducer(reducer, initState);
+  const [state, dispatch] = useReducer(messageInputReducer, initialStateValue, initState);
   const { focus, textareaRef } = props;
 
   const {

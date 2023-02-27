@@ -7,7 +7,7 @@ import { useMessageInputContext } from '../../context/MessageInputContext';
 import { useComponentContext } from '../../context/ComponentContext';
 
 import type { EmojiMartData } from '@emoji-mart/data';
-
+import { SearchIndex } from 'emoji-mart';
 import type { TriggerSettings } from '../UIMessageInput/DefaultTriggerProvider';
 
 import type { CustomTrigger, DefaultStreamChatGenerics } from '../../types';
@@ -85,7 +85,7 @@ export type SuggestionListProps<
   }
 >;
 
-export type ChatAutoCompleteProps = {
+export type UIChatAutoCompleteProps = {
   /** Function to override the default submit handler on the underlying `textarea` component */
   handleSubmit?: (event: React.BaseSyntheticEvent) => void;
   /** Function to run on blur of the underlying `textarea` component */
@@ -110,23 +110,24 @@ const UnMemoizedChatAutoComplete = <
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
   V extends CustomTrigger = CustomTrigger
 >(
-  props: ChatAutoCompleteProps,
+  props: UIChatAutoCompleteProps,
 ) => {
   const {
     AutocompleteSuggestionItem: SuggestionItem,
     AutocompleteSuggestionList: SuggestionList,
   } = useComponentContext<StreamChatGenerics, V>('ChatAutoComplete');
-  const { t } = useTranslationContext('ChatAutoComplete');
+  const { t } = useTranslationContext('UIChatAutoComplete');
 
-  const messageInput = useMessageInputContext<StreamChatGenerics, V>('ChatAutoComplete');
-  const { cooldownRemaining, disabled, textareaRef: innerRef } = messageInput;
+  const messageInput = useMessageInputContext/*<StreamChatGenerics, V>*/('ChatAutoComplete');
+  const { disabled, textareaRef: innerRef } = messageInput;
 
   const placeholder = props.placeholder || t('Type your message');
 
   const emojiReplace = props.wordReplace
     ? (word: string) => props.wordReplace?.(word)
-    : (word: string) => {
-        const found = emojiIndex?.search(word) || [];
+    : async (word: string) => {
+        const found = (await SearchIndex.search(word)) ?? [];
+        console.log('found: ', found);
         const emoji = found
           .filter(Boolean)
           .slice(0, 10)
@@ -146,33 +147,33 @@ const UnMemoizedChatAutoComplete = <
 
   return (
     <AutoCompleteTextarea
-      additionalTextareaProps={messageInput.additionalTextareaProps}
-      aria-label={cooldownRemaining ? t('Slow Mode ON') : placeholder}
-      className='str-chat__textarea__textarea str-chat__message-textarea'
-      closeCommandsList={messageInput.closeCommandsList}
-      closeMentionsList={messageInput.closeMentionsList}
-      containerClassName='str-chat__textarea str-chat__message-textarea-react-host'
-      disabled={disabled || !!cooldownRemaining}
-      disableMentions={messageInput.disableMentions}
-      dropdownClassName='str-chat__emojisearch'
-      grow={messageInput.grow}
+      additionalTextareaProps={/*messageInput.additionalTextareaProps*/{}}
+      aria-label={placeholder ?? 'placeholder'}
+      className='uim-message-textarea'
+      closeCommandsList={() => {}/*messageInput.closeCommandsList*/}
+      closeMentionsList={() => {}/*messageInput.closeMentionsList*/}
+      containerClassName='uim-textarea uim-message-textarea-react-host'
+      disabled={disabled}
+      disableMentions={false/*messageInput.disableMentions*/}
+      dropdownClassName='uim-emojisearch'
+      grow={false/*messageInput.grow*/}
       handleSubmit={props.handleSubmit || messageInput.handleSubmit}
       innerRef={updateInnerRef}
-      itemClassName='str-chat__emojisearch__item'
-      listClassName='str-chat__emojisearch__list'
+      itemClassName='uim-emojisearch__item'
+      listClassName='uim-emojisearch__list'
       loadingComponent={LoadingIndicator}
-      maxRows={messageInput.maxRows}
+      maxRows={3/*messageInput.maxRows*/}
       minChar={0}
       onBlur={props.onBlur}
       onChange={props.onChange || messageInput.handleChange}
       onFocus={props.onFocus}
-      onPaste={props.onPaste || messageInput.onPaste}
-      placeholder={cooldownRemaining ? t('Slow Mode ON') : placeholder}
+      onPaste={props.onPaste/* TODO || messageInput.onPaste*/}
+      placeholder={placeholder}
       replaceWord={emojiReplace}
-      rows={props.rows || 1}
-      shouldSubmit={messageInput.shouldSubmit}
-      showCommandsList={messageInput.showCommandsList}
-      showMentionsList={messageInput.showMentionsList}
+      rows={props.rows || 3}
+      shouldSubmit={() => false/*messageInput.shouldSubmit*/}
+      showCommandsList={false/*messageInput.showCommandsList*/}
+      showMentionsList={false/*messageInput.showMentionsList*/}
       SuggestionItem={SuggestionItem}
       SuggestionList={SuggestionList}
       trigger={messageInput.autocompleteTriggers || {}}
@@ -181,6 +182,6 @@ const UnMemoizedChatAutoComplete = <
   );
 };
 
-export const ChatAutoComplete = React.memo(
+export const UIChatAutoComplete = React.memo(
   UnMemoizedChatAutoComplete,
 ) as typeof UnMemoizedChatAutoComplete;

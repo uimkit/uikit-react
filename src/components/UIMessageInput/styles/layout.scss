@@ -18,18 +18,6 @@
       border-radius: 0px;
       overflow: hidden;
       padding: 10px;
-      .input-visibility-content {
-        display: none;
-        word-break: break-all;
-        visibility: hidden;
-        max-width: -webkit-fill-available;
-        font-family: PingFangSC-Medium;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 17px;
-        padding: 1px 2px;
-      }
       textarea {
         /*position: absolute;
         top: 0;
@@ -61,7 +49,8 @@
   &-box {
     flex: 1;
     display: flex;
-    align-items: center;
+    min-height: 120px;
+    max-height: 400px;
   }
 }
 
@@ -296,5 +285,60 @@ ul li {
   padding: 0 10px;
   .icon-send {
     transform: rotate(90deg);
+  }
+}
+
+
+
+
+
+
+.uim-emojisearch {
+  bottom: calc(100%);
+  left: 0;
+  width: calc(100% - 20px);
+  position: absolute;
+  background: var(--white95);
+  box-shadow: 0 0 1px 0 var(--black30), 0 0 6px 0 var(--black10);
+  z-index: 10001;
+  border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+  margin: 0 var(--xs-m);
+  max-height: 360px;
+  overflow-y: auto;
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+  }
+}
+
+
+.uim-message-textarea-react-host {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.uim-message-textarea {
+  width: 100%;
+  display: flex;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  font-family: PingFangSC;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 0;
+  resize: none;
+  border: none;
+  background: none;
+  &:focus, &:active{
+    border: none;
+    outline: none;
   }
 }
