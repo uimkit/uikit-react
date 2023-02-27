@@ -5,9 +5,9 @@
   "typings": "dist/index.d.ts",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
-  "style": "dist/index.css",
+  "style": "dist/index.cjs.css",
   "license": "MIT",
-  "jsdelivr": "./dist/browser.full-bundle.min.js",
+  "jsdelivr": "./dist/browser/browser.full-bundle.min.js",
   "keywords": [
     "chat",
     "messaging",
@@ -17,10 +17,12 @@
     "uim"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf dist && mkdir -p dist/assets && yarn --silent copy-version && yarn types && yarn bundle", 
+    "bundle": "rollup -c",
     "start": "tsc --watch",
     "dev": "pnpm rollup -c -w",
-    "types": "tsc --strict"
+    "types": "tsc --strict",
+    "copy-version": "echo '\u001b[34mℹ\u001b[0m Copying Version to \u001b[34msrc/version.ts\u001b[0m' && PACKAGE_VERSION=$(node -pe 'require(`./package.json`).version') && PACKAGE_STRING=\"'$PACKAGE_VERSION'\" && echo 'export const version = '$PACKAGE_STRING';' > ./src/version.ts && echo '\u001b[32m✓\u001b[0m Done Copying Version'"
   },
   "files": [
     "dist",
@@ -30,6 +32,7 @@
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@popperjs/core": "^2.11.6",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
@@ -64,7 +67,6 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^8.5.0",
     "@rollup/plugin-url": "^7.0.0",
-    "@types/emoji-mart": "^3.0.9",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/react-redux": "^7.1.25",

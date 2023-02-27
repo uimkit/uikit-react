@@ -1,7 +1,6 @@
 import React, {
   useCallback,
   ChangeEventHandler,
-  MutableRefObject,
   useEffect,
   useRef,
 } from 'react';
@@ -195,16 +194,6 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
     [textareaRef],
   );
 
-  const setCursorPos = useCallback(
-    (cursorPos: ICursorPos) => {
-      dispatch({
-        type: CONSTANT_DISPATCH_TYPE.SET_CURSOR_POS,
-        value: cursorPos,
-      });
-    },
-    [textareaRef],
-  );
-
   return {
     textareaRef,
     handleChange,
@@ -213,6 +202,5 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
     handlePasete,
     insertText,
     setText,
-    setCursorPos,
   };
 };

@@ -14,7 +14,6 @@ export function UIMessageInputDefault(): React.ReactElement {
     textareaRef,
     focus,
     setText,
-    setCursorPos,
   } = useMessageInputContext('UIMessageInputDefault');
   
   const {
@@ -46,10 +45,10 @@ export function UIMessageInputDefault(): React.ReactElement {
     setFocused(true);
   };
   const handleBlur = (e) => {
-    setCursorPos({
+    /*setCursorPos({
       start: e.target.selectionStart,
       end: e.target.selectionEnd,
-    });
+    });*/
     setFocused(false);
   };
 

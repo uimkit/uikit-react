@@ -51,7 +51,7 @@ export default [
       // HACK: removes formidable's attempt to overwrite `require`
       replace({
         patterns: [
-          // 这玩意是谁依赖的
+          // 这玩意是 webpubsub 依赖的
           {
             // regexp match with resolved path
             match: /formidable(\/|\\)lib/,

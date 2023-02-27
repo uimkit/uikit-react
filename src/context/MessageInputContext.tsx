@@ -33,7 +33,6 @@ export type MessageInputContextValue<
   showNumber?: number;
   MoreIcon?: React.ReactElement;
   handlePasete?: (e: ClipboardEvent) => void;
-  setCursorPos?: (e: any/*ICursorPos*/) => void;
   pluginConfig?: PluginConfigProps;
 
   autocompleteTriggers?: TriggerSettings<DefaultStreamChatGenerics, V>;

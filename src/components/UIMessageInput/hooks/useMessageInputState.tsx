@@ -14,7 +14,6 @@ export interface IbaseStateProps {
 
 export interface MessageInputState {
   text?: string;
-  cursorPos?: ICursorPos;
 }
 
 export interface ICursorPos {
@@ -28,32 +27,21 @@ type SetTextAction = {
 };
 
 export type MessageInputReducerAction =
-  | SetTextAction
-  | {
-    type: CONSTANT_DISPATCH_TYPE.SET_CURSOR_POS;
-    value: ICursorPos
-  }
-
-const initialStateValue: MessageInputState = {
-  text: '',
-  cursorPos: {
-    start: 0,
-    end: 0,
-  },
-};
+  | SetTextAction;
 
 
 /**
  * Initializes the state. Empty if the message prop is falsy.
  */
 const initState = (
-  message?: Message,
+  message?: MessageInputState,
 ): MessageInputState => {
   return {
     // mentioned_users,
     text: message.text ?? '',
   };
 }
+
 
 const messageInputReducer = (
   state: MessageInputState, 
@@ -62,13 +50,15 @@ const messageInputReducer = (
   switch (action.type) {
     case CONSTANT_DISPATCH_TYPE.SET_TEXT:
       return { ...state, text: action?.getNewText(state.text) };
-    case CONSTANT_DISPATCH_TYPE.SET_CURSOR_POS:
-      return { ...state, cursorPos: action?.value };
     default: return state;
   }
 };
 
 export const useMessageInputState = (props: UIMessageInputProps) => {
+  const initialStateValue: MessageInputState = {
+    text: '',
+  };
+  
   const [state, dispatch] = useReducer(
     messageInputReducer as Reducer<
       MessageInputState,
@@ -94,7 +84,6 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
     handlePasete,
     insertText,
     setText,
-    setCursorPos,
   } = useMessageInputText({
     state,
     dispatch,
@@ -128,6 +117,5 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
     insertText,
     setText,
     focus,
-    setCursorPos,
   };
 };

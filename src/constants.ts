@@ -23,7 +23,6 @@ export enum CONSTANT_DISPATCH_TYPE {
   SET_TEXT = 'setText',
   SET_HIGH_LIGHTED_MESSAGE_ID ='setHightLightedMessageID',
   OPERATE_MESSAGE = 'operateMessage',
-  SET_CURSOR_POS = 'setCursorPos',
   SET_AUDIO_SOURCE = 'setAudioSource',
   SET_VIDEO_SOURCE = 'setVideoSource',
   UPDATE_UPLOAD_PENDDING_MESSAGE_LIST = 'updateUploadPenddingMessageList'

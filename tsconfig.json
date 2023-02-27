@@ -18,7 +18,7 @@
     "noStrictGenericChecks": true, // 是否禁用严格的泛型检查
     "noUnusedLocals": false,//是否检查未使用的局部变量
     "noUnusedParameters": false, //是否检查未使用的参数
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "strictNullChecks": false, // 是否启用严格的空检查
     "resolveJsonModule": true,//是否解析 JSON 模块
     "allowSyntheticDefaultImports": true,
@@ -26,9 +26,9 @@
     "noImplicitAny": false,// 不允许隐式的any类型
     "allowJs": true,
     "checkJs": false,
-    "outDir": "./dist",
-    "declaration": true,
+    "outDir": "./dist/cjs",
     "declarationDir": "./dist",
+    "declaration": true,
     "declarationMap": true,
     "types": []
   },

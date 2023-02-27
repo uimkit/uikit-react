@@ -4,7 +4,6 @@ import { useCreateMessageInputContext } from './hooks/useCreateMessageInputConte
 import { useMessageInputState } from './hooks/useMessageInputState';
 import { EmptyStateIndicator } from '../EmptyStateIndicator';
 import { InputQuoteDefault } from './InputQuoteDefault';
-import { UIMessageInputDefault } from './UIMessageInputDefault';
 import { InputPluginsDefault } from './InputPluginsDefault';
 import { ConversationType } from '../../types';
 import { DefaultTriggerProvider } from './DefaultTriggerProvider';

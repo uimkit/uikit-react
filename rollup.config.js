@@ -15,6 +15,7 @@ import url from '@rollup/plugin-url';
 
 import pkg from './package.json';
 
+console.warn('rollup');
 
 const baseConfig = {
   cache: false,
@@ -57,19 +58,11 @@ const basePlugins = ({ useBrowserResolve = false }) => [
     'process.env.NODE_ENV': JSON.stringify('production'),
   }),
   // Remove peer-dependencies from final bundle
-  postcss({
-    extract: true,
-    minimize: true,
-    plugins: [
-      autoprefixer(),
-    ],
-  }),
   external(),
   // image(),
   resolve({
     browser: useBrowserResolve,
   }),
-  typescript(),
   babel({
     babelHelpers: 'runtime',
     exclude: 'node_modules/**',
@@ -122,8 +115,17 @@ const basePlugins = ({ useBrowserResolve = false }) => [
     watch: process.env.ROLLUP_WATCH,
   }),
   */
+  postcss({
+    extract: true,
+    minimize: true,
+    plugins: [
+      autoprefixer(),
+    ],
+  }),
   // Json to ES modules conversion
   json({ compact: true }),
+  typescript(),
+  terser(),
   process.env.BUNDLE_SIZE ? visualizer() : null,
 ];
 
@@ -132,8 +134,20 @@ const normalBundle = {
   external: externalDependencies,
   output: [
     {
-      file: pkg.main,
+      exports: 'auto',
+      // preserveModules: true,
+      preserveModulesRoot: './src',
+      file: './dist/cjs/index.js',
+      // file: pkg.main,
       format: 'cjs',
+      sourcemap: true,
+    },
+    {
+      exports: 'auto',
+      // preserveModules: true,
+      preserveModulesRoot: './src',
+      file: './dist/esm/index.js',
+      format: 'esm',
       sourcemap: true,
     },
   ],
@@ -157,11 +171,11 @@ const fullBrowserBundle = ({ min } = { min: false }) => ({
   ],
   plugins: [
     ...basePlugins({ useBrowserResolve: true }),
-    {
+    /*{
       load: (id) => (id.match(/.s?css$/) ? '' : null),
       name: 'ignore-css-and-scss',
       resolveId: (importee) => (importee.match(/.s?css$/) ? importee : null),
-    },
+    },*/
     // builtins(),
     globals({
       buffer: false,
@@ -170,12 +184,12 @@ const fullBrowserBundle = ({ min } = { min: false }) => ({
       globals: false,
       process: true,
     }),
-    // To work with globals rollup expects them to be namespaced, which is not the case with stream-chat.
-    // This injects some code to define stream-chat globals as expected by rollup.
+    // To work with globals rollup expects them to be namespaced, which is not the case with UIM.
+    // This injects some code to define UIM globals as expected by rollup.
     /* prepend(
-      'window.UIKit.UIKit=UIKit;window.UIKit.logChatPromiseExecution=logChatPromiseExecution;window.StreamChat.Channel=Channel;window.ICAL=window.ICAL||{};',
+      'window.UIKit.UIKit=UIKit;window.UIKit.logChatPromiseExecution=logChatPromiseExecution;window.UIM.Channel=Channel;window.ICAL=window.ICAL||{};',
     ),*/
-    min ? terser() : null,
+    // min ? terser() : null,
   ],
 });
 
