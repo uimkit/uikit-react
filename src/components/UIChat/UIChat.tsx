@@ -73,11 +73,9 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
   const { client } = useUIKit();
 
   const messageListRef = useRef(null);
-  const textareaRef = useRef<HTMLTextAreaElement>();
   const chatStateContextValue = useCreateChatStateContext({
     client,
     messageListRef,
-    textareaRef,
     messageConfig,
     UIMessageInputConfig,
     UIMessageListConfig,
