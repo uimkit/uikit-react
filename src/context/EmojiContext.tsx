@@ -46,15 +46,9 @@ export type EmojiContextValue = {
   EmojiPicker?: React.ComponentType<any>;
 };
 
-const DefaultEmoji = React.lazy(async () => {
-  const emoji = await import('@emoji-mart/react');
-  return { default: emoji.default }; // TODO 这里应该是要得到 Emoji 渲染组件
-});
+const DefaultEmoji = React.lazy(() => import('./DefaultEmoji'));
 
-const DefaultEmojiPicker = React.lazy(async () => {
-  const emojiPicker = await import('@emoji-mart/react');
-  return { default: emojiPicker.default };
-});
+const DefaultEmojiPicker = React.lazy(() => import('./DefaultEmojiPicker'));
 
 export const EmojiContext = React.createContext<EmojiContextValue | undefined>(undefined);
 

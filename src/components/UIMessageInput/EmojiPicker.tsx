@@ -6,6 +6,13 @@ import data, { Emoji } from '@emoji-mart/data'
 import { useEmojiContext } from '../../context/EmojiContext';
 
 
+import zh from '@emoji-mart/data/i18n/zh.json';
+import en from '@emoji-mart/data/i18n/en.json';
+const i18ns = {
+  zh,
+  en,
+}
+
 export type EmojiPickerProps = {
 
 };
@@ -18,9 +25,11 @@ export function EmojiPicker(props: EmojiPickerProps): React.ReactElement {
 
   useEffect(() => {
     (async function() {
-      const i18n = await import(`@emoji-mart/data/i18n/${userLanguage}.json`);
-      setI18n(i18n);
-      console.log('设置表情 i18n: ', i18n);
+      const i18n = i18ns[userLanguage];
+      if (i18n) {
+        setI18n(i18n);
+        console.log('设置表情 i18n: ', i18n);
+      }
     })();
   }, [userLanguage]);
 
