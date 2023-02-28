@@ -6,7 +6,6 @@ import React, {
 import { Icon, IconTypes } from '../Icon';
 import { Popup } from '../Popup';
 import { usePluginsElement } from './hooks';
-
 import './styles/index.scss';
 
 export interface PluginsProps {

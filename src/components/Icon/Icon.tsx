@@ -1,7 +1,7 @@
 import React from 'react';
-import './styles/index.scss';
 import { IconTypes } from './type';
 import { ICON_CONFIG } from './config';
+import './styles/index.scss';
 
 const changeTypeToIconComponent = (type:IconTypes) => {
   const src = ICON_CONFIG[type].url || '';

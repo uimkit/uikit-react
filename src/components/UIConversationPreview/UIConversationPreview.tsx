@@ -6,6 +6,7 @@ import { getDisplayImage, getDisplayMessage, getDisplayTime, getDisplayTitle } f
 import { useIMAccount } from '../../hooks/useIMAccount';
 import { AvatarProps } from '../Avatar';
 
+import './styles/index.scss';
 
 export interface UIConversationPreviewComponentProps extends UIConversationPreviewProps {
   /** If the component's Conversation is the active (selected) Conversation */

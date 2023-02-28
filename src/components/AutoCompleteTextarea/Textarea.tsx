@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Textarea from 'react-textarea-autosize'; // 暂时不需要用到，不需要自增(grow) 内容高度
+import React, { Ref } from 'react';
+import PropTypes, { any } from 'prop-types';
+// import Textarea from 'react-textarea-autosize'; // 暂时不需要用到，不需要自增(grow) 内容高度
 import getCaretCoordinates from 'textarea-caret';
 import { isValidElementType } from 'react-is';
 import clsx from 'clsx';
@@ -16,7 +16,12 @@ import {
 import { UICommandItem } from '../UICommandItem/UICommandItem';
 import { UIUserItem } from '../UIUserItem';
 
-export class ReactTextareaAutocomplete extends React.Component {
+export class ReactTextareaAutocomplete extends React.Component<any, any> {
+  private textareaRef: any;
+  private dropdownRef: any;
+
+  static propTypes: any;
+
   static defaultProps = {
     closeOnClickOutside: true,
     maxRows: 10,
@@ -125,7 +130,7 @@ export class ReactTextareaAutocomplete extends React.Component {
     }
   };
 
-  _onSpace = () => {
+  _onSpace = (event: any) => {
     if (!this.props.replaceWord || !this.textareaRef) return;
 
     // don't change characters if the element doesn't have focus
@@ -237,7 +242,7 @@ export class ReactTextareaAutocomplete extends React.Component {
     if (showMentionsList) closeMentionsList();
   };
 
-  _getItemOnSelect = (paramTrigger) => {
+  _getItemOnSelect = (paramTrigger?: any) => {
     const { currentTrigger: stateTrigger } = this.state;
     const triggerSettings = this._getCurrentTriggerSettings(paramTrigger);
 
@@ -262,7 +267,7 @@ export class ReactTextareaAutocomplete extends React.Component {
     };
   };
 
-  _getTextToReplace = (paramTrigger) => {
+  _getTextToReplace = (paramTrigger?: any) => {
     const { actualToken, currentTrigger: stateTrigger } = this.state;
     const triggerSettings = this._getCurrentTriggerSettings(paramTrigger);
 
@@ -323,7 +328,7 @@ export class ReactTextareaAutocomplete extends React.Component {
     };
   };
 
-  _getCurrentTriggerSettings = (paramTrigger) => {
+  _getCurrentTriggerSettings = (paramTrigger?: any) => {
     const { currentTrigger: stateTrigger } = this.state;
 
     const currentTrigger = paramTrigger || stateTrigger;
@@ -377,7 +382,7 @@ export class ReactTextareaAutocomplete extends React.Component {
     });
   };
 
-  _getSuggestions = (paramTrigger) => {
+  _getSuggestions = (paramTrigger?: any) => {
     const { currentTrigger: stateTrigger, data } = this.state;
 
     const currentTrigger = paramTrigger || stateTrigger;

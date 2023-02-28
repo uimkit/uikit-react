@@ -1,12 +1,11 @@
 import React, { PropsWithChildren, useRef, useState } from 'react';
-import './styles/index.scss';
-
 import { Plugins, PluginsProps } from '../Plugins';
 import { Icon, IconTypes } from '../Icon';
 import { useChatStateContext, useUIMessageContext } from '../../context';
 import { useMessagePluginElement, useMessageHandler } from './hooks';
 import { MESSAGE_FLOW, MESSAGE_STATUS } from '../../constants';
 import { MessageType } from '../../types';
+import './styles/index.scss';
 
 enum PluginsNameEnum {
   quote = 'quote',

@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react';
 import { Conversation } from '../../types';
 import { UIChatHeaderDefaultProps, UIChatHeaderDefault } from './UIChatHeaderDefault';
+import { useComponentContext, useUIKit } from '../../context';
 
 import './styles/index.scss';
-import { useComponentContext, useUIKit } from '../../context';
 
 export interface UIChatHeaderProps {
   title?: string,

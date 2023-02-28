@@ -3,7 +3,7 @@ import { APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit
 import UIClient from '@uimkit/uim-js';
 import { useAuthok } from '@authok/authok-react';
 import { AccountList } from './components/AccountList';
-import '@uimkit/uikit-react/dist/cjs/index.css';
+import '@uimkit/uikit-react/dist/esm/index.css';
 
 export default function Chat() {
   const { getAccessTokenSilently } = useAuthok();

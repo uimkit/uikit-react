@@ -9,7 +9,6 @@ import {
   MessageContextProps,
 } from '../UIMessage';
 import { UIChatHeaderDefaultProps, UIChatHeader as UIChatHeaderElement } from '../UIChatHeader';
-import './styles/index.scss';
 import { chatReducer, ChatStateReducer, initialState } from './ChatState';
 import useCreateChatStateContext from './hooks/useCreateChatStateContext';
 import { ChatActionContextValue, ChatActionProvider, ChatStateContextProvider, useUIKit } from '../../context';
@@ -21,7 +20,7 @@ import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/Emo
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
 import { EmojiMartData } from '@emoji-mart/data';
 import defaultEmojiData from '@emoji-mart/data';
-
+import './styles/index.scss';
 
 export interface UIChatProps {
   EmptyPlaceholder?: React.ReactElement;

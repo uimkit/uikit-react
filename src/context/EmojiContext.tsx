@@ -46,9 +46,11 @@ export type EmojiContextValue = {
   EmojiPicker?: React.ComponentType<any>;
 };
 
-const DefaultEmoji = React.lazy(() => import('./DefaultEmoji'));
+import DefaultEmoji from './DefaultEmoji';
+import DefaultEmojiPicker from './DefaultEmojiPicker';
 
-const DefaultEmojiPicker = React.lazy(() => import('./DefaultEmojiPicker'));
+// const DefaultEmoji = React.lazy(() => import('./DefaultEmoji'));
+// const DefaultEmojiPicker = React.lazy(() => import('./DefaultEmojiPicker'));
 
 export const EmojiContext = React.createContext<EmojiContextValue | undefined>(undefined);
 

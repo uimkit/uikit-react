@@ -5,11 +5,11 @@ import { UnknowPorps, useChatStateContext, useComponentContext } from '../../con
 
 import { messageShowType, UIMessageContextProvider } from '../../context/UIMessageContext';
 import { useMessageHandler } from './hooks';
-
-import './styles/index.scss';
 import { UIMessageDefault } from './UIMessageDefault';
 import { MessagePlugins as MessagePluginsDefault, MessagePluginsProps } from './MessagePlugins';
 import { MessageContext as MessageContextDefault } from './MessageContext';
+
+import './styles/index.scss';
 
 interface UIMessageBasicProps {
   className?: string,

@@ -3,7 +3,9 @@ import { useUIKit } from "../../context";
 import { UIConversationListView } from "./UIConversationListView";
 import { UIConversationListHeader } from "../UIConversationListHeader";
 import { useConversationList } from "../../hooks/useConversationList";
+
 import './styles/index.scss';
+
 
 export function UIConversationList() {
   const { activeProfile, activeConversation, setActiveConversation } = useUIKit();

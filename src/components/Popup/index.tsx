@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-
 import './styles/index.scss';
 
 interface PopupProps {

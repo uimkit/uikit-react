@@ -1,6 +1,4 @@
 import React, { PropsWithChildren, useCallback } from 'react';
-import './styles/index.scss';
-
 import { Message } from '../../types';
 import { useChatActionContext } from '../../context';
 import { Icon, IconTypes } from '../Icon';

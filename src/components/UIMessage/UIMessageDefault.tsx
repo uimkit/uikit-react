@@ -3,8 +3,6 @@ import type { UIMessageProps } from './UIMessage';
 
 import { MessageBubble } from './MessageBubble';
 import { MessageTip } from './MessageTip';
-
-import './styles/index.scss';
 import { messageShowType, useComponentContext, useUIMessageContext } from '../../context';
 import { MessageSystem } from './MessageSystem';
 import { MessageRevoke } from './MessageRevoke';

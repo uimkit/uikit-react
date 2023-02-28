@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useContext } from 'react';
-import { UIChatHeaderDefaultProps } from '../components';
+import { UIChatHeaderDefaultProps } from '../components/UIChatHeader';
 import { MessageContextProps, UIMessageProps } from '../components/UIMessage';
 import { EmptyStateIndicatorProps } from '../components/EmptyStateIndicator';
 import { UIConversationListHeaderDefaultProps } from '../components/UIConversationListHeader';

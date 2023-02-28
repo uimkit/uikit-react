@@ -5,6 +5,9 @@ import { AvatarProps } from '../Avatar';
 import { UIKitContextProps, useUIKit } from '../../context';
 import { getDisplayTitle } from './utils';
 
+import './styles/index.scss';
+
+
 export interface UIContactPreviewComponentProps extends UIContactPreviewProps{
   /** If the component's Contact is the active (selected) Contact */
   active?: boolean,

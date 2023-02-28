@@ -1,6 +1,4 @@
 import React, { useRef } from 'react';
-import './styles/index.scss';
-
 import { EmojiPicker } from './EmojiPicker';
 import { Plugins } from '../Plugins';
 import { useUploadElement } from './hooks/useUploadElement';

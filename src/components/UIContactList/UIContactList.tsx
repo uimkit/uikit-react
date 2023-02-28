@@ -4,7 +4,9 @@ import { useContactList } from "../../hooks/useContactList";
 import { EmptyStateIndicator } from "../EmptyStateIndicator";
 import { InfiniteScroll } from "../InfiniteScrollPaginator";
 import { UIContactPreview, UIContactPreviewComponentProps } from "../UIContactPreview";
+
 import './styles/index.scss';
+
 
 export interface UIContactListProps {
   Preview?: React.ComponentType<UIContactPreviewComponentProps>,

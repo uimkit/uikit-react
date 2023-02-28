@@ -12,14 +12,14 @@ import visualizer from 'rollup-plugin-visualizer';
 import autoprefixer from 'autoprefixer';
 import external from 'rollup-plugin-peer-deps-external';
 import url from '@rollup/plugin-url';
-
+import image from '@rollup/plugin-image';
 import pkg from './package.json';
 
-console.warn('rollup');
+process.env.NODE_ENV = 'production';
 
 const baseConfig = {
   cache: false,
-  inlineDynamicImports: true,
+  // inlineDynamicImports: true,
   input: 'src/index.ts',
   watch: {
     chokidar: false,
@@ -58,45 +58,17 @@ const basePlugins = ({ useBrowserResolve = false }) => [
   }),
   // Remove peer-dependencies from final bundle
   external(),
-  // image(),
+  image(),
   resolve({
     browser: useBrowserResolve,
   }),
+  typescript(),
   babel({
-    babelHelpers: 'runtime',
+    babelHelpers: 'runtime', // 动态引入，以减少转换后代码的体积，需要在运行时提供这些辅助函数
+    // babelHelpers: 'bundled', // 将所有辅助函数打包到一个单独文件
+    // babelHelpers: 'inline',
     exclude: 'node_modules/**',
-    extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
-    env: {
-      production: {
-        presets: [
-          [
-            '@babel/env',
-            {
-              modules: false,
-            },
-          ],
-        ],
-      },
-      test: {
-        plugins: ['transform-es2015-modules-commonjs'],
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              modules: 'commonjs',
-            },
-          ],
-        ],
-      },
-    },
-    ignore: ['src/@types/*'],
-    plugins: [
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-transform-runtime',
-      'babel-plugin-dynamic-import-node',
-    ],
-    presets: ['@babel/preset-typescript', '@babel/env', '@babel/preset-react'],
-
+    // extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
   }),
   commonjs(),
   // import files as data-uris or es modules
@@ -123,8 +95,7 @@ const basePlugins = ({ useBrowserResolve = false }) => [
   }),
   // Json to ES modules conversion
   json({ compact: true }),
-  typescript(),
-  terser(),
+  // terser(),
   process.env.BUNDLE_SIZE ? visualizer() : null,
 ];
 
@@ -134,18 +105,19 @@ const normalBundle = {
   output: [
     {
       exports: 'auto',
-      // preserveModules: true,
+      preserveModules: true,
       preserveModulesRoot: './src',
-      file: './dist/cjs/index.js',
+      dir: './dist/cjs',
       // file: pkg.main,
       format: 'cjs',
       sourcemap: true,
     },
     {
       exports: 'auto',
-      // preserveModules: true,
+      preserveModules: true,
       preserveModulesRoot: './src',
-      file: './dist/esm/index.js',
+      dir: './dist/esm',
+      // file: pkg.module,
       format: 'esm',
       sourcemap: true,
     },
@@ -188,7 +160,7 @@ const fullBrowserBundle = ({ min } = { min: false }) => ({
     /* prepend(
       'window.UIKit.UIKit=UIKit;window.UIKit.logChatPromiseExecution=logChatPromiseExecution;window.UIM.Channel=Channel;window.ICAL=window.ICAL||{};',
     ),*/
-    // min ? terser() : null,
+    min ? terser() : null,
   ],
 });
 

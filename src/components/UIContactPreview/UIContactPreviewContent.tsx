@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { UIContactPreviewComponentProps } from './UIContactPreview';
 import { Avatar as DefaultAvatar } from '../Avatar/index';
-import './styles/index.scss';
 import { Icon, IconTypes } from '../Icon';
 import { Plugins } from '../Plugins';
 import { useUIKit } from '../../context';

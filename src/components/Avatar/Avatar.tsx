@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Icon, IconTypes } from '../Icon';
-import './styles/index.scss';
 import { getWholeChar } from '../../utils';
+
+import './styles/index.scss';
 
 export interface AvatarProps {
   image?: string | null,

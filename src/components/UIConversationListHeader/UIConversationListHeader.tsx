@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import { UIConversationListHeaderDefaultProps, UIConversationListHeaderDefault } from './UIConversationListHeaderDefault';
+import { useComponentContext } from '../../context';
 
 import './styles/index.scss';
-import { useComponentContext } from '../../context';
 
 export interface UIConversationListHeaderProps {
   UIConversationListHeader?: React.ComponentType<UIConversationListHeaderDefaultProps>,

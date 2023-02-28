@@ -9,10 +9,9 @@ import { ConversationType } from '../../types';
 import { DefaultTriggerProvider } from './DefaultTriggerProvider';
 
 import clsx from 'clsx';
-import './styles/index.scss';
 import { UIMessageInputFlat } from './UIMessageInputFlat';
 
-
+import './styles/index.scss';
 
 
 export interface PluginConfigProps {

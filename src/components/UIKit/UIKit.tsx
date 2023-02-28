@@ -10,11 +10,10 @@ import { SupportedTranslations, TranslationProvider, UIKitProvider, useUIKit } f
 import { Profile, APIClient, Conversation, Contact } from '../../types';
 import { UIConversationList } from '../UIConversationList';
 import { Toast } from '../Toast';
-
-import './styles/index.scss';
 import { useTranslators } from './hooks/useTranslators';
 import { Uimi18n } from '../../i18n';
 
+import './styles/index.scss';
 
 const appThunkContext: AppThunkContext = {
 	// 全局的错误处理

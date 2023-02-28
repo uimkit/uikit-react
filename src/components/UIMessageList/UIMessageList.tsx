@@ -7,13 +7,12 @@ import {
   useUIKit,
 } from '../../context';
 import useMessageListElement from './hooks/useMessageListElement';
-
 import { InfiniteScroll, InfiniteScrollProps } from '../InfiniteScrollPaginator';
-
 import { EmptyStateIndicator as DefaultEmptyStateIndicator } from '../EmptyStateIndicator';
+import { useConversationMessageList } from '../../hooks';
 
 import './styles/index.scss';
-import { useConversationMessageList } from '../../hooks';
+
 
 export interface MessageListProps extends InfiniteScrollProps {
   className?: string,
