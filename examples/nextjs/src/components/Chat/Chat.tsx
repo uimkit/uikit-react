@@ -1,14 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react/dist/esm/index';
-import UIClient from '@uimkit/uim-js';
-import { useAuthok } from '@authok/authok-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 
-export function Chat() {
-  const { getAccessTokenSilently } = useAuthok();
-
+export function Chat({ accessToken }) {
   const [client, setClient] = useState<APIClient | undefined>();
   
   const [activeAccount, setActiveAccount] = useState<IMAccount | undefined>(undefined);
@@ -29,11 +25,13 @@ export function Chat() {
 
   useEffect(() => {
     (async function() {
-      const accessToken = await getAccessTokenSilently();
-      const client = new UIClient(accessToken);
+      const UIMClient = (await import('@uimkit/uim-js')).default;
+      console.log('UIMClient: ', UIMClient);
+
+      const client = new UIMClient(accessToken);
       setClient(client as unknown as APIClient);
     })();
-  }, [getAccessTokenSilently]);
+  }, [accessToken]);
 
   return client ? (
     <UIKit client={client} activeProfile={activeAccount}>
