@@ -30,8 +30,7 @@ const baseConfig = {
 const externalDependencies = [
   /@babel/,
   /dayjs/,
-  /emoji-mart/,
-  'emoji-regex',
+  // /emoji-mart/,
   'react', 
   'date-fns', 
   'tslib',

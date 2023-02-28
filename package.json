@@ -2,9 +2,9 @@
   "name": "@uimkit/uikit-react",
   "version": "1.0.0",
   "source": "src/index.ts",
-  "typings": "dist/index.d.ts",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.js",
+  "typings": "dist/cjs/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "style": "dist/index.cjs.css",
   "license": "MIT",
   "jsdelivr": "./dist/browser/browser.full-bundle.min.js",
@@ -17,12 +17,12 @@
     "uim"
   ],
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist/assets && yarn --silent copy-version && yarn types && yarn bundle", 
+    "build": "rm -rf dist && mkdir -p dist/assets && yarn --silent copy-version && yarn bundle",
     "bundle": "rollup -c",
     "start": "tsc --watch",
     "dev": "pnpm rollup -c -w",
-    "types": "tsc --strict",
-    "copy-version": "echo '\u001b[34mℹ\u001b[0m Copying Version to \u001b[34msrc/version.ts\u001b[0m' && PACKAGE_VERSION=$(node -pe 'require(`./package.json`).version') && PACKAGE_STRING=\"'$PACKAGE_VERSION'\" && echo 'export const version = '$PACKAGE_STRING';' > ./src/version.ts && echo '\u001b[32m✓\u001b[0m Done Copying Version'"
+    "copy-version": "echo '\u001b[34mℹ\u001b[0m Copying Version to \u001b[34msrc/version.ts\u001b[0m' && PACKAGE_VERSION=$(node -pe 'require(`./package.json`).version') && PACKAGE_STRING=\"'$PACKAGE_VERSION'\" && echo 'export const version = '$PACKAGE_STRING';' > ./src/version.ts && echo '\u001b[32m✓\u001b[0m Done Copying Version'",
+    "build-translations": "i18next --config i18next-parser.config.js"
   },
   "files": [
     "dist",
@@ -78,6 +78,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
+    "i18next-parser": "^7.7.0",
     "moment": "^2.29.4",
     "postcss": "^8.4.20",
     "postcss-flexbugs-fixes": "^5.0.2",

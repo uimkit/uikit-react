@@ -26,7 +26,6 @@
     "noImplicitAny": false,// 不允许隐式的any类型
     "allowJs": true,
     "checkJs": false,
-    "outDir": "./dist/cjs",
     "declarationDir": "./dist",
     "declaration": true,
     "declarationMap": true,
