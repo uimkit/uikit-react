@@ -55,7 +55,9 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
 export interface UIKitProps {
   client: APIClient;
+  // 当前活跃账户
   activeProfile?: Profile;
+  // 当前活跃会话
   activeConversation?: Conversation;
   activeContact?: Contact;
   /** Sets the default fallback language for UI component translation, defaults to 'en' for English */
