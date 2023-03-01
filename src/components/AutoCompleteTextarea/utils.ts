@@ -40,7 +40,7 @@ export const triggerPropsCheck = ({ trigger }) => {
     }
 
     // $FlowFixMe
-    const triggerSetting = settings;
+    const triggerSetting = settings as any;
 
     const { callback, component, dataProvider, output } = triggerSetting;
 

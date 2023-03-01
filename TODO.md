@@ -64,3 +64,17 @@ SCSS内嵌, 用 postcss 进行预处理压缩合并
 
 碰到问题
 ### @babel/runtime 插入到 esm 文件会导致浏览器报错
+
+
+
+### ESM packages need to be imported
+参考: https://nextjs.org/docs/messages/import-esm-externals
+#### 错误出现原因
+Packages in node_modules that are published as EcmaScript Module, need to be imported via import ... from 'package' or import('package').
+
+You get this error when using a different way to reference the package, e. g. require().
+
+#### 如何修复
+1. Use import or import() to reference the package instead. (Recommended)
+2. If you are already using import, make sure that this is not changed by a transpiler, e. g. TypeScript or Babel.
+3. Switch to loose mode (experimental.esmExternals: 'loose'), which tries to automatically correct this error.

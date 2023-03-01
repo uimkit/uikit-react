@@ -1,21 +1,21 @@
-import { useUser } from '@authok/nextjs-authok/client';
-import styles from './index.module.scss';
+import { Chat } from '@/components/Chat';
+import { Layout } from '@/layout';
+import { getAccessToken, withPageAuthRequired } from '@authok/nextjs-authok';
 
-export default function Index() {
-  const { user, error, isLoading } = useUser();
 
-  return (
-    <div className={styles.App}>
-      <header className={styles['App-header']}>
-          {user ? (
-            <a href="/api/auth/logout">注销</a>
-          ): (
-            <a href="/api/auth/login">登录</a>
-          )}
-      </header>
-      <main className={styles['App-main']}>
-        {user && <a href="/chat">进入聊天</a>}
-      </main>
-    </div>
-  );
+export default function IndexPage({ accessToken }) {
+  return (<Chat accessToken={accessToken} />);
 }
+
+IndexPage.layout = Layout;
+
+export const getServerSideProps = (ctx) => {
+  return withPageAuthRequired({ 
+    async getServerSideProps({ req, res }) {
+      const { accessToken } = await getAccessToken(req, res);
+      return {
+        props: { accessToken }
+      } 
+    },
+   })(ctx);
+};

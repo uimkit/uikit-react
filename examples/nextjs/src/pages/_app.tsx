@@ -5,9 +5,11 @@ import { UserProvider } from '@authok/nextjs-authok/client';
 export default function App({ Component, pageProps }: AppProps): React.ReactElement<AppProps> {
   const { user } = pageProps;
 
+  const Layout = Component['layout'] ? Component['layout'] : ({ children }) => <>{children}</>;
+
   return (
     <UserProvider user={user}>
-      <Component {...pageProps} />
+      <Layout><Component {...pageProps} /></Layout>
     </UserProvider>
   );
 }

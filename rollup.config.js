@@ -13,14 +13,19 @@ import autoprefixer from 'autoprefixer';
 import external from 'rollup-plugin-peer-deps-external';
 import url from '@rollup/plugin-url';
 import image from '@rollup/plugin-image';
+import dts from 'rollup-plugin-dts';
 import pkg from './package.json';
 
 process.env.NODE_ENV = 'production';
 
+
+
+const input = './src/index.ts';
+
 const baseConfig = {
   cache: false,
   // inlineDynamicImports: true,
-  input: 'src/index.ts',
+  input,
   watch: {
     chokidar: false,
   },
@@ -35,7 +40,9 @@ const externalDependencies = [
   'date-fns', 
   'tslib',
   'i18next',
-  'react-date-picker'
+  'react-date-picker',
+  'react-redux',
+  'redux',
 ];
 
 
@@ -99,29 +106,31 @@ const basePlugins = ({ useBrowserResolve = false }) => [
   process.env.BUNDLE_SIZE ? visualizer() : null,
 ];
 
+const output = [
+  {
+    exports: 'auto',
+    preserveModules: true,
+    preserveModulesRoot: './src',
+    dir: './dist/cjs',
+    // file: pkg.main,
+    format: 'cjs',
+    sourcemap: true,
+  },
+  {
+    exports: 'auto',
+    preserveModules: true,
+    preserveModulesRoot: './src',
+    dir: './dist/esm',
+    // file: pkg.module,
+    format: 'esm',
+    sourcemap: true,
+  },
+];
+
 const normalBundle = {
   ...baseConfig,
   external: externalDependencies,
-  output: [
-    {
-      exports: 'auto',
-      preserveModules: true,
-      preserveModulesRoot: './src',
-      dir: './dist/cjs',
-      // file: pkg.main,
-      format: 'cjs',
-      sourcemap: true,
-    },
-    {
-      exports: 'auto',
-      preserveModules: true,
-      preserveModulesRoot: './src',
-      dir: './dist/esm',
-      // file: pkg.module,
-      format: 'esm',
-      sourcemap: true,
-    },
-  ],
+  output,
   plugins: [...basePlugins({ useBrowserResolve: false })],
 };
 
@@ -164,7 +173,20 @@ const fullBrowserBundle = ({ min } = { min: false }) => ({
   ],
 });
 
+const dtsBundle = {
+  input,
+  output,
+  plugins: [
+    postcss({
+      extract: true,
+      plugins: [],
+    }),
+    json(),
+    dts(),
+  ]
+};
+
 export default () =>
   process.env.ROLLUP_WATCH
     ? [normalBundle]
-    : [normalBundle, fullBrowserBundle({ min: true }), fullBrowserBundle()];
+    : [normalBundle, fullBrowserBundle({ min: true }), fullBrowserBundle(), dtsBundle];

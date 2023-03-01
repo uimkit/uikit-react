@@ -1,10 +1,17 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react/dist/esm/index';
+// import { APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react/dist/esm/index';
+import { APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 
-export function Chat({ accessToken }) {
+export type ChatProps = {
+  accessToken: string;
+}
+
+export function Chat({ 
+  accessToken
+}: ChatProps) {
   const [client, setClient] = useState<APIClient | undefined>();
   
   const [activeAccount, setActiveAccount] = useState<IMAccount | undefined>(undefined);
