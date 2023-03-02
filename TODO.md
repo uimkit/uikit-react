@@ -78,3 +78,9 @@ You get this error when using a different way to reference the package, e. g. re
 1. Use import or import() to reference the package instead. (Recommended)
 2. If you are already using import, make sure that this is not changed by a transpiler, e. g. TypeScript or Babel.
 3. Switch to loose mode (experimental.esmExternals: 'loose'), which tries to automatically correct this error.
+
+目前是在 rollup.config.js 中把对应的包移到 external 中.
+
+
+#### 打包还有点小瑕疵
+dts 会把 index.css 也生成多一份 index.d.css
