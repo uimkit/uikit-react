@@ -1,7 +1,8 @@
 import { EmoticonItem } from '../../EmoticonItem';
 import { SearchIndex } from 'emoji-mart'
-
 import type { EmojiTriggerSetting } from '../DefaultTriggerProvider';
+import $first from 'lodash.first';
+
 
 
 export const useEmojiTrigger = (): EmojiTriggerSetting => {
@@ -22,7 +23,7 @@ export const useEmojiTrigger = (): EmojiTriggerSetting => {
     output: (entity) => ({
       caretPosition: 'next',
       key: entity.id,
-      text: `${'native' in entity ? entity.native : `${entity.name}`}`,
+      text: $first(entity.skins)?.native ?? entity.name,
     }),
   };
 };

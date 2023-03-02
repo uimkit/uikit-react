@@ -53,7 +53,6 @@ export type TriggerSetting<T extends UnknownType = UnknownType, U = UnknownType>
 };
 
 export type TriggerSettings<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
   V extends CustomTrigger = CustomTrigger
 > =
   | {
@@ -67,7 +66,6 @@ export type TriggerSettings<
 
 export const DefaultTriggerProvider = <
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
-  V extends CustomTrigger = CustomTrigger
 >({
   children,
 }: PropsWithChildren<Record<string, unknown>>) => {

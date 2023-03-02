@@ -5,6 +5,9 @@ import getCaretCoordinates from 'textarea-caret';
 import { isValidElementType } from 'react-is';
 import clsx from 'clsx';
 
+import './styles/index.scss'
+
+
 import { List as DefaultSuggestionList } from './List';
 import {
   DEFAULT_CARET_POSITION,

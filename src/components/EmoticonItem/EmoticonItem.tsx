@@ -1,4 +1,7 @@
 import React from 'react';
+import './styles/index.scss';
+
+
 
 export type EmoticonItemProps = {
   entity: {
@@ -9,7 +12,9 @@ export type EmoticonItemProps = {
     /** Name for emoticon */
     name: string;
     /** Native value or actual emoticon */
-    native: string;
+    skins: [{
+      native: string;
+    }];
   };
 };
 
@@ -38,9 +43,8 @@ const UnMemoizedEmoticonItem: React.FC<EmoticonItemProps> = (props) => {
   };
 
   return (
-    <div className='str-chat__emoji-item'>
-      <span className='str-chat__emoji-item--entity'>{entity.native}</span>
-      <span className='str-chat__emoji-item--name'>renderName: {renderName()}</span>
+    <div className='uim__emoji-item'>
+      <span className='uim__emoji-item--entity'>{entity.skins[0].native}</span>
     </div>
   );
 };
