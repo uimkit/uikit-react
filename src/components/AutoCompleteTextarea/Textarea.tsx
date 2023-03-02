@@ -681,7 +681,7 @@ export class ReactTextareaAutocomplete extends React.Component<any, any> {
           ref={this.setDropdownRef}
           style={dropdownStyle}
         >
-          <SuggestionList
+          {<SuggestionList
             className={clsx('str-chat__suggestion-list', listClassName)}
             dropdownScroll={this._dropdownScroll}
             itemClassName={clsx('str-chat__suggestion-list-item', itemClassName)}
@@ -689,7 +689,7 @@ export class ReactTextareaAutocomplete extends React.Component<any, any> {
             onSelect={this._onSelect}
             SuggestionItem={SuggestionItem}
             {...triggerProps}
-          />
+          />}
         </div>
       );
     }

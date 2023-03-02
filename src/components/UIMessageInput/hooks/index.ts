@@ -5,3 +5,5 @@ export * from './useMessageInputState';
 export * from './useMessageInputText';
 export * from './useUploadPicker';
 export * from './useUploadElement';
+export * from './useEmojiTrigger';
+export * from './useCommandTrigger';

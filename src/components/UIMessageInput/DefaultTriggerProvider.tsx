@@ -15,7 +15,8 @@ import type { EmoticonItemProps } from '../EmoticonItem';
 import type { UIUserItemProps } from '../UIUserItem';
 
 import type { CustomTrigger, DefaultStreamChatGenerics, UnknownType } from '../../types';
-import { Emoji, EmojiSetDef } from '../../context/EmojiContext';
+import { Emoji } from '../../context/EmojiContext';
+import { useCommandTrigger } from './hooks/useCommandTrigger';
 
 export type AutocompleteMinimalData = {
   id?: string;
@@ -59,7 +60,7 @@ export type TriggerSettings<
       [key in keyof V]: TriggerSetting<V[key]['componentProps'], V[key]['data']>;
     }
   | {
-      //'/': CommandTriggerSetting<StreamChatGenerics>;
+      '/': CommandTriggerSetting;
       ':': EmojiTriggerSetting;
       // '@': UserTriggerSetting<StreamChatGenerics>;
     };
@@ -72,7 +73,7 @@ export const DefaultTriggerProvider = <
   const currentValue = useMessageInputContext('DefaultTriggerProvider');
   
   const defaultAutocompleteTriggers: TriggerSettings<StreamChatGenerics> = {
-    // '/': useCommandTrigger<StreamChatGenerics>(),
+    '/': useCommandTrigger(),
     ':': useEmojiTrigger(),
     /*'@': useUserTrigger<StreamChatGenerics>({
       disableMentions: currentValue.disableMentions,

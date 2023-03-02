@@ -22,6 +22,12 @@ import { EmojiMartData } from '@emoji-mart/data';
 import defaultEmojiData from '@emoji-mart/data';
 import './styles/index.scss';
 
+
+// TODO 要调整到对应模块
+export interface ChatConfig {
+  commands: any[];
+}
+
 export interface UIChatProps {
   EmptyPlaceholder?: React.ReactElement;
   UIMessage?: React.ComponentType<UIMessageProps | UnknowPorps>;
@@ -36,6 +42,9 @@ export interface UIChatProps {
   UIMessageInputConfig?: UIMessageInputBasicProps;
   UIMessageListConfig?: MessageListProps;
   
+  /** 可选 自动补全触发器, 默认为: [DefaultTriggerProvider](https://github.com/uimkit/uikit-react/blob/master/src/components/UIMessageInput/DefaultTriggerProvider.tsx) */
+  TriggerProvider?: ComponentContextValue['TriggerProvider'];
+
   /** 自定义的表情数据集，可以覆盖默认来自 `emoji-mart` 的 `facebook.json` 表情数据集 */
   emojiData?: EmojiMartData;
   /** 自定义 表情选择 UI组件, 覆盖默认来自 `emoji-mart` 的 Picker */
@@ -43,6 +52,8 @@ export interface UIChatProps {
 
   /** 自定义 表情 UI 组件, 遵循 `emoji-mart` 的接口规范 */
   Emoji?: EmojiContextValue['Emoji'];
+  
+  chatConfig: ChatConfig | undefined;
 } 
 
 export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): React.ReactElement {
@@ -53,12 +64,14 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     UIChatHeader,
     UIMessageInput,
     InputQuote,
+    TriggerProvider,
     messageConfig,
     UIMessageInputConfig,
     UIMessageListConfig,
     MessageContext,
     cloudCustomData,
     emojiData = defaultEmojiData as EmojiMartData,
+    chatConfig,
     children,
   } = props;
 
@@ -77,6 +90,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     messageConfig,
     UIMessageInputConfig,
     UIMessageListConfig,
+    chatConfig,
     ...state,
   });
 
@@ -158,6 +172,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
       UIChatHeader,
       UIMessageInput,
       InputQuote,
+      TriggerProvider,
     }),
     [],
   );

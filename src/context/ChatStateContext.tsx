@@ -1,8 +1,8 @@
 import React, {
-  PropsWithChildren, useContext, MutableRefObject, RefObject,
+  PropsWithChildren, useContext, RefObject,
 } from 'react';
 import { Message } from '../types';
-import { MessageListProps, UIMessageInputBasicProps, UIMessageProps } from '../components';
+import { ChatConfig, MessageListProps, UIMessageInputBasicProps, UIMessageProps } from '../components';
 import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessage';
 
 export interface ChatStateContextValue {
@@ -19,7 +19,8 @@ export interface ChatStateContextValue {
   audioSource?: HTMLAudioElement,
   vidoeSource?: HTMLVideoElement,
   UIMessageListConfig?: MessageListProps,
-  uploadPenddingMessageList?: Array<Message>,
+  uploadPenddingMessageList?: Array<Message>;
+  chatConfig: ChatConfig | undefined;
 }
 
 export const ChatStateContext = React.createContext<ChatStateContextValue>(null);
