@@ -27,7 +27,7 @@ export type CommandTriggerSetting<
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
 > = TriggerSetting<UICommandItemProps, SuggestionCommand<StreamChatGenerics>>;
 
-export type EmojiTriggerSetting = TriggerSetting<EmoticonItemProps, Emoji>;
+export type EmojiTriggerSetting = TriggerSetting<EmoticonItemProps, Emoji & any>;
 
 export type UserTriggerSetting<
   StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics

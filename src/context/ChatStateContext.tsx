@@ -20,7 +20,7 @@ export interface ChatStateContextValue {
   vidoeSource?: HTMLVideoElement,
   UIMessageListConfig?: MessageListProps,
   uploadPenddingMessageList?: Array<Message>;
-  chatConfig: ChatConfig | undefined;
+  chatConfig?: ChatConfig | undefined;
 }
 
 export const ChatStateContext = React.createContext<ChatStateContextValue>(null);

@@ -1,5 +1,5 @@
 import { useChatStateContext } from '../../../context';
-import { CommandItem } from '../../CommandItem';
+import { UICommandItem } from '../../UICommandItem';
 
 import type { CommandTriggerSetting } from '../DefaultTriggerProvider';
 
@@ -8,7 +8,7 @@ export const useCommandTrigger = (): CommandTriggerSetting => {
 
   const commands = chatConfig?.commands;
   return {
-    component: CommandItem,
+    component: UICommandItem,
     dataProvider: (query, text, onReady) => {
       if (text.indexOf('/') !== 0 || !commands) {
         return [];

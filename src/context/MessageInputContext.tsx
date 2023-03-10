@@ -35,7 +35,7 @@ export type MessageInputContextValue<
   handlePasete?: (e: ClipboardEvent) => void;
   pluginConfig?: PluginConfigProps;
 
-  autocompleteTriggers?: TriggerSettings<DefaultStreamChatGenerics, V>;
+  autocompleteTriggers?: TriggerSettings<DefaultStreamChatGenerics>;
 }
 
 export const MessageInputContext = React.createContext<MessageInputContextValue>(undefined);

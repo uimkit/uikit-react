@@ -53,7 +53,7 @@ export interface UIChatProps {
   /** 自定义 表情 UI 组件, 遵循 `emoji-mart` 的接口规范 */
   Emoji?: EmojiContextValue['Emoji'];
   
-  chatConfig: ChatConfig | undefined;
+  chatConfig?: ChatConfig | undefined;
 } 
 
 export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): React.ReactElement {

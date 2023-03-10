@@ -51,15 +51,15 @@ export type SuggestionListProps<
   V extends CustomTrigger = CustomTrigger
 > = ObjectUnion<
   {
-    [key in keyof TriggerSettings<StreamChatGenerics, V>]: {
-      component: TriggerSettings<StreamChatGenerics, V>[key]['component'];
+    [key in keyof TriggerSettings<V>]: {
+      component: TriggerSettings<V>[key]['component'];
       currentTrigger: string;
       dropdownScroll: (element: HTMLDivElement) => void;
       getSelectedItem:
-        | ((item: Parameters<TriggerSettings<StreamChatGenerics, V>[key]['output']>[0]) => void)
+        | ((item: Parameters<TriggerSettings<V>[key]['output']>[0]) => void)
         | null;
       getTextToReplace: (
-        item: Parameters<TriggerSettings<StreamChatGenerics, V>[key]['output']>[0],
+        item: Parameters<TriggerSettings<V>[key]['output']>[0],
       ) => {
         caretPosition: 'start' | 'end' | 'next' | number;
         text: string;
@@ -73,7 +73,7 @@ export type SuggestionListProps<
       selectionEnd: number;
       SuggestionItem: React.ComponentType<SuggestionItemProps>;
       values: Parameters<
-        Parameters<TriggerSettings<StreamChatGenerics, V>[key]['dataProvider']>[2]
+        Parameters<TriggerSettings<V>[key]['dataProvider']>[2]
       >[0];
       className?: string;
       itemClassName?: string;
