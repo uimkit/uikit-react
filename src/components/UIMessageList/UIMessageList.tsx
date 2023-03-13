@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState, useEffect } from 'react';
+import React, { useMemo, PropsWithChildren, useState, useEffect } from 'react';
 import { Message } from '../../types';
 import {
   ChatStateContextValue,
@@ -57,7 +57,7 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     UIMessageListConfig,
   } = useChatStateContext();
 
-  const isSameLastMessageID = true;
+  const isSameLastMessageID = useMemo(() => true, []);
 
   const { 
     UIMessage, 

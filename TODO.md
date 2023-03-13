@@ -84,3 +84,10 @@ You get this error when using a different way to reference the package, e. g. re
 
 #### 打包还有点小瑕疵
 dts 会把 index.css 也生成多一份 index.d.css
+
+
+
+### 消息失败状态显示
+
+### 发送图片消息
+

@@ -29,21 +29,18 @@ export function useMessageListElements <T extends MessageListElementProps>(
     DateSeparator = DefaultDateSeparator,
   } = useComponentContext('useMessageListElements');
 
-  return useMemo(() => enrichedMessageList?.map((item: Message, index: number) => {
-    const key = `${JSON.stringify(item)}${index}`;
+  return useMemo(() => enrichedMessageList?.map((message: Message, index: number) => {
     const preMessageTimer = index > 0 ? enrichedMessageList[index - 1]?.sent_at: -1;
-    const currrentTimer = item?.sent_at ?? 0;
+    const currrentTimer = message?.sent_at ?? 0;
     const isShowIntervalsTimer = preMessageTimer !== -1
       ? (currrentTimer - preMessageTimer) >= intervalsTimer : false;
     return (
-      <>
-        <li className="message-list-item" key={key} onLoadCapture={onMessageLoadCaptured}>
-          {
-            isShowIntervalsTimer && <DateSeparator date={currrentTimer ? new Date(currrentTimer) : null} formatDate={internalMessageProps.formatDate} />
-          }
-          <UIMessage message={item} {...internalMessageProps} />
-        </li>
-      </>
+      <li key={message.id} className="message-list-item" onLoadCapture={onMessageLoadCaptured}>
+        {
+          isShowIntervalsTimer && <DateSeparator date={currrentTimer ? new Date(currrentTimer) : null} formatDate={internalMessageProps.formatDate} />
+        }
+        <UIMessage message={message} {...internalMessageProps} />
+      </li>
     );
   }), [
     enrichedMessageList, 

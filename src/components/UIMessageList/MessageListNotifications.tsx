@@ -23,7 +23,6 @@ export const MessageListNotifications = (props: MessageListNotificationsProps) =
   } = props;
 
   const { t } = useTranslationContext('MessageListNotifications');
-
   return (
     <div className='uim__list-notifications'>
       <MessageNotification
