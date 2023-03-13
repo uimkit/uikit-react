@@ -12,8 +12,10 @@ import { UIConversationList } from '../UIConversationList';
 import { Toast } from '../Toast';
 import { useTranslators } from './hooks/useTranslators';
 import { Uimi18n } from '../../i18n';
-
+import { updateConversation } from '../../store/conversations';
 import './styles/index.scss';
+
+
 
 const appThunkContext: AppThunkContext = {
 	// 全局的错误处理
@@ -26,10 +28,17 @@ const getState = store.getState.bind(store)
 
 
 const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
-  const { children } = props;
+  const {
+    client,
+    activeProfile,
+    activeConversation: propActiveConversation,
+    activeContact: propActiveContact,
+    defaultLanguage,
+    i18nInstance,
+    children,
+  } = props;
 
   const dispatch = useDispatch();
-  const { client } = useUIKit();
   const [storeInited, setStoreInited] = useState(false);
 
   useEffect(() => {
@@ -41,47 +50,18 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     }
   }, [client]);
 
-  return storeInited && (
-    <div className="uim-kit">
-      {children || (
-        <>
-          <UIConversationList />
-          <UIChat />
-        </>
-      )}
-    </div>
-  );
-};
-
-export interface UIKitProps {
-  client: APIClient;
-  // 当前活跃账户
-  activeProfile?: Profile;
-  // 当前活跃会话
-  activeConversation?: Conversation;
-  activeContact?: Contact;
-  /** Sets the default fallback language for UI component translation, defaults to 'en' for English */
-  defaultLanguage?: SupportedTranslations;
-  /** Instance of Stream i18n */
-  i18nInstance?: Uimi18n;
-}
-
-export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
-  const {
-    client,
-    activeProfile,
-    activeConversation: propActiveConversation,
-    activeContact: propActiveContact,
-    defaultLanguage,
-    i18nInstance,
-    children,
-  } = props;
   const [activeConversation, _setActiveConversation] = useState<Conversation | undefined>();
   const [activeContact, setActiveContact] = useState<Contact | undefined>();
 
   const setActiveConversation = useCallback((activeConversation?: Conversation) => {
     if (activeConversation) {
       client?.setConversationRead(activeConversation.id);
+
+      dispatch(updateConversation({
+        account: activeConversation.account,
+        id: activeConversation.id,
+        unread: 0,
+      }));
     }
 
     _setActiveConversation(activeConversation);
@@ -109,11 +89,42 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
     i18nInstance,
   });
 
+
   return (
     <UIKitProvider value={providerContextValue}>
       <TranslationProvider value={translators}>
-        <ReduxProvider store={store} children={<UIKitInner {...props}>{children}</UIKitInner>} />
+        {storeInited && (
+          <div className="uim-kit">
+            {children || (
+              <>
+                <UIConversationList />
+                <UIChat />
+              </>
+            )}
+          </div>
+        )}
       </TranslationProvider>
     </UIKitProvider>
+  );
+};
+
+export interface UIKitProps {
+  client: APIClient;
+  // 当前活跃账户
+  activeProfile?: Profile;
+  // 当前活跃会话
+  activeConversation?: Conversation;
+  activeContact?: Contact;
+  /** Sets the default fallback language for UI component translation, defaults to 'en' for English */
+  defaultLanguage?: SupportedTranslations;
+  /** Instance of Stream i18n */
+  i18nInstance?: Uimi18n;
+}
+
+export function UIKit<T extends UIKitProps>({ children, ...rest }: PropsWithChildren<T>) {
+  return (
+    <ReduxProvider store={store}>
+      <UIKitInner {...rest}>{children}</UIKitInner>
+    </ReduxProvider>
   );
 }
