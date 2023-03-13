@@ -68,8 +68,10 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
   }, [client]);
 
   useEffect(() => {
-    setActiveConversation(propActiveConversation);
-  }, [propActiveConversation]);
+    if (storeInited) {
+      setActiveConversation(propActiveConversation);
+    }
+  }, [propActiveConversation, storeInited]);
 
   useEffect(() => {
     setActiveContact(propActiveContact);
