@@ -234,6 +234,8 @@ export interface APIClient {
 
   resetConversationUnread(params: any): Promise<any>;
 
+  setConversationRead(id: string): Promise<void>;
+
 
   /******************** Group ********************/
   getGroup(params: any): Promise<Group>;

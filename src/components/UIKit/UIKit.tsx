@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState, PropsWithChildren } from 'react';
+import React, { useMemo, useEffect, useState, PropsWithChildren, useCallback } from 'react';
 import { Provider as ReduxProvider } from "react-redux";
 import { UIChat } from "../UIChat";
 
@@ -76,8 +76,16 @@ export function UIKit<T extends UIKitProps>(props: PropsWithChildren<T>) {
     i18nInstance,
     children,
   } = props;
-  const [activeConversation, setActiveConversation] = useState<Conversation | undefined>();
+  const [activeConversation, _setActiveConversation] = useState<Conversation | undefined>();
   const [activeContact, setActiveContact] = useState<Contact | undefined>();
+
+  const setActiveConversation = useCallback((activeConversation?: Conversation) => {
+    if (activeConversation) {
+      client?.setConversationRead(activeConversation.id);
+    }
+
+    _setActiveConversation(activeConversation);
+  }, [client]);
 
   useEffect(() => {
     setActiveConversation(propActiveConversation);
