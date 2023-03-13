@@ -23,6 +23,9 @@ export const useScrollLocationLogic = (
     messageListRef,
   } = params;
 
+
+  console.log('useScrollLocationLogic');
+
   const [hasNewMessages, setHasNewMessages] = useState(false);
   const [wrapperRect, setWrapperRect] = useState<DOMRect>();
 
@@ -45,6 +48,7 @@ export const useScrollLocationLogic = (
 
   useLayoutEffect(() => {
     if (messageListRef.current) {
+      console.log('useLayoutEffect');
       setWrapperRect(messageListRef.current.getBoundingClientRect());
       scrollToBottom();
     }

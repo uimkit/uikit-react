@@ -30,6 +30,7 @@ export function useMessageListElements <T extends MessageListElementProps>(
   } = useComponentContext('useMessageListElements');
 
   return useMemo(() => enrichedMessageList?.map((message: Message, index: number) => {
+    // console.log('useMessageList');
     const preMessageTimer = index > 0 ? enrichedMessageList[index - 1]?.sent_at: -1;
     const currrentTimer = message?.sent_at ?? 0;
     const isShowIntervalsTimer = preMessageTimer !== -1

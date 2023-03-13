@@ -47,8 +47,6 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     intervalsTimer: propsIntervalsTimer,
   } = props;
   const [ulElement, setUlElement] = useState<HTMLUListElement | null>(null);
-  const [firstRender, setFirstRender] = useState<boolean>(false);
-
   const { jumpToLatestMessage } = useChatActionContext();
 
   const {
@@ -57,8 +55,6 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     UIMessageListConfig,
   } = useChatStateContext();
 
-  const isSameLastMessageID = useMemo(() => true, []);
-
   const { 
     UIMessage, 
     EmptyStateIndicator = DefaultEmptyStateIndicator,
@@ -66,15 +62,13 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     MessageListNotifications = DefaultMessageListNotifications,
     MessageNotification = DefaultMessageNotification,
   } = useComponentContext('UIMessageList');
+  const { activeConversation } = useUIKit();
+  const { messages: contextMessageList, hasMore, loading, loadMore: contextLoadMore } = useConversationMessageList(activeConversation?.id);
 
   const highlightedMessageId = propsHighlightedMessageId
   || UIMessageListConfig?.highlightedMessageId
   || contextHighlightedMessageId;
   const intervalsTimer = (propsIntervalsTimer || UIMessageListConfig?.intervalsTimer || 30) * 60;
-
-  const { activeConversation } = useUIKit();
-  const { setHighlightedMessageId } = useChatActionContext('UIMessageList'); // 应该把这里的行为打散解构到不同的 hook 中.
-  const { messages: contextMessageList, hasMore, loading, loadMore: contextLoadMore } = useConversationMessageList(activeConversation?.id);
 
   const messages = propsMessageList || contextMessageList;
   /*
@@ -108,6 +102,12 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     }
   }, [scrollToBottom, hasMoreNewer]);
 
+  React.useLayoutEffect(() => {
+    if (highlightedMessageId) {
+      const element = ulElement?.querySelector(`[data-message-id='${highlightedMessageId}']`);
+      element?.scrollIntoView({ block: 'center' });
+    }
+  }, [highlightedMessageId]);
 
   const elements = useMessageListElements({
     enrichedMessageList,
@@ -119,46 +119,10 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     onMessageLoadCaptured,
   });
 
-  useEffect(() => {
-    (async () => {
-      const parentElement = ulElement?.parentElement?.parentElement;
-      if (!loading && parentElement?.clientHeight >= ulElement?.clientHeight) {
-        await loadMore();
-      }
-
-      if (ulElement?.children && (!firstRender || !isSameLastMessageID)) {
-        const HTMLCollection = ulElement?.children || [];
-        const element = HTMLCollection[HTMLCollection.length - 1];
-        const timer = setTimeout(() => {
-          element?.scrollIntoView({ block: 'end' });
-          setFirstRender(true);
-          clearTimeout(timer);
-        }, 100);
-      }
-    })();
-  }, [elements, firstRender]);
-
-  useEffect(() => {
-    if (highlightedMessageId) {
-      const element = ulElement?.querySelector(`[data-message-id='${highlightedMessageId}']`);
-      if (!element) {
-        return;
-      }
-      const { children } = element.children[1];
-      children[children.length - 1].classList.add('high-lighted');
-      element?.scrollIntoView({ block: 'center' });
-      const timer = setTimeout(() => {
-        children[children.length - 1].classList.remove('high-lighted');
-        clearTimeout(timer);
-        setHighlightedMessageId('');
-      }, 1000);
-    }
-  }, [highlightedMessageId]);
-
   return (
     <>
       <div 
-        className={`message-list ${!firstRender ? 'hide' : ''}`} 
+        className={`message-list`} 
         onScroll={onScroll}
         ref={messageListRef}
         tabIndex={0}

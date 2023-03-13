@@ -90,6 +90,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
 
 
   const jumpToLatestMessage = async () => {
+    console.log('jumpToLatestMessage');
     // const hasMoreOlder = channel.state.messages.length >= 25;
     // loadMoreFinished(hasMoreOlder, channel.state.messages);
     dispatch({
