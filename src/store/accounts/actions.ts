@@ -1,4 +1,4 @@
-import { IMAccount, ListIMAccountsParameters, ListIMAccountsResponse } from '../../types';
+import { IMAccount, GetAccountListParameters, GetAccountListResponse } from '../../types';
 
 export enum AccountListActionType {
 	ACCOUNT_FETCHED = "uim/ACCOUNT_FETCHED",
@@ -12,9 +12,9 @@ export interface AccountFetchedAction {
 	payload: IMAccount
 }
 
-export type FetchAccountListRequest = ListIMAccountsParameters
+export type FetchAccountListRequest = GetAccountListParameters
 
-export type FetchAccountListResponse = ListIMAccountsResponse
+export type FetchAccountListResponse = GetAccountListResponse
 
 export interface FetchAccountListError {
 	request: FetchAccountListRequest

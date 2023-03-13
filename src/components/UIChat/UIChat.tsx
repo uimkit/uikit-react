@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useCallback, useReducer, useRef, useMemo } from 'react';
 import { UIMessageInput as UIMessageInputElement, UIMessageInputBasicProps } from '../UIMessageInput';
 
-import { MessageListProps, UIMessageList } from '../UIMessageList';
+import { UIMessageListProps, UIMessageList } from '../UIMessageList';
 import { ComponentContextValue, ComponentProvider, UnknowPorps } from '../../context/ComponentContext';
 import {
   UIMessageProps,
@@ -14,19 +14,17 @@ import useCreateChatStateContext from './hooks/useCreateChatStateContext';
 import { ChatActionContextValue, ChatActionProvider, ChatStateContextProvider, useUIKit } from '../../context';
 import { useHandleMessage } from './hooks/useHandleMessage';
 import { Toast } from '../Toast';
-import { Message } from '../../types';
-import { useCreateMessage } from '../../hooks/useCreateMesage';
+import { Conversation, Message } from '../../types';
+import { useCreateMessage } from '../../hooks/useCreateMessage';
 import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/EmojiContext';
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
 import { EmojiMartData } from '@emoji-mart/data';
 import defaultEmojiData from '@emoji-mart/data';
+import { updateMessage as reduxUpdateMessage } from '../../store/messages/commands';
+import { useDispatch } from '../../store/useDispatch';
+import { updateConversation } from '../../store/conversations';
 import './styles/index.scss';
 
-
-// TODO 要调整到对应模块
-export interface ChatConfig {
-  commands: any[];
-}
 
 export interface UIChatProps {
   EmptyPlaceholder?: React.ReactElement;
@@ -40,8 +38,11 @@ export interface UIChatProps {
   messageConfig?: UIMessageProps;
   cloudCustomData?: string;
   UIMessageInputConfig?: UIMessageInputBasicProps;
-  UIMessageListConfig?: MessageListProps;
+  UIMessageListConfig?: UIMessageListProps;
   
+  /** The connected and active channel */
+  conversation?: Conversation;
+
   /** 可选 自动补全触发器, 默认为: [DefaultTriggerProvider](https://github.com/uimkit/uikit-react/blob/master/src/components/UIMessageInput/DefaultTriggerProvider.tsx) */
   TriggerProvider?: ComponentContextValue['TriggerProvider'];
 
@@ -53,7 +54,10 @@ export interface UIChatProps {
   /** 自定义 表情 UI 组件, 遵循 `emoji-mart` 的接口规范 */
   Emoji?: EmojiContextValue['Emoji'];
   
-  chatConfig?: ChatConfig | undefined;
+  /** 自定义消息发送方法，默认为 `client.sendMessage` */
+  doSendMessageRequest?: (
+    message: Message,
+  ) => ReturnType<any> | void;
 } 
 
 export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): React.ReactElement {
@@ -71,17 +75,27 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     MessageContext,
     cloudCustomData,
     emojiData = defaultEmojiData as EmojiMartData,
-    chatConfig,
+    doSendMessageRequest,
+    conversation: propConversation,
     children,
   } = props;
-
 
   const [state, dispatch] = useReducer<ChatStateReducer>(
     chatReducer,
     { ...initialState },
   );
 
-  const { client } = useUIKit();
+  const { client, activeConversation: contextConversation } = useUIKit('UIChat');
+  const conversation = propConversation || contextConversation;
+
+
+  const jumpToLatestMessage = async () => {
+    // const hasMoreOlder = channel.state.messages.length >= 25;
+    // loadMoreFinished(hasMoreOlder, channel.state.messages);
+    dispatch({
+      type: 'jumpToLatestMessage',
+    });
+  };
 
   const messageListRef = useRef(null);
   const chatStateContextValue = useCreateChatStateContext({
@@ -90,7 +104,6 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     messageConfig,
     UIMessageInputConfig,
     UIMessageListConfig,
-    chatConfig,
     ...state,
   });
 
@@ -120,17 +133,52 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     createMergerMessage,
   } = useCreateMessage({ client, activeConversation, cloudCustomData });
 
-  const sendMessage = useCallback(async (message: Message, options?: any) => {
-    // updateMessage([message]);
+  const reduxDispatch = useDispatch();
+
+  const sendMessage = useCallback(async (_message: Message) => {
+    const message = {
+      ..._message,
+      conversation_id: conversation.id,
+    };
+
+    reduxDispatch(reduxUpdateMessage(message));
+
     try {
-      // TODO sendMessage
-      // editLocalmessage(message);
+      let messageResponse;
+      if (doSendMessageRequest) {
+        messageResponse = await doSendMessageRequest(message);
+      } else {
+        messageResponse = await client.sendMessage(message);
+      }
+
+      // 错误提示
+			if (messageResponse.failed) {
+				throw new Error(messageResponse.failed_reason);
+			}
+
+      reduxDispatch(reduxUpdateMessage(messageResponse));
+      // 更新本地会话显示
+      reduxDispatch(updateConversation({
+        account: message.account,
+        id: message.conversation_id,
+        last_message: message,
+	      active_at: message.sent_at,
+	    }));
     } catch (error) {
       Toast({ text: (error as Error).message, type: 'error' });
-      // editLocalmessage(message);
+
+      reduxDispatch(reduxUpdateMessage({
+        ...message,
+        sending: false,
+        succeeded: false,
+        failed_reason: error.message,
+        status: 'failed',
+      }));
+
       throw error;
     }
-  }, []);
+    console.log('ok ok');
+  }, [client, conversation, reduxDispatch]);
 
   
   const chatActionContextValue = useMemo<ChatActionContextValue>(() => ({
@@ -147,6 +195,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     createLocationMessage,
     createMergerMessage,
     operateMessage,
+    jumpToLatestMessage,
   }), [
     sendMessage,
     createTextMessage,
@@ -161,6 +210,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     createLocationMessage,
     createMergerMessage,
     operateMessage,
+    jumpToLatestMessage,
   ]);
 
   const componentContextValue: ComponentContextValue = useMemo(

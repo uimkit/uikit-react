@@ -32,7 +32,9 @@ export interface UIMessageContextValue {
   showName?: messageShowType,
   customAvatar?: React.ReactElement,
   isShowProgress?: boolean,
-  Progress?: React.ComponentType<{message: Message}>,
+  Progress?: React.ComponentType<{message: Message}>;
+  /** Override the default formatting of the date. This is a function that has access to the original date object, returns a string  */
+  formatDate?: (date: Date) => string;
 }
 
 export const UIMessageContext = React.createContext<UIMessageContextValue>(undefined);

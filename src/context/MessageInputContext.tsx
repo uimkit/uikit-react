@@ -7,15 +7,11 @@ import React, {
   MutableRefObject,
 } from 'react';
 import { TriggerSettings } from '../components/UIMessageInput/DefaultTriggerProvider';
-import { CustomTrigger, DefaultStreamChatGenerics } from '../types';
-import { PluginConfigProps } from '../components';
+import { PluginConfigProps, UIMessageInputProps } from '../components';
 import { Emoji } from '@emoji-mart/data';// 有点污染;
 
 
-export type MessageInputContextValue<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
-  V extends CustomTrigger = CustomTrigger
-> = {
+export type MessageInputContextValue = {
   text?: string;
   disabled?: boolean;
   // dispatch?: (params: dispatchParams) => void;
@@ -32,11 +28,11 @@ export type MessageInputContextValue<
   plugins?: Array<React.ReactElement>;
   showNumber?: number;
   MoreIcon?: React.ReactElement;
-  handlePasete?: (e: ClipboardEvent) => void;
+  handlePaste?: (e: ClipboardEvent) => void;
   pluginConfig?: PluginConfigProps;
 
-  autocompleteTriggers?: TriggerSettings<DefaultStreamChatGenerics>;
-}
+  autocompleteTriggers?: TriggerSettings;
+} & Omit<UIMessageInputProps, 'Input'>;
 
 export const MessageInputContext = React.createContext<MessageInputContextValue>(undefined);
 

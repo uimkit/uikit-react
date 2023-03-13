@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { t } from "i18next";
 import { AppState, AppThunkContext, ThunkAction } from "../types";
 import { ConversationListActionType, FetchConversationListRequest } from "./actions";
+import { Conversation } from "../../types";
 
 /**
  * 查询服务商的所有会话列表
@@ -35,7 +36,7 @@ export const fetchConversationsByProvider = (provider: string, loadMore: boolean
               payload: request
             });
 
-            const response = await client.listConversations(request)
+            const response = await client.getConversationList(request)
 						dispatch({
               type: ConversationListActionType.CONVERSATION_LIST_FETCHED,
               payload: { request, response },
@@ -86,7 +87,7 @@ export const fetchConversationsByAccount = (accountId: string, loadMore: boolean
         payload: request,
       });
 
-      const response = await client.listConversations(request)
+      const response = await client.getConversationList(request)
 			dispatch({
         type: ConversationListActionType.CONVERSATION_LIST_FETCHED,
         payload: { request, response },
@@ -104,4 +105,20 @@ export const fetchConversationsByAccount = (accountId: string, loadMore: boolean
 			]))
 		}
 	}
+}
+
+/**
+ * 更新会话, 没有就插入
+ * @param accountId 
+ * @param loadMore 
+ * @param limit 
+ * @returns 
+ */
+export const updateConversation = (conversation: Partial<Conversation>): ThunkAction<Promise<void>> => {
+	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
+    dispatch({
+      type: ConversationListActionType.CONVERSATION_UPDATE,
+      payload: conversation,
+    });
+  }
 }

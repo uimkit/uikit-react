@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-// import { APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react/dist/esm/index';
-import { APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react';
+import { useUIKit, APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 
@@ -13,22 +12,7 @@ export function Chat({
   accessToken
 }: ChatProps) {
   const [client, setClient] = useState<APIClient | undefined>();
-  
   const [activeAccount, setActiveAccount] = useState<IMAccount | undefined>(undefined);
-  const [accounts, setAccounts] = useState<IMAccount[]>();
-  useEffect(() => {
-    if (client) {
-      (async function() {
-        const r = await client?.listIMAccounts({});
-        setAccounts(r.data);
-      })();
-    }
-  }, [client]);
-
-  const handleChangeAccount = (account: IMAccount) => {
-    setActiveAccount(account);
-  }
-
 
   useEffect(() => {
     (async function() {
@@ -42,9 +26,36 @@ export function Chat({
 
   return client ? (
     <UIKit client={client} activeProfile={activeAccount}>
-      <AccountList accounts={accounts} onSelect={handleChangeAccount} />
-      <UIConversationList />
-      <UIChat/>
+      <ChatContainer activeAccount={activeAccount} setActiveAccount={setActiveAccount} />
     </UIKit>
   ) : null;
+}
+
+export const ChatContainer = ({
+  activeAccount,
+  setActiveAccount,
+}) => {
+  const { client, activeConversation } = useUIKit();
+
+  const [accounts, setAccounts] = useState<IMAccount[]>();
+  useEffect(() => {
+    if (client) {
+      (async function() {
+        const r = await client?.getAccountList({});
+        setAccounts(r.data);
+      })();
+    }
+  }, [client]);
+
+  const handleChangeAccount = (account: IMAccount) => {
+    setActiveAccount(account);
+  }
+  
+  return (
+    <>
+      <AccountList accounts={accounts} onSelect={handleChangeAccount} />
+      {activeAccount && <UIConversationList />}
+      {activeConversation && <UIChat/>}
+    </>
+  );
 }

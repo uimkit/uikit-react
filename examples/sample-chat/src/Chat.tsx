@@ -15,7 +15,7 @@ export default function Chat() {
   useEffect(() => {
     if (client) {
       (async function() {
-        const r = await client?.listIMAccounts({});
+        const r = await client?.getAccountList({});
         setAccounts(r.data);
       })();
     }

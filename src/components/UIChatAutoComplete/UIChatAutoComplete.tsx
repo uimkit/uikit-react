@@ -9,32 +9,25 @@ import { useComponentContext } from '../../context/ComponentContext';
 import { SearchIndex } from 'emoji-mart';
 import type { TriggerSettings } from '../UIMessageInput/DefaultTriggerProvider';
 
-import type { CustomTrigger, DefaultStreamChatGenerics } from '../../types';
 import { useTranslationContext } from '../../context';
 
 type ObjectUnion<T> = T[keyof T];
 
-export type SuggestionCommand<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
-> = StreamChatGenerics/* CommandResponse<StreamChatGenerics>*/;
+export type SuggestionCommand = any;
 
-export type SuggestionUser<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
-> = StreamChatGenerics; /* UserResponse<StreamChatGenerics>;*/;
+export type SuggestionUser = any;
 
-export type SuggestionItemProps<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
-> = {
+export type SuggestionItemProps = {
   className: string;
   component: React.ComponentType<{
-    entity: any/* Emoji */ | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>;
+    entity: any/* Emoji */ | SuggestionUser | SuggestionCommand;
     selected: boolean;
   }>;
-  item: any/* Emoji */ | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>;
+  item: any/* Emoji */ | SuggestionUser | SuggestionCommand;
   key: React.Key;
   onClickHandler: (event: React.BaseSyntheticEvent) => void;
   onSelectHandler: (
-    item: any/* Emoji */ | SuggestionUser<StreamChatGenerics> | SuggestionCommand<StreamChatGenerics>,
+    item: any/* Emoji */ | SuggestionUser | SuggestionCommand,
   ) => void;
   selected: boolean;
   style: React.CSSProperties;
@@ -46,20 +39,17 @@ export interface SuggestionHeaderProps {
   value: string;
 }
 
-export type SuggestionListProps<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
-  V extends CustomTrigger = CustomTrigger
-> = ObjectUnion<
+export type SuggestionListProps = ObjectUnion<
   {
-    [key in keyof TriggerSettings<V>]: {
-      component: TriggerSettings<V>[key]['component'];
+    [key in keyof TriggerSettings]: {
+      component: TriggerSettings[key]['component'];
       currentTrigger: string;
       dropdownScroll: (element: HTMLDivElement) => void;
       getSelectedItem:
-        | ((item: Parameters<TriggerSettings<V>[key]['output']>[0]) => void)
+        | ((item: Parameters<TriggerSettings[key]['output']>[0]) => void)
         | null;
       getTextToReplace: (
-        item: Parameters<TriggerSettings<V>[key]['output']>[0],
+        item: Parameters<TriggerSettings[key]['output']>[0],
       ) => {
         caretPosition: 'start' | 'end' | 'next' | number;
         text: string;
@@ -73,7 +63,7 @@ export type SuggestionListProps<
       selectionEnd: number;
       SuggestionItem: React.ComponentType<SuggestionItemProps>;
       values: Parameters<
-        Parameters<TriggerSettings<V>[key]['dataProvider']>[2]
+        Parameters<TriggerSettings[key]['dataProvider']>[2]
       >[0];
       className?: string;
       itemClassName?: string;
@@ -105,22 +95,19 @@ export type UIChatAutoCompleteProps = {
   wordReplace?: (word: string) => string;
 };
 
-const UnMemoizedChatAutoComplete = <
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
-  V extends CustomTrigger = CustomTrigger
->(
+const UnMemoizedChatAutoComplete = (
   props: UIChatAutoCompleteProps,
 ) => {
   const {
     AutocompleteSuggestionItem: SuggestionItem,
     AutocompleteSuggestionList: SuggestionList,
-  } = useComponentContext<StreamChatGenerics, V>('ChatAutoComplete');
+  } = useComponentContext('ChatAutoComplete');
   const { t } = useTranslationContext('UIChatAutoComplete');
 
-  const messageInput = useMessageInputContext/*<StreamChatGenerics, V>*/('ChatAutoComplete');
+  const messageInput = useMessageInputContext('ChatAutoComplete');
   const { disabled, textareaRef: innerRef } = messageInput;
 
-  const placeholder = props.placeholder || t('Type your message');
+  const placeholder = props.placeholder || t('输入你的消息');
 
   const emojiReplace = props.wordReplace
     ? (word: string) => props.wordReplace?.(word)
@@ -170,7 +157,7 @@ const UnMemoizedChatAutoComplete = <
       placeholder={placeholder}
       replaceWord={emojiReplace}
       rows={props.rows || 3}
-      shouldSubmit={() => false/*messageInput.shouldSubmit*/}
+      shouldSubmit={messageInput.shouldSubmit}
       showCommandsList={false/*messageInput.showCommandsList*/}
       showMentionsList={false/*messageInput.showMentionsList*/}
       SuggestionItem={SuggestionItem}

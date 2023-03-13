@@ -40,6 +40,10 @@ export const createMessageListReducer = () => (
 		case MessageListActionType.MESSAGE_RECEIVED: {
 			return handleMessageReceived(state, action.payload);
 		}
+    case MessageListActionType.MESSAGE_UPDATE: {
+      const newState = handleMessageUpdate(state, action.payload);
+      return newState;
+		}
 		// 删除消息
 		case MessageListActionType.MESSAGE_DELETED: {
 			return handleMessageDeleted(state, action.payload);
@@ -198,6 +202,33 @@ const handleMessageReceived = (
 	}
 	// 前端是从旧到新
 	messages.sort((a, b) => a.sent_at - b.sent_at)
+	return {
+		...state,
+		[conversation_id]: {
+			...stateByConversation,
+			messages: [...messages]
+		}
+	}
+}
+
+const handleMessageUpdate = (
+	state: MessageListState,
+	payload: Message,
+): MessageListState => {
+	const { conversation_id } = payload;
+	const stateByConversation = state[conversation_id] || newState();
+	const { messages } = stateByConversation;
+
+  // 存在就替换，不存在就追加
+	const idx = messages.findIndex(it => it.id === payload.id)
+
+  if (idx >= 0) {
+		messages[idx] = { ...messages[idx], ...payload }
+	} else {
+		messages.push({...payload});
+	}
+	// 前端是从旧到新
+	messages.sort((a, b) => a.sent_at - b.sent_at);
 	return {
 		...state,
 		[conversation_id]: {

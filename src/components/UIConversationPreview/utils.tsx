@@ -1,6 +1,3 @@
-import {
-  format, isToday, isYesterday, formatDistance, isThisYear, isThisWeek,
-} from 'date-fns';
 import React from 'react';
 import { Conversation, ConversationType, Group, MessageType, Profile } from '../../types';
 // import { defaultGroupAvatarWork, defaultUserAvatar } from '../Avatar';
@@ -11,24 +8,23 @@ export const getDisplayTitle = (
   searchValue?: string,
   highlightColor = '#147AFF',
 ): string | React.ReactElement => {
-  /*
   const {
-    name, nick, groupID, userID,
+    nickname
   } = getMessageProfile(conversation);
-  */
-  const { name } = conversation;
+  
+  const { contact } = conversation;
 
   const { type } = conversation;
   let title = '';
   switch (type) {
     case ConversationType.Private:
       // title = nick || userID;
-      title = name;
+      title = nickname;
 
       break;
     case ConversationType.Group:
       // title = name || groupID;
-      title = name;
+      title = nickname;
 
       break;
     default:
@@ -51,11 +47,10 @@ export const getDisplayTitle = (
 
 export const getDisplayImage = (conversation: Conversation) => {
   const { type } = conversation;
-  // const { avatar } = getMessageProfile(conversation);
-  const { avatar } = conversation;
+  const { avatar } = getMessageProfile(conversation);
 
   let displayImage = avatar;
-  if (!avatar) {
+  if (!displayImage) {
     switch (type) {
       case ConversationType.Private:
         // displayImage = defaultUserAvatar;
@@ -138,49 +133,20 @@ interface TProfile extends Profile, Group {}
 
 export const getMessageProfile = (conversation: Conversation): TProfile => {
   if (!conversation) return null;
-  let result = {};
+  let result;
   const { type } = conversation;
   const groupProfile = {};
-  const userProfile = {};
-
+  const userProfile = conversation.contact;
   switch (type) {
     case ConversationType.Private:
-      result = userProfile;
+      result = userProfile ?? {};
       break;
     case ConversationType.Group:
-      result = groupProfile;
+      result = groupProfile ?? {};
       break;
     case ConversationType.System:
     default:
   }
+
   return result as TProfile;
-};
-
-export const getDisplayTime = (conversation: Conversation) => {
-  const { last_message } = conversation;
-  return getTimeStamp(last_message?.sent_at);
-};
-
-export const getTimeStamp = (time: number) => {
-  if (!time) {
-    return '';
-  }
-
-  if (!isThisYear(time)) {
-    return format(time, 'yyyy MMM dd');
-  }
-
-  if (isToday(time)) {
-    return format(time, 'p');
-  }
-
-  if (isYesterday(time)) {
-    return formatDistance(time, new Date());
-  }
-
-  if (isThisWeek(time)) {
-    return format(time, 'eeee');
-  }
-
-  return format(time, 'MMM dd');
 };

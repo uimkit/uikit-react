@@ -1,11 +1,3 @@
-import {
-  format,
-  formatDistance,
-  isThisWeek,
-  isThisYear,
-  isToday,
-  isYesterday,
-} from 'date-fns';
 import { defaultGroupAvatarWork, defaultUserAvatar } from './Avatar';
 import { ConversationType } from '../types';
 
@@ -52,23 +44,4 @@ export const handleDisplayAvatar = (avatar: string, type: string = ConversationT
     }
   }
   return displayImage;
-};
-
-export const getTimeStamp = (time: number) => {
-  if (!time) {
-    return '';
-  }
-  if (!isThisYear(time)) {
-    return format(time, 'yyyy MM dd');
-  }
-  if (isToday(time)) {
-    return format(time, 'p');
-  }
-  if (isYesterday(time)) {
-    return formatDistance(time, new Date());
-  }
-  if (isThisWeek(time)) {
-    return format(time, 'eeee');
-  }
-  return format(time, 'MM dd');
 };

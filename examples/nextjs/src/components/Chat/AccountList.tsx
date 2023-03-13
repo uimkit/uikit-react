@@ -10,12 +10,11 @@ export function AccountList({
   accounts, 
   onSelect,
 }: AccountListProps) {
-
   return (
     <ul>
       {accounts?.map(account => (
         <li key={account.id} onClick={() => onSelect?.(account)}>
-          {account.name}
+          {account.nickname}
         </li>))}
     </ul>
   );

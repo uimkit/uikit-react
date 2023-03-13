@@ -80,7 +80,6 @@ export function useCreateMessage<T extends CreateMessageProps>(props:T) {
   } = props;
 
   const { client } = useUIKit();
-
   const { type: conversationType } = conversation ?? {};
 
   const type = propType || conversationType;

@@ -38,6 +38,7 @@ import 'dayjs/locale/tr';
 import 'dayjs/locale/en';
 
 Dayjs.extend(updateLocale);
+Dayjs.locale(defaultLng);
 
 Dayjs.updateLocale('de', {
   calendar: {
@@ -606,6 +607,7 @@ export class Uimi18n {
    */
   async getTranslators() {
     if (!this.initialized) {
+      console.log('this.dayjsLocales: ', this.dayjsLocales)
       if (this.dayjsLocales[this.currentLanguage]) {
         this.addOrUpdateLocale(this.currentLanguage, this.dayjsLocales[this.currentLanguage]);
       }

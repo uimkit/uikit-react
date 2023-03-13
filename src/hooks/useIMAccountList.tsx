@@ -7,7 +7,6 @@ import { AppState } from '../store/types';
 
 export function useIMAccountList(componentName?: string): IMAccount[] {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchAllAccounts())
   }, [componentName]);

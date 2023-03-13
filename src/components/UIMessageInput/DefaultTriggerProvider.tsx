@@ -14,7 +14,7 @@ import type { UICommandItemProps } from '../UICommandItem';
 import type { EmoticonItemProps } from '../EmoticonItem';
 import type { UIUserItemProps } from '../UIUserItem';
 
-import type { CustomTrigger, DefaultStreamChatGenerics, UnknownType } from '../../types';
+import type { CustomTrigger, UnknownType } from '../../types';
 import { Emoji } from '../../context/EmojiContext';
 import { useCommandTrigger } from './hooks/useCommandTrigger';
 
@@ -23,15 +23,11 @@ export type AutocompleteMinimalData = {
   name?: string;
 } & ({ id: string } | { name: string });
 
-export type CommandTriggerSetting<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
-> = TriggerSetting<UICommandItemProps, SuggestionCommand<StreamChatGenerics>>;
+export type CommandTriggerSetting = TriggerSetting<UICommandItemProps, SuggestionCommand>;
 
 export type EmojiTriggerSetting = TriggerSetting<EmoticonItemProps, Emoji & any>;
 
-export type UserTriggerSetting<
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics
-> = TriggerSetting<UIUserItemProps, SuggestionUser<StreamChatGenerics>>;
+export type UserTriggerSetting = TriggerSetting<UIUserItemProps, SuggestionUser>;
 
 export type TriggerSetting<T extends UnknownType = UnknownType, U = UnknownType> = {
   component: string | React.ComponentType<T>;
@@ -62,20 +58,18 @@ export type TriggerSettings<
   | {
       '/': CommandTriggerSetting;
       ':': EmojiTriggerSetting;
-      // '@': UserTriggerSetting<StreamChatGenerics>;
+      // '@': UserTriggerSetting;
     };
 
-export const DefaultTriggerProvider = <
-  StreamChatGenerics extends DefaultStreamChatGenerics = DefaultStreamChatGenerics,
->({
+export const DefaultTriggerProvider = ({
   children,
 }: PropsWithChildren<Record<string, unknown>>) => {
   const currentValue = useMessageInputContext('DefaultTriggerProvider');
   
-  const defaultAutocompleteTriggers: TriggerSettings<StreamChatGenerics> = {
+  const defaultAutocompleteTriggers: TriggerSettings = {
     '/': useCommandTrigger(),
     ':': useEmojiTrigger(),
-    /*'@': useUserTrigger<StreamChatGenerics>({
+    /*'@': useUserTrigger({
       disableMentions: currentValue.disableMentions,
       mentionAllAppUsers: currentValue.mentionAllAppUsers,
       mentionQueryParams: currentValue.mentionQueryParams,

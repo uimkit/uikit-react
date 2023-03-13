@@ -35,7 +35,7 @@ export const fetchContactsByProvider = (provider: string, loadMore: boolean = fa
               payload: request
             });
 
-            const response = await context.client.listContacts(request)
+            const response = await context.client.getContactList(request)
 						dispatch({
               type: ContactListActionType.CONTACT_LIST_FETCHED,
               payload: { request, response }
@@ -89,7 +89,7 @@ export const fetchContactsByAccount = (accountId: string, loadMore: boolean = fa
         payload: request
       });
 
-      const response = await context.client.listContacts(request)
+      const response = await context.client.getContactList(request)
 
       dispatch({
         type: ContactListActionType.CONTACT_LIST_FETCHED,

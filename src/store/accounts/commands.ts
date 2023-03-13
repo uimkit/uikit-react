@@ -15,7 +15,7 @@ export const fetchAccount = (id): ThunkAction<Promise<void>> => {
 		const { client, onError } = context
 		invariant(client, "requires client")
 		try {
-			const account = await client.retrieveIMAccount({ account_id: id, subscribe: true })
+			const account = await client.getAccount({ account_id: id, subscribe: true })
 			dispatch({
         type: AccountListActionType.ACCOUNT_FETCHED,
         payload: account
@@ -42,8 +42,8 @@ export const fetchAllAccounts = (limit = 100): ThunkAction<Promise<void>> => {
 			const request = { offset, limit, subscribe: true }
 			dispatch(fetchingAccountList(request))
 			try {
-				const response = await client.listIMAccounts(request)
-				dispatch({
+				const response = await client.getAccountList(request);
+        dispatch({
           type: AccountListActionType.ACCOUNT_LIST_FETCHED,
           payload: { request, response }
         });

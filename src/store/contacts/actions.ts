@@ -1,5 +1,5 @@
 import { Contact } from "../../types";
-import { ListContactsParameters, ListContactsResponse } from "../../types";
+import { GetContactListParameters, GetContactListResponse } from "../../types";
 
 export enum ContactListActionType {
 	FETCHING_CONTACT_LIST = "uim/FETCHING_CONTACT_LIST",
@@ -8,9 +8,9 @@ export enum ContactListActionType {
 	CONTACT_RECEIVED = "uim/CONTACT_RECEIVED",
 }
 
-export type FetchContactListRequest = ListContactsParameters;
+export type FetchContactListRequest = GetContactListParameters;
 
-export type FetchContactListResponse = ListContactsResponse;
+export type FetchContactListResponse = GetContactListResponse;
 
 export interface FetchContactListError {
 	request: FetchContactListRequest

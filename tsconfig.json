@@ -2,8 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "*": ["src/@types/*"],
-      "@/*": ["./src/*"]
+      "*": ["src/@types/*"]
     },
     "target": "es5",
     "allowUnusedLabels": false,

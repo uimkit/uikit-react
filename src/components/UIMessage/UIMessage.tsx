@@ -125,6 +125,7 @@ function UIMessageWithContext <T extends UIMessageProps>(
     <UIMessageContextProvider value={messageContextValue}>
       <UIMessageUIComponent
         message={message}
+        isShowTime={false}
         MessageContext={MessageContext}
         MessagePlugins={MessagePlugins}
         className={className || messageConfig?.className}

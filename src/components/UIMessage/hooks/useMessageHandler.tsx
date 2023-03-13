@@ -34,7 +34,7 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
 
     try {
       console.log('删除消息');
-      await client.deleteMessage({ message_id: message.id });
+      await client.deleteMessage({ id: message.id });
       dispatch(deleteMessageLocal(message));
     } catch (error) {
       if (handleError) {

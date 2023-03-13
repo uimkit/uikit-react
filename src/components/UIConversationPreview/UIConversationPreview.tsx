@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { UIKitContextProps, useUIKit } from '../../context';
+import { UIKitContextProps, useTranslationContext, useUIKit } from '../../context';
 import { UIConversationPreviewContent } from '../UIConversationPreview/UIConversationPreviewContent';
 import { Conversation } from '../../types';
-import { getDisplayImage, getDisplayMessage, getDisplayTime, getDisplayTitle } from './utils';
+import { getDisplayImage, getDisplayMessage, getDisplayTitle } from './utils';
 import { useIMAccount } from '../../hooks/useIMAccount';
 import { AvatarProps } from '../Avatar';
 
 import './styles/index.scss';
+import { getDateString } from '../../i18n/utils';
 
 export interface UIConversationPreviewComponentProps extends UIConversationPreviewProps {
   /** If the component's Conversation is the active (selected) Conversation */
@@ -53,15 +54,32 @@ export function UIConversationPreview<T extends UIConversationPreviewProps>(
   const [displayImage, setDisplayImage] = useState(getDisplayImage(conversation));
   const [displayTitle, setDisplayTitle] = useState(getDisplayTitle(conversation, searchValue));
   const [displayMessage, setDisplayMessage] = useState(getDisplayMessage(conversation, imAccount));
-  const [displayTime, setDisplayTime] = useState(getDisplayTime(conversation));
+
+  const { tDateTimeParser } = useTranslationContext();
+
+  const { last_message } = conversation;
+  const formattedDate = getDateString({
+    tDateTimeParser: tDateTimeParser,
+    messageCreatedAt: last_message?.sent_at ? new Date(last_message?.sent_at) : null,
+  });
+
+  const [displayTime, setDisplayTime] = useState(formattedDate);
+
+
   const [unread, setUnread] = useState(conversation.unread);
   const isActive = activeConversation?.id === conversation?.id;
   if (!Preview) return null;
   useEffect(() => {
+    const { last_message } = conversation;
+    const formattedDate = getDateString({
+      tDateTimeParser,
+      messageCreatedAt: last_message?.sent_at ? new Date(last_message?.sent_at) : null,
+    });
+
     setDisplayTitle(getDisplayTitle(conversation, searchValue));
     setDisplayMessage(getDisplayMessage(conversation, imAccount));
     setDisplayImage(getDisplayImage(conversation));
-    setDisplayTime(getDisplayTime(conversation));
+    setDisplayTime(formattedDate);
     setUnread(conversation.unread);
   }, [conversation, searchValue, conversationUpdateCount]);
 

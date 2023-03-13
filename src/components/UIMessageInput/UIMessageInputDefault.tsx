@@ -4,13 +4,17 @@ import { useMessageInputContext } from '../../context';
 import { MESSAGE_OPERATE } from '../../constants';
 import { useChatStateContext } from '../../context';
 
+/**
+ * 暂时没有使用
+ * @returns 
+ */
 export function UIMessageInputDefault(): React.ReactElement {
   const {
     text,
     disabled,
     handleChange,
     handleKeyDown,
-    handlePasete,
+    handlePaste,
     textareaRef,
     focus,
     setText,
@@ -32,10 +36,10 @@ export function UIMessageInputDefault(): React.ReactElement {
     if (focus && textareaRef.current) {
       textareaRef.current.autofocus = true;
       textareaRef?.current?.focus();
-      textareaRef?.current?.addEventListener('paste', handlePasete);
+      textareaRef?.current?.addEventListener('paste', handlePaste);
     }
     return () => {
-      textareaRef?.current?.removeEventListener('paste', handlePasete);
+      textareaRef?.current?.removeEventListener('paste', handlePaste);
     };
   }, [focus]);
 

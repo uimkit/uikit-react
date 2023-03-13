@@ -2,7 +2,7 @@ import React, {
   PropsWithChildren, useContext, RefObject,
 } from 'react';
 import { Message } from '../types';
-import { ChatConfig, MessageListProps, UIMessageInputBasicProps, UIMessageProps } from '../components';
+import { UIMessageListProps, UIMessageInputBasicProps, UIMessageProps } from '../components';
 import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessage';
 
 export interface ChatStateContextValue {
@@ -18,9 +18,9 @@ export interface ChatStateContextValue {
   UIMessageInputConfig?: UIMessageInputBasicProps,
   audioSource?: HTMLAudioElement,
   vidoeSource?: HTMLVideoElement,
-  UIMessageListConfig?: MessageListProps,
+  UIMessageListConfig?: UIMessageListProps,
   uploadPenddingMessageList?: Array<Message>;
-  chatConfig?: ChatConfig | undefined;
+  suppressAutoscroll?: boolean;
 }
 
 export const ChatStateContext = React.createContext<ChatStateContextValue>(null);

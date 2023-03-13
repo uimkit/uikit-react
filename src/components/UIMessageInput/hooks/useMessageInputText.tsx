@@ -5,28 +5,31 @@ import React, {
   useRef,
 } from 'react';
 import { CONSTANT_DISPATCH_TYPE, MESSAGE_OPERATE } from '../../../constants';
-import { formatEmojiString } from '../../UIMessage/utils/emojiMap';
 import { useHandleQuoteMessage } from './useHandleQuoteMessage';
-import type { IbaseStateProps, ICursorPos, MessageInputReducerAction } from './useMessageInputState';
+import type { MessageInputReducerAction } from './useMessageInputState';
 import { filesData } from './useUploadPicker';
 import { MessageType } from '../../../types';
 import { useChatActionContext, useUIKit } from '../../../context';
+import { UIMessageInputProps } from '../UIMessageInput';
+import { MessageInputState } from './useMessageInputState';
 
-interface useMessageInputTextProps extends IbaseStateProps {
-  focus?: boolean,
-  sendUploadMessage?: (file: filesData, type: MessageType) => void; // XXX 这个不应该在这里吧?
-  additionalTextareaProps?: React.TextareaHTMLAttributes<HTMLTextAreaElement>; // 本来应该在 UIMessageInputProps 中
-  dispatch: React.Dispatch<MessageInputReducerAction>;
-}
-
-export const useMessageInputText = (props: useMessageInputTextProps) => {
+export const useMessageInputText = (
+  props: UIMessageInputProps & {
+    sendUploadMessage?: (file: filesData, type: MessageType) => void; // XXX 这个不应该在这里吧?
+    additionalTextareaProps?: React.TextareaHTMLAttributes<HTMLTextAreaElement>; // 本来应该在 UIMessageInputProps 中  
+  },
+  state: MessageInputState,
+  dispatch: React.Dispatch<MessageInputReducerAction>,
+) => {
   const {
-    state,
-    dispatch,
     focus,
     sendUploadMessage,
     additionalTextareaProps,
+    overrideSubmitHandler,
+    message,
   } = props;
+
+  const { text } = state;
 
   const textareaRef = useRef<HTMLTextAreaElement>();
 
@@ -49,7 +52,7 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
     }
   }, [newCursorPosition]);
 
-  const { client } = useUIKit();
+  const { client, activeConversation } = useUIKit();
   const { sendMessage, createTextMessage, operateMessage } = useChatActionContext('UIMessageInput');
 
   const { cloudCustomData } = useHandleQuoteMessage();
@@ -74,23 +77,41 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
     event?: React.BaseSyntheticEvent,
   ) => {
     event?.preventDefault();
+
     if (!state.text) {
       return;
     }
-    const options:any = {
-      payload: {
-        text: formatEmojiString(state.text),
-      },
-    };
+
+    const trimmedMessage = text.trim();
+    const isEmptyMessage = 
+      trimmedMessage === ''
+
+    if (isEmptyMessage) return;
+
+    const updatedMessage = {
+      // attachments: newAttachments,
+      // mentioned_users: actualMentionedUsers,
+      text,
+    } as any;
+
     if (cloudCustomData.messageReply) {
-      options.cloudCustomData = JSON.stringify(cloudCustomData);
+      updatedMessage.cloudCustomData = JSON.stringify(cloudCustomData);
     }
-    const message = createTextMessage(options);
-    await sendMessage(message);
-    dispatch({
-      getNewText: (text:string) => '',
+
+    dispatch({ 
       type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
+      getNewText: () => '',
     });
+
+    if (overrideSubmitHandler) {
+      await overrideSubmitHandler(message, activeConversation.id);
+    } else {
+      const message = createTextMessage({ 
+        ...updatedMessage,
+      });
+      await sendMessage(message);
+    }
+
     operateMessage({
       [MESSAGE_OPERATE.QUOTE]: null,
     });
@@ -105,7 +126,7 @@ export const useMessageInputText = (props: useMessageInputTextProps) => {
       if (event?.ctrlKey && enterCodeList.indexOf(event?.code) > -1 && event.keyCode === 13) {
         dispatch({
           type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
-          getNewText: (text:string) => `${text}\n`,
+          getNewText: (text: string) => `${text}\n`,
         });
       }
     },

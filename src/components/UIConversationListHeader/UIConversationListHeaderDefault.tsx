@@ -20,7 +20,6 @@ export function UIConversationListHeaderDefault<T extends UIConversationListHead
         onChange={handleSearchValueChange}
       />*/}
       <div className="uim-conversation-create-icon">
-        aaa33
         <Icon
           onClick={handleConversationCreate}
           type={IconTypes.CREATE}

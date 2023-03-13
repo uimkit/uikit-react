@@ -45,10 +45,10 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
 
     switch (conversation?.type) {
       case ConversationType.Private:
-        handleC2C(/*conversation.userProfile*/conversation, conversation);
+        handleC2C(conversation, conversation.contact);
         break;
       case ConversationType.Group:
-        handleGroup(/*conversation.groupProfile*/conversation, conversation);
+        handleGroup(conversation, conversation.contact);
         break;
       case ConversationType.System:
         setTitle('系统通知');
@@ -61,11 +61,11 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
 
   const handleC2C = (conversation: Conversation, userProfile: any) => {
     if (!propTitle) {
-      setTitle(userProfile?.name || userProfile?.id);
+      setTitle(userProfile?.nickname ?? userProfile?.id);
     }
 
     if (!propAvatar) {
-      setAvatar(<Avatar size={32} image={handleDisplayAvatar(conversation.avatar)} />);
+      setAvatar(<Avatar size={32} image={handleDisplayAvatar(conversation.contact.avatar)} />);
     }
   };
 
@@ -76,7 +76,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     if (!propAvatar) {
       setAvatar(<Avatar
         size={32}
-        image={handleDisplayAvatar(conversation.avatar, ConversationType.Group)}
+        image={handleDisplayAvatar(conversation.contact.avatar, ConversationType.Group)}
       />);
     }
   };

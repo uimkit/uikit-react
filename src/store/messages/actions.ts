@@ -1,4 +1,4 @@
-import { Message, ListMessagesParameters, ListMessagesResponse } from "../../types";
+import { Message, GetMessageListParameters, GetMessageListResponse } from "../../types";
 
 export enum MessageListActionType {
 	FETCHING_MESSAGE_LIST = "uim/FETCHING_MESSAGE_LIST",
@@ -6,11 +6,12 @@ export enum MessageListActionType {
 	ERROR_FETCHING_MESSAGE_LIST = "uim/ERROR_FETCHING_MESSAGE_LIST",
 	MESSAGE_RECEIVED = "uim/MESSAGE_RECEIVED",
 	MESSAGE_DELETED = "uim/MESSAGE_DELETED",
+  MESSAGE_UPDATE = "uim/MESSAGE_UPDATE",
 }
 
-export type FetchMessageListRequest = ListMessagesParameters;
+export type FetchMessageListRequest = GetMessageListParameters;
 
-export type FetchMessageListResponse = ListMessagesResponse;
+export type FetchMessageListResponse = GetMessageListResponse;
 
 export interface FetchMessageListError {
 	request: FetchMessageListRequest;
@@ -39,7 +40,12 @@ export interface ErrorFetchingMessageListAction {
 
 export interface MessageReceivedAction {
 	type: typeof MessageListActionType.MESSAGE_RECEIVED;
-	payload: Message
+	payload: Message;
+}
+
+export interface MessageUpdateAction {
+  type: typeof MessageListActionType.MESSAGE_UPDATE;
+  payload: Message;
 }
 
 export interface MessageDeletedPayload {
@@ -60,3 +66,4 @@ export type MessageListActions =
 	| ErrorFetchingMessageListAction
 	| MessageReceivedAction
 	| MessageDeletedAction
+  | MessageUpdateAction

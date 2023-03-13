@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { Message } from '../../types';
-import { useUIMessageContext } from '../../context';
-import { getTimeStamp } from '../utils';
+import { useTranslationContext, useUIMessageContext } from '../../context';
+import { getDateString } from '../../i18n/utils';
 
 export interface MessageContextProps {
   message?: Message,
@@ -14,11 +14,18 @@ function MessageStatustWithContext <T extends MessageContextProps>(
     message,
   } = props;
 
+  const { tDateTimeParser } = useTranslationContext('DateSeparator');
+
   const {
     isShowTime,
   } = useUIMessageContext('MessageStatustWithContext');
 
-  const timeElement = (typeof isShowTime === 'undefined' || isShowTime) && <div className="time">{message?.sent_at ? getTimeStamp(message.sent_at) : 0}</div>;
+  const formattedDate = getDateString({ 
+    tDateTimeParser,
+    messageCreatedAt: message?.sent_at,
+  });
+
+  const timeElement = (!!isShowTime) && <div className="time">{formattedDate}</div>;
 
   return (
     <div className="message-status">

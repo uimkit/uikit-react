@@ -11,9 +11,9 @@ export const getDisplayTitle = (
     name, nick, groupID, userID,
   } = getMessageProfile(conversation);
   */
-  const { name } = contact;
+  const { nickname } = contact;
 
-  let title = name;
+  let title = nickname;
 
   const handleTitle = (str:string) => {
     const tempStr = str.toLocaleLowerCase();

@@ -85,11 +85,9 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
     insertText,
     setText,
   } = useMessageInputText({
-    state,
-    dispatch,
     focus,
     sendUploadMessage,
-  });
+  }, state, dispatch);
 
   const {
     onSelectEmoji,

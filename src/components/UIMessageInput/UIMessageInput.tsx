@@ -5,7 +5,7 @@ import { useMessageInputState } from './hooks/useMessageInputState';
 import { EmptyStateIndicator } from '../EmptyStateIndicator';
 import { InputQuoteDefault } from './InputQuoteDefault';
 import { InputPluginsDefault } from './InputPluginsDefault';
-import { ConversationType } from '../../types';
+import { ConversationType, Message } from '../../types';
 import { DefaultTriggerProvider } from './DefaultTriggerProvider';
 
 import clsx from 'clsx';
@@ -25,12 +25,30 @@ export interface PluginConfigProps {
 }
 
 export interface UIMessageInputBasicProps {
-  disabled?: boolean,
-  focus?: boolean,
-  textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>,
-  isTransmitter?: boolean,
-  className?: string,
-  pluginConfig?: PluginConfigProps,
+  disabled?: boolean;
+  focus?: boolean;
+  textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>;
+  isTransmitter?: boolean;
+  className?: string;
+  pluginConfig?: PluginConfigProps;
+  /** 如果提供, 则会基于此消息进行编辑并提交 */
+  message?: Message;
+  overrideSubmitHandler?: (
+    message: Message,
+    conversationId: string,
+  ) => Promise<void> | void;
+
+  /** If true, will use an optional dependency to support transliteration in the input for mentions, default is false. See: https://github.com/getstream/transliterate */
+  /**
+   * Currently, `Enter` is the default submission key and  `Shift`+`Enter` is the default combination for the new line.
+   * If specified, this function overrides the default behavior specified previously.
+   *
+   * Example of default behaviour:
+   * ```tsx
+   * const defaultShouldSubmit = (event) => event.key === "Enter" && !event.shiftKey;
+   * ```
+   */
+   shouldSubmit?: (event: KeyboardEvent) => boolean;
 }
 
 
@@ -39,7 +57,6 @@ export interface UIMessageInputProps extends UIMessageInputBasicProps {
   InputPlugins?: React.ComponentType<UnknowPorps>,
   InputQuote?: React.ComponentType<UnknowPorps>,
 }
-
 
 
 

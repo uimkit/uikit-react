@@ -62,7 +62,7 @@ export function unMemoContactPreviewContent<T extends UIContactPreviewComponentP
       ref={contactPreviewButton}
     >
       <div className="avatar">
-        <Avatar image={displayImage} name={contact.name} size={40} />
+        <Avatar image={displayImage} name={contact.nickname} size={40} />
       </div>
       <div className="content">
         <div className="title">

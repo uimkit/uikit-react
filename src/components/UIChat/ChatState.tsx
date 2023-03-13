@@ -50,6 +50,11 @@ export type ChatStateReducerAction =
       type: CONSTANT_DISPATCH_TYPE.UPDATE_UPLOAD_PENDDING_MESSAGE_LIST,
       value?: Message,
     }
+  | 
+    {
+      type: 'jumpToLatestMessage';
+    }
+
 export type ChatStateReducer = Reducer<ChatStateContextValue, ChatStateReducerAction>;
 
 export const chatReducer = (
@@ -74,6 +79,14 @@ export const chatReducer = (
           ...handleUploadPendingMessage(state.uploadPenddingMessageList, action.value),
         ],
       };
+    case 'jumpToLatestMessage': {
+      return {
+        ...state,
+        // hasMoreNewer: false,
+        highlightedMessageId: undefined,
+        suppressAutoscroll: false,
+      };
+    }
     default: return state;
   }
 };
@@ -87,4 +100,5 @@ export const initialState: ChatStateContextValue = {
   audioSource: null,
   vidoeSource: null,
   uploadPenddingMessageList: [],
+  suppressAutoscroll: false,
 };

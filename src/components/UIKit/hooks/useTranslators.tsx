@@ -15,13 +15,13 @@ export function useTranslators({
   const [translators, setTranslators] = useState<TranslationContextValue>({
     t: defaultTranslatorFunction, // (key: string) => key,
     tDateTimeParser: defaultDateTimeParser,
-    userLanguage: 'en',
+    userLanguage: 'zh',
   });
 
   useEffect(() => {
     const browserLanguage = window.navigator.language.slice(0, 2); // just get language code, not country-specific version
     const userLanguage = isLanguageSupported(browserLanguage) ? browserLanguage : defaultLanguage;
-  
+
     const uimi18n = i18nInstance || new Uimi18n({ language: userLanguage });
 
     uimi18n.registerSetLanguageCallback((t) =>

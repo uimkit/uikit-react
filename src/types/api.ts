@@ -1,57 +1,53 @@
 import { Group, GroupMember, Moment, Contact, Conversation, ConversationType, CursorListQueryParameters, CursorListResponse, EmptyObject, IMAccount, ImageMessageBody, Message, MessageType, PageListQueryParameters, PageListResponse, VideoMessageBody, VoiceMessageBody } from "./models";
 
 
-export interface SendMessageOptions {
-}
-
-
-export type RetrieveIMAccountParameters = {
+export type GetIMAccountParameters = {
     account_id: string;
     subscribe?: boolean;
 };
 
-export type RetrieveIMAccountResponse = IMAccount;
-export type ListIMAccountsParameters = PageListQueryParameters<EmptyObject> & {
+export type GetIMAccountResponse = IMAccount;
+export type GetAccountListParameters = PageListQueryParameters<EmptyObject> & {
     provider?: string;
     subscribe?: boolean;
 };
 
-export type ListIMAccountsResponse = PageListResponse<IMAccount>;
-export type ListContactsParameters = CursorListQueryParameters<EmptyObject> & {
+export type GetAccountListResponse = PageListResponse<IMAccount>;
+export type GetContactListParameters = CursorListQueryParameters<EmptyObject> & {
     account_id: string;
 };
-export type ListContactsResponse = CursorListResponse<Contact>;
-export type ListGroupsParameters = PageListQueryParameters<EmptyObject> & {
+export type GetContactListResponse = CursorListResponse<Contact>;
+export type GetGroupsParameters = PageListQueryParameters<EmptyObject> & {
     account_id: string;
 };
-export type ListGroupsResponse = PageListResponse<Group>;
-export type ListConversationsParameters = CursorListQueryParameters<EmptyObject> & {
+export type GetGroupsResponse = PageListResponse<Group>;
+export type GetConversationsParameters = CursorListQueryParameters<EmptyObject> & {
     account_id: string;
 };
-export type ListConversationsResponse = CursorListResponse<Conversation>;
-export type RetrieveConversationParameters = {
+export type GetConversationsResponse = CursorListResponse<Conversation>;
+export type GetConversationParameters = {
     conversation_id: string;
 };
-export type RetrieveConversationResponse = Conversation;
-export type RetrieveContactConversationParameters = {
+export type GetConversationResponse = Conversation;
+export type GetContactConversationParameters = {
     account_id: string;
     user_id: string;
 };
-export type RetrieveContactConversationResponse = Conversation;
-export type RetrieveGroupConversationParameters = {
+export type GetContactConversationResponse = Conversation;
+export type GetGroupConversationParameters = {
     account_id: string;
     group_id: string;
 };
-export type RetrieveGroupConversationResponse = Conversation;
+export type GetGroupConversationResponse = Conversation;
 export type ResetConversationUnreadParameters = {
     conversation_id: string;
 };
 export type ResetConversationUnreadResponse = Conversation;
-export type RetrieveContactParameters = {
+export type GetContactParameters = {
     account_id: string;
     user_id: string;
 };
-export type RetrieveContactResponse = Contact;
+export type GetContactResponse = Contact;
 export type AddContactParameters = {
     account_id: string;
     contact: string;
@@ -61,24 +57,24 @@ export type AddContactResponse = {
     success: boolean;
     reason?: string;
 };
-export type RetrieveGroupParameters = {
+export type GetGroupParameters = {
     account_id: string;
     group_id: string;
 };
-export type RetrieveGroupResponse = Group;
-export type ListGroupMembersParameters = PageListQueryParameters<EmptyObject> & {
+export type GetGroupResponse = Group;
+export type GetGroupMemberListParameters = PageListQueryParameters<EmptyObject> & {
     group_id: string;
 };
-export type ListGroupMembersResponse = PageListResponse<GroupMember>;
-export type ListMomentsParameters = CursorListQueryParameters<EmptyObject> & {
+export type GetGroupMemberListResponse = PageListResponse<GroupMember>;
+export type GetMomentListParameters = CursorListQueryParameters<EmptyObject> & {
     account_id: string;
     user_id?: string;
 };
-export type ListMomentsResponse = CursorListResponse<Moment>;
-export type ListMessagesParameters = CursorListQueryParameters<EmptyObject> & {
+export type GetMomentListResponse = CursorListResponse<Moment>;
+export type GetMessageListParameters = CursorListQueryParameters<EmptyObject> & {
     conversation_id: string;
 };
-export type ListMessagesResponse = CursorListResponse<Message>;
+export type GetMessageListResponse = CursorListResponse<Message>;
 export type SendMessageDirectParameters = {
     from: string;
     to: string;
@@ -111,7 +107,7 @@ export type DeleteMessageResponse = any;
 
 export interface APIClient {
   /******************** IMAccount ********************/
-  listIMAccounts(params: any): Promise<any>;
+  getAccountList(params: GetAccountListParameters): Promise<GetAccountListResponse>;
 
 
   /******************** Contact ********************/
@@ -119,9 +115,9 @@ export interface APIClient {
    * 
    * @param params 
    */
-  listContacts(params: any): Promise<any>;
+  getContactList(params: GetContactListParameters): Promise<GetContactListResponse>;
 
-  retrieveContact(params: any): Promise<Contact>;
+  getContact(params: any): Promise<Contact>;
 
 
   /******************** Message ********************/
@@ -190,26 +186,27 @@ export interface APIClient {
    * 
    * @param params 
    */
-  retrieveIMAccount(params: any): Promise<IMAccount>;
+  getAccount(params: any): Promise<IMAccount>;
 
   /**
    * 
    * @param params 
    */
-  listMessages(params: any): Promise<any>;
+  getMessageList(params: GetMessageListParameters): Promise<GetMessageListResponse>;
 
   /**
    * 发送消息
-   * 之前写法太奇怪， 要去掉 callback
    * @param params 
    */
-  sendMessage(message: any | Message, callback: (accountId: string, event: any) => void, opts?: SendMessageOptions): Promise<any>;
+  sendMessage(message: any | Message): Promise<any>;
+
+  deleteMessage(message: Pick<Message, 'id'>): Promise<any>;
 
   /**
    * 删除消息的接口
    * @param messageList 
    */
-  deleteMessage(messageList: any): Promise<any>;
+  getMessage(messageList: any): Promise<any>;
 
   /**
    * 重发消息的接口，当消息发送失败时，可调用该接口进行重发。
@@ -229,15 +226,15 @@ export interface APIClient {
    * 
    * @param params 获取会话列表
    */
-  listConversations(params: any): Promise<any>;
+  getConversationList(params: any): Promise<any>;
 
-  retrieveConversation(params: any): Promise<Conversation>;
+  getConversation(params: any): Promise<Conversation>;
 
-  retrieveContactConversation(params: any): Promise<Conversation>;
+  getContactConversation(params: any): Promise<Conversation>;
 
   resetConversationUnread(params: any): Promise<any>;
 
 
   /******************** Group ********************/
-  retrieveGroup(params: any): Promise<Group>;
+  getGroup(params: any): Promise<Group>;
 }

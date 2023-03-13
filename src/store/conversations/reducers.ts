@@ -43,8 +43,11 @@ export const createConversationListReducer = () => (
 			return handleErrorFetchingConversationList(state, action.payload);
 		}
 		case ConversationListActionType.CONVERSATION_RECEIVED: {
-			return handleConversationReceived(state, action.payload);
+			return handleUpdateConversation(state, action.payload);
 		}
+    case ConversationListActionType.CONVERSATION_UPDATE: {
+      return handleUpdateConversation(state, action.payload);
+    }
 		default:
 			return state;
 	}
@@ -123,18 +126,18 @@ const handleErrorFetchingConversationList = (
 	}
 }
 
-const handleConversationReceived = (
+const handleUpdateConversation = (
 	state: ConversationListState,
-	payload: Conversation
+	payload: Conversation,
 ): ConversationListState => {
-	const { account } = payload;
+  const { account } = payload;
 	const stateByAccount = state[account] || newState();
 	let { conversations } = stateByAccount;
 	const idx = conversations.findIndex(it => it.id === payload.id)
 	if (idx >= 0) {
 		conversations[idx] = { ...conversations[idx], ...payload }
 	} else {
-		conversations.push(payload)
+		conversations.push(payload);
 	}
 	conversations.sort(sortConversations)
 	conversations = [...conversations]

@@ -38,25 +38,22 @@ export enum MessageType {
  */
 export interface Profile {
   id: string;
+  nickname: string;
+  avatar: string;
+  gender: number;
 }
 
 export interface IMAccount extends Profile {
   provider: string;
-  name: string;
-  avatar: string;
-
   created_at: number;
 }
 
 /**
  * 联系人
  */
-export interface Contact {
+export interface Contact extends Profile {
   id: string;
   account: string;
-  avatar: string;
-  name: string;
-  gender: number;
   marked: boolean;
   created_at: number;
 }
@@ -219,9 +216,8 @@ export interface Conversation {
   // groupType: ConversationGroupType;
 
   name: string;
-  
 
-  avatar?: string;
+  contact?: Contact;
 
   /**
    * 未读计数。GRP_MEETING / GRP_AVCHATROOM 类型的群组会话不记录未读计数

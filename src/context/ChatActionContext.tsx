@@ -21,9 +21,11 @@ export interface ChatActionContextValue {
   operateMessage?: (data?: OperateMessageParams) => void,
   revokeMessage?: (message:Message) => Promise<Message>,
   setAudioSource?: (source: HTMLAudioElement | null) => void,
-  setVideoSource?: (source: HTMLVideoElement | null) => void,
-  setHighlightedMessageId?: (highlightedMessageId: string) => void,
-  updataUploadPenddingMessageList?: (message?:Message) => void,
+  setVideoSource?: (source: HTMLVideoElement | null) => void;
+  setHighlightedMessageId?: (highlightedMessageId: string) => void;
+  updataUploadPenddingMessageList?: (message?:Message) => void;
+
+  jumpToLatestMessage: () => Promise<void>;
 }
 
 export const ChatActionContext = React.createContext<ChatActionContextValue | undefined>(

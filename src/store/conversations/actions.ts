@@ -1,15 +1,16 @@
-import { Conversation, ListConversationsParameters, ListConversationsResponse } from "../../types";
+import { Conversation, GetConversationsParameters, GetConversationsResponse } from "../../types";
 
 export enum ConversationListActionType {
 	FETCHING_CONVERSATION_LIST = "uim/FETCHING_CONVERSATION_LIST",
 	CONVERSATION_LIST_FETCHED = "uim/CONVERSATION_LIST_FETCHED",
 	ERROR_FETCHING_CONVERSATION_LIST = "uim/ERROR_FETCHING_CONVERSATION_LIST",
-	CONVERSATION_RECEIVED = "uim/CONVERSATION_RECEIVED"
+	CONVERSATION_RECEIVED = "uim/CONVERSATION_RECEIVED",
+  CONVERSATION_UPDATE = "uim/CONVERSATION_UPDATE",
 }
 
-export type FetchConversationListRequest = ListConversationsParameters;
+export type FetchConversationListRequest = GetConversationsParameters;
 
-export type FetchConversationListResponse = ListConversationsResponse;
+export type FetchConversationListResponse = GetConversationsResponse;
 
 export interface FetchConversationListError {
 	request: FetchConversationListRequest
@@ -41,8 +42,14 @@ export interface ConversationReceivedAction {
 	payload: Conversation
 }
 
+export interface ConversationUpdateAction {
+	type: typeof ConversationListActionType.CONVERSATION_UPDATE;
+	payload: Conversation
+}
+
 export type ConversationListActions =
 	| FetchingConversationListAction
 	| ConversationListFetchedAction
 	| ErrorFetchingConversationListAction
 	| ConversationReceivedAction
+  | ConversationUpdateAction

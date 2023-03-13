@@ -107,7 +107,6 @@ export class ReactTextareaAutocomplete extends React.Component<any, any> {
 
   _handleKeyDown = (event) => {
     const { shouldSubmit = this._defaultShouldSubmit } = this.props;
-
     // prevent default behaviour when the selection list is rendered
     if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && this.dropdownRef)
       event.preventDefault();
