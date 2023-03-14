@@ -238,7 +238,7 @@ export interface APIClient {
    * 标记会话消息为已读
    * @param id 
    */
-  setConversationRead(id: string): Promise<void>;
+  setConversationRead(conversationID: string): Promise<void>;
 
   /**
    * 置顶会话
