@@ -18,7 +18,7 @@ export function InputPluginsDefault():React.ReactElement {
   const propPlugins = propsPluginConfig?.plugins
   || UIMessageInputConfig?.pluginConfig?.plugins || [];
   const showNumber = propsPluginConfig?.showNumber
-  || UIMessageInputConfig?.pluginConfig?.showNumber || 1;
+  || UIMessageInputConfig?.pluginConfig?.showNumber || 10;
   const MoreIcon = propsPluginConfig?.MoreIcon || UIMessageInputConfig?.pluginConfig?.MoreIcon;
 
   const handlePluginBoolenParams = (
