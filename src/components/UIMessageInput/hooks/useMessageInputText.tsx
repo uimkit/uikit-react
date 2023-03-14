@@ -133,7 +133,7 @@ export const useMessageInputText = (
     [handleSubmit, dispatch],
   );
 
-  const handlePasete = useCallback(
+  const handlePaste = useCallback(
     async (e: React.ClipboardEvent | any) => {
       e.preventDefault();
       if (!(e.clipboardData && e.clipboardData.items)) {
@@ -220,7 +220,7 @@ export const useMessageInputText = (
     handleChange,
     handleSubmit,
     handleKeyDown,
-    handlePasete,
+    handlePaste,
     insertText,
     setText,
   };

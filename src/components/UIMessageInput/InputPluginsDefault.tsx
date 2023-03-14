@@ -67,7 +67,7 @@ export function InputPluginsDefault():React.ReactElement {
     ),
     type: 'image',
     accept: 'image/*',
-    onChange: (file:HTMLInputElement | File) => {
+    onChange: (file: HTMLInputElement | File) => {
       pluginsRef.current.closeMore();
       sendUploadMessage({ file }, MessageType.Image);
     },

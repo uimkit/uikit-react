@@ -24,7 +24,6 @@ export interface ChatActionContextValue {
   setAudioSource?: (source: HTMLAudioElement | null) => void;
   setVideoSource?: (source: HTMLVideoElement | null) => void;
   setHighlightedMessageId?: (highlightedMessageId: string) => void;
-  updataUploadPenddingMessageList?: (message?:Message) => void;
 
   jumpToLatestMessage: () => Promise<void>;
 }

@@ -16,21 +16,23 @@ export function useUploadPicker<T extends IbaseStateProps>(props:PropsWithChildr
     createImageMessage,
     createVideoMessage,
     createFileMessage,
-    updataUploadPenddingMessageList,
+    updateMessage,
   } = useChatActionContext();
 
-  const creatUploadMessage = {
+  const createUploadMessage = {
     [MessageType.Image]: createImageMessage,
     [MessageType.Video]: createVideoMessage,
     [MessageType.File]: createFileMessage,
   };
 
-  const sendUploadMessage = useCallback((file: filesData, type: MessageType) => {
-    const message = creatUploadMessage[type]({
-      payload: file,
-      onProgress(num:number) {
+  const sendUploadMessage = useCallback((data: filesData, type: MessageType) => {
+    const { file } = data;
+    const message = createUploadMessage[type]({
+      file,
+      onProgress(num: number) {
+        console.log('onProgress: ', num);
         message.progress = num;
-        updataUploadPenddingMessageList(message);
+        updateMessage(message);
       },
     });
     sendMessage(message);
