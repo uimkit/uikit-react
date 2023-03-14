@@ -461,3 +461,33 @@ export function formatTime(secondTime:number) {
   }
   return newTime;
 }
+
+
+
+
+
+
+
+/**
+ * Following function validates a function which returns notification message.
+ * It validates if the first parameter is function and also if return value of function is string or no.
+ */
+ export const validateAndGetMessage = <T extends unknown[]>(
+  func: (...args: T) => unknown,
+  args: T,
+) => {
+  if (!func || typeof func !== 'function') return null;
+
+  // below is due to tests passing a single argument
+  // rather than an array.
+  if (!(args instanceof Array)) {
+    // @ts-expect-error
+    args = [args];
+  }
+
+  const returnValue = func(...args);
+
+  if (typeof returnValue !== 'string') return null;
+
+  return returnValue;
+};

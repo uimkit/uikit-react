@@ -200,7 +200,7 @@ export interface APIClient {
    */
   sendMessage(message: any | Message): Promise<any>;
 
-  deleteMessage(message: Pick<Message, 'id'>): Promise<any>;
+  deleteMessage(id: string): Promise<any>;
 
   /**
    * 删除消息的接口

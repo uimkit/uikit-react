@@ -24,45 +24,6 @@ export const updateMessage = (message: Message): ThunkAction<Promise<void>> => {
 }
 
 /**
- * 删除消息
- * 
- * @param message 
- * @returns 
- */
-export const deleteMessage = (message: Message): ThunkAction<Promise<void>> => {
-	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
-		invariant(client, "requires client")
-		try {
-			dispatch({
-        type: MessageListActionType.MESSAGE_DELETED,
-        payload: message,
-      });
-
-			await client.deleteMessage({ id: message.id });
-
-			// 更新会话摘要
-			const { conversations, messages } = getState()
-			const accountId = message.account
-			const conversationId = message.conversation_id
-			const conversation = conversations[accountId]?.conversations?.find(it => it.id === conversationId)
-			if (conversation?.last_message?.id === message.id) {
-				const lastMessage = last(messages[conversationId]?.messages ?? [])
-				conversation.last_message = lastMessage
-				conversation.active_at = lastMessage?.sent_at ?? conversation.created_at
-				dispatch({
-          type: ConversationListActionType.CONVERSATION_RECEIVED,
-          payload: conversation
-        });
-			}
-		} catch (e: unknown) {
-			console.error("delete message error", e)
-			onError && onError(e, t("default:chat:messages:deleteError"))
-		}
-	}
-}
-
-/**
  * 删除消息(local)
  * 
  * @param message 
@@ -70,32 +31,25 @@ export const deleteMessage = (message: Message): ThunkAction<Promise<void>> => {
  */
  export const deleteMessageLocal = (message: Message): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
-		invariant(client, "requires client")
-		try {
-			dispatch({
-        type: MessageListActionType.MESSAGE_DELETED,
-        payload: message,
-      });
+		dispatch({
+      type: MessageListActionType.MESSAGE_DELETED,
+      payload: message,
+    });
 
-			// 更新会话摘要
-			const { conversations, messages } = getState()
-			const accountId = message.account
-			const conversationId = message.conversation_id
-			const conversation = conversations[accountId]?.conversations?.find(it => it.id === conversationId)
-			if (conversation?.last_message?.id === message.id) {
-				const lastMessage = last(messages[conversationId]?.messages ?? [])
-				conversation.last_message = lastMessage
-				conversation.active_at = lastMessage?.sent_at ?? conversation.created_at
-				dispatch({
-          type: ConversationListActionType.CONVERSATION_RECEIVED,
-          payload: conversation
-        });
-			}
-		} catch (e: unknown) {
-			console.error("delete message error", e)
-			onError && onError(e, t("default:chat:messages:deleteError"))
-		}
+    // 更新会话摘要
+    const { conversations, messages } = getState()
+    const accountId = message.account
+    const conversationId = message.conversation_id
+    const conversation = conversations[accountId]?.conversations?.find(it => it.id === conversationId)
+    if (conversation?.last_message?.id === message.id) {
+      const lastMessage = last(messages[conversationId]?.messages ?? [])
+      conversation.last_message = lastMessage
+      conversation.active_at = lastMessage?.sent_at ?? conversation.created_at
+      dispatch({
+        type: ConversationListActionType.CONVERSATION_UPDATE,
+        payload: conversation
+      });
+    }
 	}
 }
 

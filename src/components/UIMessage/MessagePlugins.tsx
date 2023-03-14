@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useRef, useState } from 'react';
 import { Plugins, PluginsProps } from '../Plugins';
 import { Icon, IconTypes } from '../Icon';
-import { useChatStateContext, useUIMessageContext } from '../../context';
+import { useChatStateContext, useTranslationContext, useUIMessageContext } from '../../context';
 import { useMessagePluginElement, useMessageHandler } from './hooks';
 import { MESSAGE_FLOW, MESSAGE_STATUS } from '../../constants';
 import { MessageType } from '../../types';
@@ -84,6 +84,8 @@ export function MessagePlugins <T extends MessagePluginsProps>(
     },
   };
 
+  const { t } = useTranslationContext('MessagePlugins');
+
   const handleVisible = (data) => {
     setClassName(`${!data.top && 'message-plugin-top'} ${!data.left && 'message-plugin-left'}`);
   };
@@ -91,7 +93,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const RevokeElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span>Recall</span>
+        <span>{t('message.action.revoke')}</span>
         <Icon width={20} height={20} type={IconTypes.REVOCATION} />
       </div>
     ),
@@ -108,7 +110,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const DeleteElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span className="del">删除</span>
+        <span className="del">{t('message.action.delete')}</span>
         <Icon width={20} height={20} type={IconTypes.DEL} />
       </div>
     ),
@@ -125,7 +127,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const ReplyElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span>引用</span>
+        <span>{t('message.action.quote')}</span>
         <Icon width={20} height={20} type={IconTypes.QUOTE} />
       </div>
     ),
@@ -141,7 +143,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const CopyElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span>Copy</span>
+        <span>{t('message.action.copy')}</span>
         <Icon width={20} height={20} type={IconTypes.COPY} />
       </div>
     ),

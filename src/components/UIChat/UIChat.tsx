@@ -20,7 +20,7 @@ import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/Emo
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
 import { EmojiMartData } from '@emoji-mart/data';
 import defaultEmojiData from '@emoji-mart/data';
-import { updateMessage as reduxUpdateMessage } from '../../store/messages/commands';
+import { deleteMessageLocal, updateMessage as reduxUpdateMessage } from '../../store/messages/commands';
 import { useDispatch } from '../../store/useDispatch';
 import { updateConversation } from '../../store/conversations';
 import './styles/index.scss';
@@ -181,6 +181,9 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     console.log('ok ok');
   }, [client, conversation, reduxDispatch]);
 
+  const deleteMessage = useCallback((message: Message) => {
+    reduxDispatch(deleteMessageLocal(message));
+  }, [reduxDispatch]);
   
   const chatActionContextValue = useMemo<ChatActionContextValue>(() => ({
     sendMessage,
@@ -197,6 +200,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     createMergerMessage,
     operateMessage,
     jumpToLatestMessage,
+    deleteMessage,
   }), [
     sendMessage,
     createTextMessage,
@@ -212,6 +216,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     createMergerMessage,
     operateMessage,
     jumpToLatestMessage,
+    deleteMessage,
   ]);
 
   const componentContextValue: ComponentContextValue = useMemo(

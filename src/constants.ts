@@ -1,6 +1,6 @@
 export enum MESSAGE_STATUS {
   UNSEND = 'unSend',
-  SUCCESS = 'success',
+  SUCCESS = 'succeeded',
   FAIL = 'fail',
 }
 
