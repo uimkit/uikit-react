@@ -320,5 +320,31 @@ export type CursorListResponse<T> = {
 
 
 export type FriendApplication = {
+}
 
+
+export enum SortDirection {
+  DESC = 'desc',
+  ASC = 'asc',
+}
+
+export type Filter = any;
+
+export type SortField = {
+  field: string;
+  direction: SortDirection;
+}
+
+export type SearchQuery = {
+  filter?: Filter;
+  sort?: SortField[];
+  limit?: number;
+}
+
+export type UserFilter = {};
+
+export interface UserSearchQuery extends SearchQuery {
+  filter: UserFilter;
+  sort?: SortField[];
+  limit?: number;
 }

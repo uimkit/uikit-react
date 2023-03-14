@@ -17,6 +17,7 @@ import type { UIUserItemProps } from '../UIUserItem';
 import type { CustomTrigger, UnknownType } from '../../types';
 import { Emoji } from '../../context/EmojiContext';
 import { useCommandTrigger } from './hooks/useCommandTrigger';
+import { useUserTrigger } from './hooks/useUserTrigger';
 
 export type AutocompleteMinimalData = {
   id?: string;
@@ -69,14 +70,11 @@ export const DefaultTriggerProvider = ({
   const defaultAutocompleteTriggers: TriggerSettings = {
     '/': useCommandTrigger(),
     ':': useEmojiTrigger(),
-    /*'@': useUserTrigger({
+    '@': useUserTrigger({
       disableMentions: currentValue.disableMentions,
-      mentionAllAppUsers: currentValue.mentionAllAppUsers,
       mentionQueryParams: currentValue.mentionQueryParams,
       onSelectUser: currentValue.onSelectUser,
-      useMentionsTransliteration: currentValue.useMentionsTransliteration,
     }),
-    */
   };
 
   const newValue = {

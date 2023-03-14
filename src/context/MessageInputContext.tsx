@@ -7,8 +7,7 @@ import React, {
   MutableRefObject,
 } from 'react';
 import { TriggerSettings } from '../components/UIMessageInput/DefaultTriggerProvider';
-import { PluginConfigProps, UIMessageInputProps } from '../components';
-import { Emoji } from '@emoji-mart/data';// 有点污染;
+import { MessageInputHookProps, MessageInputState, PluginConfigProps, UIMessageInputProps } from '../components';
 
 
 export type MessageInputContextValue = {
@@ -19,7 +18,7 @@ export type MessageInputContextValue = {
   handleSubmit?: (event: React.BaseSyntheticEvent) => void;
   handleKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
   textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>;
-  onSelectEmoji?: (emoji: Emoji) => void;
+  onSelectEmoji?: (emoji: any) => void;
   sendFaceMessage?: (emoji: any /*EmojiData*/) => void;
   sendUploadMessage?: (file: any/*filesData*/, type: any/*MESSAGE_TYPE_NAME*/) => void;
   insertText?: (textToInsert: string) => void;
@@ -32,7 +31,7 @@ export type MessageInputContextValue = {
   pluginConfig?: PluginConfigProps;
 
   autocompleteTriggers?: TriggerSettings;
-} & Omit<UIMessageInputProps, 'Input'>;
+} & Omit<UIMessageInputProps, 'Input'> & MessageInputHookProps & MessageInputState;
 
 export const MessageInputContext = React.createContext<MessageInputContextValue>(undefined);
 

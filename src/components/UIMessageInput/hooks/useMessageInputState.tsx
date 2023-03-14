@@ -1,10 +1,12 @@
-import { Dispatch, Reducer, useReducer } from 'react';
+import { Dispatch, Reducer, useCallback, useReducer } from 'react';
 import { CONSTANT_DISPATCH_TYPE } from '../../../constants';
 import type { UIMessageInputProps } from '../UIMessageInput';
 import { useEmojiPicker } from './useEmojiPicker';
 import { useMessageInputText } from './useMessageInputText';
 import { useUploadPicker } from './useUploadPicker';
 import { useEmojiIndex } from './useEmojiIndex';
+import { Profile } from '../../../types';
+import { MessageInputContextValue } from '../../../context';
 
 export interface IbaseStateProps {
   state: MessageInputState,
@@ -13,6 +15,8 @@ export interface IbaseStateProps {
 
 export interface MessageInputState {
   text?: string;
+  mentioned_users: Profile[];
+  setText: (text: string) => void;
 }
 
 export interface ICursorPos {
@@ -25,8 +29,48 @@ type SetTextAction = {
   type: CONSTANT_DISPATCH_TYPE.SET_TEXT;
 };
 
+
+
+export type MessageInputHookProps = {
+  /*
+  handleChange: React.ChangeEventHandler<HTMLTextAreaElement>;
+  handleSubmit: (
+    event: React.BaseSyntheticEvent,
+  ) => void;*/
+  // onPaste: (event: React.ClipboardEvent<HTMLTextAreaElement>) => void;
+  onSelectEmoji: (emoji: any) => void;
+
+  /*
+  closeEmojiPicker: React.MouseEventHandler<HTMLElement>;
+  emojiPickerRef: React.MutableRefObject<HTMLDivElement | null>;
+  handleEmojiKeyDown: React.KeyboardEventHandler<HTMLSpanElement>;
+  insertText: (textToInsert: string) => void;
+  isUploadEnabled: boolean;
+  maxFilesLeft: number;
+  numberOfUploads: number;
+  */
+  onSelectUser: (item: Profile) => void;
+  /*
+  openEmojiPicker: React.MouseEventHandler<HTMLSpanElement>;
+  removeFile: (id: string) => void;
+  removeImage: (id: string) => void;
+  textareaRef: React.MutableRefObject<HTMLTextAreaElement | null | undefined>;
+  uploadFile: (id: string) => void;
+  uploadImage: (id: string) => void;
+  uploadNewFiles: (files: FileList | File[]) => void;
+  */
+};
+
+
+type AddMentionedUserAction = {
+  type: 'addMentionedUser';
+  user: Profile;
+};
+
+
 export type MessageInputReducerAction =
-  | SetTextAction;
+  | SetTextAction
+  | AddMentionedUserAction;
 
 
 /**
@@ -36,7 +80,7 @@ const initState = (
   message?: MessageInputState,
 ): MessageInputState => {
   return {
-    // mentioned_users,
+    mentioned_users: [],
     text: message.text ?? '',
   };
 }
@@ -49,11 +93,16 @@ const messageInputReducer = (
   switch (action.type) {
     case CONSTANT_DISPATCH_TYPE.SET_TEXT:
       return { ...state, text: action?.getNewText(state.text) };
+    case 'addMentionedUser':
+      return {
+        ...state,
+        mentioned_users: state.mentioned_users.concat(action.user),
+      };
     default: return state;
   }
 };
 
-export const useMessageInputState = (props: UIMessageInputProps) => {
+export const useMessageInputState = (props: UIMessageInputProps): MessageInputState & MessageInputHookProps & MessageInputContextValue => {
   const initialStateValue: MessageInputState = {
     text: '',
   };
@@ -79,7 +128,6 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
     textareaRef,
     handleChange,
     handleSubmit,
-    handleKeyDown,
     handlePaste,
     insertText,
     setText,
@@ -100,12 +148,15 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
 
   useEmojiIndex();
 
+  const onSelectUser = useCallback((item: Profile) => {
+    dispatch({ type: 'addMentionedUser', user: item });
+  }, []);
 
   return {
     ...state,
     handleChange,
     handleSubmit,
-    handleKeyDown,
+    onSelectUser,
     handlePaste,
     onSelectEmoji,
     sendFaceMessage,

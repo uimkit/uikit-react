@@ -1,4 +1,3 @@
-import { offset } from "@popperjs/core";
 import { EventHandler } from "./events";
 import { Group, GroupMember, Moment, Contact, Conversation, ConversationType, CursorListQueryParameters, CursorListResponse, EmptyObject, IMAccount, ImageMessageBody, Message, MessageType, PageListQueryParameters, PageListResponse, VideoMessageBody, VoiceMessageBody } from "./models";
 

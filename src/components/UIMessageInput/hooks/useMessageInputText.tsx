@@ -117,6 +117,7 @@ export const useMessageInputText = (
     });
   };
 
+  /*
   const handleKeyDown = useCallback(
     (event?:React.KeyboardEvent<EventTarget>) => {
       if (!event?.ctrlKey && enterCodeList.indexOf(event?.code) > -1 && event.keyCode === 13) {
@@ -131,7 +132,7 @@ export const useMessageInputText = (
       }
     },
     [handleSubmit, dispatch],
-  );
+  );*/
 
   const handlePaste = useCallback(
     async (e: React.ClipboardEvent | any) => {
@@ -204,8 +205,7 @@ export const useMessageInputText = (
     [textareaRef, state],
   );
 
-  const setText = useCallback(
-    (textToInsert: string) => {
+  const setText = useCallback((textToInsert: string) => {
       dispatch({
         type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
         getNewText: () => `${textToInsert}`,
@@ -219,7 +219,6 @@ export const useMessageInputText = (
     textareaRef,
     handleChange,
     handleSubmit,
-    handleKeyDown,
     handlePaste,
     insertText,
     setText,

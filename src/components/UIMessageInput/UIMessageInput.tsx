@@ -5,7 +5,7 @@ import { useMessageInputState } from './hooks/useMessageInputState';
 import { EmptyStateIndicator } from '../EmptyStateIndicator';
 import { InputQuoteDefault } from './InputQuoteDefault';
 import { InputPluginsDefault } from './InputPluginsDefault';
-import { ConversationType, Message } from '../../types';
+import { ConversationType, Message, UserSearchQuery } from '../../types';
 import { DefaultTriggerProvider } from './DefaultTriggerProvider';
 
 import clsx from 'clsx';
@@ -37,6 +37,12 @@ export interface UIMessageInputBasicProps {
     message: Message,
     conversationId: string,
   ) => Promise<void> | void;
+
+  /** If true, the suggestion list will not display and autocomplete @mentions. Default: false. */
+  disableMentions?: boolean;
+
+  mentionQueryParams?: UserSearchQuery;
+
 
   /** If true, will use an optional dependency to support transliteration in the input for mentions, default is false. See: https://github.com/getstream/transliterate */
   /**
