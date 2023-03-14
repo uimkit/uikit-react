@@ -175,7 +175,7 @@ export function MessagePlugins <T extends MessagePluginsProps>(
   const ForWardElement = useMessagePluginElement({
     children: (
       <div className="message-plugin-item">
-        <span>Forward</span>
+        <span>{t('message.action.forward')}</span>
         <Icon width={20} height={20} type={IconTypes.FORWARD} />
       </div>
     ),
