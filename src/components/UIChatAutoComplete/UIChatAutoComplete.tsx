@@ -107,7 +107,7 @@ const UnMemoizedChatAutoComplete = (
   const messageInput = useMessageInputContext('ChatAutoComplete');
   const { disabled, textareaRef: innerRef } = messageInput;
 
-  const placeholder = props.placeholder || t('输入你的消息');
+  const placeholder = props.placeholder || t('输入消息');
 
   const emojiReplace = props.wordReplace
     ? (word: string) => props.wordReplace?.(word)
