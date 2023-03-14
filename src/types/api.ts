@@ -236,6 +236,11 @@ export interface APIClient {
 
   setConversationRead(id: string): Promise<void>;
 
+  /**
+   * 置顶会话
+   * @param conversationID 会话ID
+   * @param pinned true 置顶; false 取消置顶
+   */
   pinConversation(conversationID: string, pinned: boolean): Promise<void>;
 
   /******************** Group ********************/
