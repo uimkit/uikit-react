@@ -23,7 +23,15 @@ export const useUserTrigger = (
 
   const { client, activeProfile, activeConversation } = useUIKit('useUserTrigger');
 
-  const { members } = { members: [] }; // 本地数据 成员
+  const { members } = { members: [{
+    id: '3',
+    avatar: '',
+    nickname: '张三',
+  }, {
+    id: '4',
+    avatar: '',
+    nickname: '李四',
+  }] }; // 本地数据 成员
 
   const queryMembersThrottled = useCallback(
     throttle(

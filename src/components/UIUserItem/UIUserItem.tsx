@@ -12,9 +12,9 @@ export type UIUserItemProps = {
     /** Id of the user */
     id?: string;
     /** Image of the user */
-    image?: string;
+    avatar?: string;
     /** Name of the user */
-    name?: string;
+    nickname?: string;
   };
   /** Custom UI component to display user avatar, defaults to and accepts same props as: [Avatar](https://github.com/GetStream/stream-chat-react/blob/master/src/components/Avatar/Avatar.tsx) */
   Avatar?: React.ComponentType<AvatarProps>;
@@ -49,7 +49,7 @@ const UnMemoizedUserItem = ({ Avatar = DefaultAvatar, entity }: UIUserItemProps)
 
   return (
     <div className='str-chat__user-item'>
-      <Avatar image={entity.image} name={entity.name || entity.id} size={20} />
+      <Avatar image={entity.avatar} name={entity.nickname || entity.id} size={20} />
       <span className='str-chat__user-item--name' data-testid={'user-item-name'}>
         {renderName()}
       </span>
