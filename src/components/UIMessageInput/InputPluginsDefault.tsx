@@ -64,7 +64,7 @@ export function InputPluginsDefault():React.ReactElement {
     children: (
       <div className="input-plugin-item">
         <Icon width={20} height={20} type={IconTypes.IMAGE} />
-        <span>{t('message.type.image')}</span>
+        {/*<span>{t('message.type.image')}</span>*/}
       </div>
     ),
     type: 'image',
@@ -79,7 +79,7 @@ export function InputPluginsDefault():React.ReactElement {
     children: (
       <div className="input-plugin-item">
         <Icon width={20} height={20} type={IconTypes.VIDEO} />
-        <span>{t('message.type.video')}</span>
+        {/*<span>{t('message.type.video')}</span>*/}
       </div>
     ),
     type: 'video',
@@ -94,7 +94,7 @@ export function InputPluginsDefault():React.ReactElement {
     children: (
       <div className="input-plugin-item">
         <Icon width={20} height={20} type={IconTypes.DOCUMENT} />
-        <span>{t('message.type.file')}</span>
+        {/*<span>{t('message.type.file')}</span>*/}
       </div>
     ),
     type: 'file',
