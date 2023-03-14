@@ -27,21 +27,21 @@ export const useUserTrigger = (
     {
       id: '1',
       avatar: '',
-      nickname: 'terry',
+      name: 'terry',
     },
     {
       id: '2',
       avatar: '',
-      nickname: 'bobby',
+      name: 'bobby',
     },
     {
       id: '3',
       avatar: '',
-      nickname: '张三',
+      name: '张三',
     }, {
       id: '4',
       avatar: '',
-      nickname: '李四',
+      name: '李四',
     }
   ] }; // 本地数据 成员
 
@@ -108,7 +108,7 @@ export const useUserTrigger = (
     output: (entity) => ({
       caretPosition: 'next',
       key: entity.id,
-      text: `@${entity.nickname ?? entity.id}`,
+      text: `@${entity.name ?? entity.id}`,
     }),
   };
 };

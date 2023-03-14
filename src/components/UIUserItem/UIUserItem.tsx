@@ -14,7 +14,7 @@ export type UIUserItemProps = {
     /** Image of the user */
     avatar?: string;
     /** Name of the user */
-    nickname?: string;
+    name?: string;
   };
   /** Custom UI component to display user avatar, defaults to and accepts same props as: [Avatar](https://github.com/GetStream/stream-chat-react/blob/master/src/components/Avatar/Avatar.tsx) */
   Avatar?: React.ComponentType<AvatarProps>;
@@ -36,8 +36,8 @@ const UnMemoizedUserItem = ({ Avatar = DefaultAvatar, entity }: UIUserItemProps)
       return (
         <span
           className={clsx({
-            'str-chat__emoji-item--highlight': matches,
-            'str-chat__emoji-item--part': !matches,
+            'uim__emoji-item--highlight': matches,
+            'uim__emoji-item--part': !matches,
           })}
           key={`part-${i}`}
         >
@@ -46,10 +46,10 @@ const UnMemoizedUserItem = ({ Avatar = DefaultAvatar, entity }: UIUserItemProps)
       );
     });
   };
-console.log('fuckrender: ', entity.nickname, itemParts);
+console.log('fuckrender: ', entity.name, itemParts);
   return (
     <div className='uim__user-item'>
-      <Avatar image={entity.avatar} name={entity.nickname || entity.id} size={20} />
+      <Avatar image={entity.avatar} name={entity.name || entity.id} size={20} />
       <span className='uim__user-item--name' data-testid={'user-item-name'}>
         {renderName()}
       </span>

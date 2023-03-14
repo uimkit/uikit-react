@@ -72,7 +72,7 @@ export const searchLocalUsers = (
     if (!query) return true;
 
     let updatedId = removeDiacritics(user.id).toLowerCase();
-    let updatedName = removeDiacritics(user.nickname).toLowerCase();
+    let updatedName = removeDiacritics(user.name).toLowerCase();
     let updatedQuery = removeDiacritics(query).toLowerCase();
 
     const maxDistance = 3;

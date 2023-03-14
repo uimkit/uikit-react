@@ -38,7 +38,8 @@ export enum MessageType {
  */
 export interface Profile {
   id: string;
-  nickname: string;
+  name: string;
+  nickname?: string;
   avatar?: string;
   gender?: number;
 }
