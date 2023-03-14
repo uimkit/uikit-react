@@ -234,6 +234,10 @@ export interface APIClient {
 
   resetConversationUnread(params: any): Promise<any>;
 
+  /**
+   * 标记会话消息为已读
+   * @param id 
+   */
   setConversationRead(id: string): Promise<void>;
 
   /**
