@@ -236,6 +236,7 @@ export interface APIClient {
 
   setConversationRead(id: string): Promise<void>;
 
+  pinConversation(conversationID: string, pinned: boolean): Promise<void>;
 
   /******************** Group ********************/
   getGroup(params: any): Promise<Group>;
