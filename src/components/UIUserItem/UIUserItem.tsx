@@ -46,14 +46,14 @@ const UnMemoizedUserItem = ({ Avatar = DefaultAvatar, entity }: UIUserItemProps)
       );
     });
   };
-
+console.log('fuckrender: ', entity.nickname, itemParts);
   return (
-    <div className='str-chat__user-item'>
+    <div className='uim__user-item'>
       <Avatar image={entity.avatar} name={entity.nickname || entity.id} size={20} />
-      <span className='str-chat__user-item--name' data-testid={'user-item-name'}>
+      <span className='uim__user-item--name' data-testid={'user-item-name'}>
         {renderName()}
       </span>
-      <div className='str-chat__user-item-at'>@</div>
+      <div className='uim__user-item-at'>@</div>
     </div>
   );
 };

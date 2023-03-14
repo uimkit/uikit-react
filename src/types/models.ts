@@ -39,8 +39,8 @@ export enum MessageType {
 export interface Profile {
   id: string;
   nickname: string;
-  avatar: string;
-  gender: number;
+  avatar?: string;
+  gender?: number;
 }
 
 export interface IMAccount extends Profile {

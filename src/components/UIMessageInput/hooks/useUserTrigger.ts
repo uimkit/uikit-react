@@ -96,7 +96,7 @@ export const useUserTrigger = (
     output: (entity) => ({
       caretPosition: 'next',
       key: entity.id,
-      text: `@${entity.name || entity.id}`,
+      text: `@${entity.nickname ?? entity.id}`,
     }),
   };
 };
