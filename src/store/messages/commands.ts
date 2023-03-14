@@ -61,8 +61,9 @@ export const updateMessage = (message: Message): ThunkAction<Promise<void>> => {
  */
 export const resendMessage = (message: Message): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
-		invariant(client, "requires client")
+		const client = getState().common.client;
+    const { onError } = context;
+		invariant(client, "requires client");
 		const newMessage: Message = {
 			...message,
 			sent_at: new Date().getTime(),
@@ -111,8 +112,9 @@ export const resendMessage = (message: Message): ThunkAction<Promise<void>> => {
  */
 export const fetchConversationNewMessages = (conversationId: string, limit = 50): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
-		invariant(client, "requires client")
+		const client = getState().common.client;
+    const { onError } = context;
+		invariant(client, "requires client");
 
 		const state = getState().messages[conversationId];
 		if (state?.fetchingNewRequest) return
@@ -155,11 +157,12 @@ export const fetchConversationNewMessages = (conversationId: string, limit = 50)
  */
 export const fetchConversationHistoryMessages = (conversationId: string, limit = 50): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
-		invariant(client, "requires client")
+    const client = getState().common.client;
+    const { onError } = context;
+		invariant(client, "requires client");
 
 		const state = getState().messages[conversationId];
-		if (state?.fetchingHistoryRequest) return
+		if (state?.fetchingHistoryRequest) return;
 
 		// 查询结果是从新到旧，因此查历史的是 after
 		const request: GetMessageListParameters = {

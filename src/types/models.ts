@@ -46,6 +46,8 @@ export interface Profile {
 export interface IMAccount extends Profile {
   provider: string;
   created_at: number;
+  presence: string;
+  unread?: number;
 }
 
 /**
@@ -62,7 +64,10 @@ export interface Contact extends Profile {
  * 群成员
  */
 export interface GroupMember {
-
+  id: string;
+  group_id: string;
+  nickname: string;
+  avatar: string;
 }
 
 /**
@@ -263,6 +268,14 @@ export interface Group {
   avatar: string;
 }
 
+export interface GroupInvitation {
+  
+}
+
+export interface GroupApplication {
+  
+}
+
 
 
 export type EmptyObject = Record<string, unknown>;
@@ -303,3 +316,9 @@ export type CursorListResponse<T> = {
   extra: CursorListExtra;
   data: Array<T>;
 };
+
+
+
+export type FriendApplication = {
+
+}

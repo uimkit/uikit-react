@@ -14,7 +14,8 @@ import { ContactListActionType, FetchContactListRequest } from "./actions";
  */
 export const fetchContactsByProvider = (provider: string, loadMore: boolean = false, limit: number = 50): ThunkAction<Promise<void[]>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void[]> => {
-		const { client, onError } = context
+    const client = getState().common.client;
+    const { onError } = context;
 		invariant(client, "requires client")
 		// TODO 现在是前端自己便利所有账号查询，后续后端要提供接口
 		const state = getState();
@@ -69,7 +70,8 @@ export const fetchContactsByProvider = (provider: string, loadMore: boolean = fa
  */
 export const fetchContactsByAccount = (accountId: string, loadMore: boolean = false, limit: number = 50): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
+		const client = getState().common.client;
+    const { onError } = context;
 		invariant(client, "requires client")
 		const state = getState();
 		const account = state.accounts.accounts.find(it => it.id === accountId)

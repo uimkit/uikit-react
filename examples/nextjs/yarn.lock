@@ -323,10 +323,10 @@
   version "0.0.0"
   uid ""
 
-"@uimkit/uim-js@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@uimkit/uim-js/-/uim-js-0.0.26.tgz#20fcee8cf367ede561b33c4dd2007f2d264fa196"
-  integrity sha512-nYfyRWpGsKXO6AjOLxIoWUaUFW1IFa8Jj7rhcuoe5UfI5ezfxaLfHFn6zGCi1x2bu4QbPlZzmFhEiP6DSX2Liw==
+"@uimkit/uim-js@^0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@uimkit/uim-js/-/uim-js-0.0.27.tgz#f9b8381971440a78be0cd7f1518d97d3d0d8b399"
+  integrity sha512-Vq8VI0EPJt8zwjYF3F5Ju+k10aDI03OfmSNdgFHDdwYzWR9oU5l1DJ1HZvd2L8hpSAD7z+OlgTDN2SZpEX0FVA==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@xopenapi/xapis-js" "^0.0.11"

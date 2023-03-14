@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from '../store/useDispatch';
 import { useUIKit } from '../context';
+import { fetchConversationsByAccount } from '../store/conversations';
 
 export interface UsePinConversationResult {
   mutate: (conversationID: string, pinned: boolean) => void;
@@ -8,12 +9,12 @@ export interface UsePinConversationResult {
 
 export function usePinConversation(): UsePinConversationResult {
   const dispatch = useDispatch();
-  const { client } = useUIKit('usePinConversation');
+  const { client, activeProfile } = useUIKit('usePinConversation');
 
-  const mutate = useCallback((conversationID: string, pinned: boolean) => {
-    client.pinConversation(conversationID, pinned);
-    // dispatch(pinConversation(conversationID, pinned));
-  }, []);
+  const mutate = useCallback(async (conversationID: string, pinned: boolean) => {
+    await client.pinConversation(conversationID, pinned);
+    dispatch(fetchConversationsByAccount(activeProfile.id));
+  }, [client, activeProfile]);
   
   return {
     mutate,

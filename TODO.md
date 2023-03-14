@@ -98,3 +98,17 @@ dts 会把 index.css 也生成多一份 index.d.css
 ### 会话，右键菜单
 会话删除
 会话置顶
+
+
+### SDK
+1. 事件
+2. off(event, handler)
+
+webhook
+
+command('command', args) ---> chat 
+conversationId
+----> webhook -> 
+
+
+事件分流

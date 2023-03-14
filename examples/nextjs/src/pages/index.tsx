@@ -9,13 +9,11 @@ export default function IndexPage({ accessToken }) {
 
 IndexPage.layout = Layout;
 
-export const getServerSideProps = (ctx) => {
-  return withPageAuthRequired({ 
-    async getServerSideProps({ req, res }) {
-      const { accessToken } = await getAccessToken(req, res);
-      return {
-        props: { accessToken }
-      } 
-    },
-   })(ctx);
-};
+export const getServerSideProps = withPageAuthRequired({ 
+  async getServerSideProps({ req, res }) {
+    const { accessToken } = await getAccessToken(req, res);
+    return {
+      props: { accessToken }
+    };
+  },
+});

@@ -11,9 +11,10 @@ import { AccountListActionType, fetchingAccountList } from "./actions";
  * @returns 
  */
 export const fetchAccount = (id): ThunkAction<Promise<void>> => {
-	return async (dispatch: Dispatch, _getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
-		invariant(client, "requires client")
+	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
+		const client = getState().common.client;
+    const { onError } = context;
+		invariant(client, "requires client");
 		try {
 			const account = await client.getAccount({ account_id: id, subscribe: true })
 			dispatch({
@@ -34,9 +35,10 @@ export const fetchAccount = (id): ThunkAction<Promise<void>> => {
  * @returns 
  */
 export const fetchAllAccounts = (limit = 100): ThunkAction<Promise<void>> => {
-	return async (dispatch: Dispatch, _getState: () => AppState, context: AppThunkContext): Promise<void> => {
-		const { client, onError } = context
-		invariant(client, "requires client")
+	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
+    const client = getState().common.client;
+    const { onError } = context;
+		invariant(client, "requires client");
 		let offset = 0
 		while (true) {
 			const request = { offset, limit, subscribe: true }

@@ -5,7 +5,6 @@ import { useEmojiPicker } from './useEmojiPicker';
 import { useMessageInputText } from './useMessageInputText';
 import { useUploadPicker } from './useUploadPicker';
 import { useEmojiIndex } from './useEmojiIndex';
-import { Message } from '../../../types';
 
 export interface IbaseStateProps {
   state: MessageInputState,
@@ -81,7 +80,7 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
     handleChange,
     handleSubmit,
     handleKeyDown,
-    handlePasete,
+    handlePaste,
     insertText,
     setText,
   } = useMessageInputText({
@@ -107,7 +106,7 @@ export const useMessageInputState = (props: UIMessageInputProps) => {
     handleChange,
     handleSubmit,
     handleKeyDown,
-    handlePasete,
+    handlePaste,
     onSelectEmoji,
     sendFaceMessage,
     sendUploadMessage,

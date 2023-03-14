@@ -23,7 +23,6 @@ export interface AppDispatch {
  * Describe thunk middleware context
  */
 export type AppThunkContext = {
-	client?: APIClient
 	onError?: (e: any, title?: string) => void
 };
 
