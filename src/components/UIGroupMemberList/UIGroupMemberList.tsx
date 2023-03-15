@@ -16,6 +16,7 @@ export const UIGroupMemberList: React.FC = () => {
 
   const { members, loadMore, hasMore, loading, error } = useGroupMemberList(activeConversation.group?.id, { group_id: activeConversation.group?.id }, activeMemberHandler);
 
+  // TODO infinite scroll 来实现群成员
   return (
     <>
       group member list
