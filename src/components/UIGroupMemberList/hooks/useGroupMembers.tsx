@@ -5,8 +5,9 @@ import { MAX_QUERY_GROUP_MEMBER_LIMIT } from '../../../constants';
 
 
 export function useGroupMemberList(
-  query: GetGroupMemberListParameters,
-  activeMemberHandler: (
+  groupId: string | undefined,
+  query?: GetGroupMemberListParameters,
+  activeMemberHandler?: (
     members: GroupMember[],
     setMembers: React.Dispatch<React.SetStateAction<GroupMember[]>>,
   ) => void,
@@ -29,7 +30,7 @@ export function useGroupMemberList(
       }
 
       const cursor = queryType === 'reload' ? undefined : nextCursor;
-      const newQuery = {...query, cursor, limit };
+      const newQuery = {...query, group_id: groupId, cursor, limit };
 
       const response = await client.getGroupMembers(newQuery);
       const newMembers = queryType === 'reload' ? response.data : [...members, ...response.data];
@@ -47,19 +48,19 @@ export function useGroupMemberList(
     } finally {
       setLoading(false);
     }
-  }, [client, query, nextCursor]);
+  }, [client, query, nextCursor, groupId]);
 
   useEffect(() => {
-    fetch('reload');
-  }, [client]);
+    if (groupId) fetch('reload');
+  }, [client, groupId]);
 
   const loadMore = useCallback(() => {
-    fetch()
-  }, [nextCursor]);
+    if (groupId) fetch()
+  }, [fetch, groupId]);
 
   const reload = useCallback(() => {
-    fetch('reload');
-  }, [fetch]);
+    if (groupId) fetch('reload');
+  }, [fetch, groupId]);
 
   return {
     loading,

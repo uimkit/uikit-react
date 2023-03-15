@@ -277,6 +277,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
                 <>
                   <UIChatHeaderElement />
                   <UIMessageList />
+                  {activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
                   <UIMessageInputElement />
                 </>
               )}
