@@ -66,7 +66,7 @@ export type GetGroupResponse = Group;
 export type GetGroupMemberListParameters = PageListQueryParameters<EmptyObject> & {
     group_id: string;
 };
-export type GetGroupMemberListResponse = PageListResponse<GroupMember>;
+// export type GetGroupMemberListResponse = PageListResponse<GroupMember>;
 export type GetMomentListParameters = CursorListQueryParameters<EmptyObject> & {
     account_id: string;
     user_id?: string;
@@ -104,6 +104,10 @@ export type DeleteMessageParameters = {
     message_id: string;
 };
 export type DeleteMessageResponse = any;
+
+
+export type GetGroupMemberListResponse = CursorListResponse<GroupMember>;
+
 
 
 export interface APIClient {
@@ -251,6 +255,7 @@ export interface APIClient {
   /******************** Group ********************/
   getGroup(params: any): Promise<Group>;
 
+  getGroupMembers(query: GetGroupMemberListParameters): Promise<GetGroupMemberListResponse>;
 
   on(event: string, handler: EventHandler);
   off(event: string, handler: EventHandler);

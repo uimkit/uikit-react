@@ -25,5 +25,11 @@ export enum CONSTANT_DISPATCH_TYPE {
   OPERATE_MESSAGE = 'operateMessage',
   SET_AUDIO_SOURCE = 'setAudioSource',
   SET_VIDEO_SOURCE = 'setVideoSource',
-  UPDATE_UPLOAD_PENDDING_MESSAGE_LIST = 'updateUploadPenddingMessageList'
+  UPDATE_UPLOAD_PENDDING_MESSAGE_LIST = 'updateUploadPenddingMessageList',
+  JUMP_TO_LATEST_MESSAGE = 'jumpToLatestMessage',
+  SET_GROUP_MEMBERS = 'setGroupMembers',
 }
+
+
+
+export const MAX_QUERY_GROUP_MEMBER_LIMIT = 30;

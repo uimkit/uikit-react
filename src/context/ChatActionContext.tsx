@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useContext } from 'react';
-import { Message } from '../types';
+import { GroupMember, Message } from '../types';
 import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessage';
 
 export interface ChatActionContextValue {
@@ -26,6 +26,8 @@ export interface ChatActionContextValue {
   setHighlightedMessageId?: (highlightedMessageId: string) => void;
 
   jumpToLatestMessage: () => Promise<void>;
+
+  saveGroupMembers: (members: GroupMember[]) => void;
 }
 
 export const ChatActionContext = React.createContext<ChatActionContextValue | undefined>(

@@ -4,7 +4,7 @@ import { SearchLocalUserParams, searchLocalUsers } from './utils';
 import { UIUserItem } from '../../UIUserItem';
 import type { UserTriggerSetting } from '../DefaultTriggerProvider';
 import { Profile, UserSearchQuery } from '../../../types';
-import { useUIKit } from '../../../context';
+import { useChatStateContext, useUIKit } from '../../../context';
 
 export type UserTriggerParams = {
   onSelectUser: (item: Profile) => void;
@@ -21,29 +21,8 @@ export const useUserTrigger = (
     onSelectUser,
   } = params;
 
-  const { client, activeProfile, activeConversation } = useUIKit('useUserTrigger');
-
-  const { members } = { members: [
-    {
-      id: '1',
-      avatar: '',
-      name: 'terry',
-    },
-    {
-      id: '2',
-      avatar: '',
-      name: 'bobby',
-    },
-    {
-      id: '3',
-      avatar: '',
-      name: '张三',
-    }, {
-      id: '4',
-      avatar: '',
-      name: '李四',
-    }
-  ] }; // 本地数据 成员
+  const { client, activeProfile } = useUIKit('useUserTrigger');
+  const { members } = useChatStateContext('useUserTrigger');
 
   const queryMembersThrottled = useCallback(
     throttle(

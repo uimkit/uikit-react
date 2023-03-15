@@ -14,7 +14,7 @@ import useCreateChatStateContext from './hooks/useCreateChatStateContext';
 import { ChatActionContextValue, ChatActionProvider, ChatStateContextProvider, useUIKit } from '../../context';
 import { useHandleMessage } from './hooks/useHandleMessage';
 import { Toast } from '../Toast';
-import { Conversation, Message } from '../../types';
+import { Conversation, ConversationType, GroupMember, Message } from '../../types';
 import { useCreateMessage } from '../../hooks/useCreateMessage';
 import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/EmojiContext';
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
@@ -24,6 +24,7 @@ import { deleteMessageLocal, updateMessage as reduxUpdateMessage } from '../../s
 import { useDispatch } from '../../store/useDispatch';
 import { updateConversation } from '../../store/conversations';
 import './styles/index.scss';
+import { CONSTANT_DISPATCH_TYPE } from 'constants';
 
 
 export interface UIChatProps {
@@ -94,7 +95,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     // const hasMoreOlder = channel.state.messages.length >= 25;
     // loadMoreFinished(hasMoreOlder, channel.state.messages);
     dispatch({
-      type: 'jumpToLatestMessage',
+      type: CONSTANT_DISPATCH_TYPE.JUMP_TO_LATEST_MESSAGE,
     });
   };
 
@@ -116,6 +117,16 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
   } = useHandleMessage({
     state, dispatch,
   });
+
+  const saveGroupMembers = useCallback((members: GroupMember[]) => {
+    if (conversation.type !== ConversationType.Group) return;
+
+    dispatch({
+      type: CONSTANT_DISPATCH_TYPE.SET_GROUP_MEMBERS,
+      value: members,
+    });
+  }, [client, dispatch, conversation]);
+
 
 
   const { activeConversation} = useUIKit();
@@ -184,6 +195,9 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
   const deleteMessage = useCallback((message: Message) => {
     reduxDispatch(deleteMessageLocal(message));
   }, [reduxDispatch]);
+
+
+  
   
   const chatActionContextValue = useMemo<ChatActionContextValue>(() => ({
     sendMessage,
@@ -201,6 +215,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     operateMessage,
     jumpToLatestMessage,
     deleteMessage,
+    saveGroupMembers,
   }), [
     sendMessage,
     createTextMessage,
@@ -217,6 +232,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     operateMessage,
     jumpToLatestMessage,
     deleteMessage,
+    saveGroupMembers,
   ]);
 
   const componentContextValue: ComponentContextValue = useMemo(

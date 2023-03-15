@@ -225,6 +225,8 @@ export interface Conversation {
 
   contact?: Contact;
 
+  group?: Group;
+
   /**
    * 未读计数。GRP_MEETING / GRP_AVCHATROOM 类型的群组会话不记录未读计数
    */

@@ -1,5 +1,5 @@
 import type { Reducer } from 'react';
-import { Message } from '../../types';
+import { GroupMember, Message } from '../../types';
 import { CONSTANT_DISPATCH_TYPE } from '../../constants';
 import type { ChatStateContextValue } from '../../context';
 // import { OperateMessageParams } from './hooks/useHandleMessage';
@@ -52,8 +52,12 @@ export type ChatStateReducerAction =
     }
   | 
     {
-      type: 'jumpToLatestMessage';
+      type:  CONSTANT_DISPATCH_TYPE.JUMP_TO_LATEST_MESSAGE,
     }
+  | {
+    type: CONSTANT_DISPATCH_TYPE.SET_GROUP_MEMBERS,
+    value?: GroupMember[],
+  }
 
 export type ChatStateReducer = Reducer<ChatStateContextValue, ChatStateReducerAction>;
 
@@ -79,12 +83,18 @@ export const chatReducer = (
           ...handleUploadPendingMessage(state.uploadPenddingMessageList, action.value),
         ],
       };
-    case 'jumpToLatestMessage': {
+    case CONSTANT_DISPATCH_TYPE.JUMP_TO_LATEST_MESSAGE: {
       return {
         ...state,
         // hasMoreNewer: false,
         highlightedMessageId: undefined,
         suppressAutoscroll: false,
+      };
+    }
+    case CONSTANT_DISPATCH_TYPE.SET_GROUP_MEMBERS: {
+      return {
+        ...state,
+        members: [...action.value],
       };
     }
     default: return state;
