@@ -29,8 +29,9 @@ export function useGroupMembers(
       }
 
       const cursor = queryType === 'reload' ? undefined : nextCursor;
+      const newQuery = {...query, cursor, limit };
 
-      const response = await client.getGroupMembers(query);
+      const response = await client.getGroupMembers(newQuery);
       const newMembers = queryType === 'reload' ? response.data : [...members, ...response.data];
 
       setMembers(newMembers);

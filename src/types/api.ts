@@ -63,9 +63,13 @@ export type GetGroupParameters = {
     group_id: string;
 };
 export type GetGroupResponse = Group;
-export type GetGroupMemberListParameters = PageListQueryParameters<EmptyObject> & {
+/*export type GetGroupMemberListParameters = PageListQueryParameters<EmptyObject> & {
     group_id: string;
+};*/
+export type GetGroupMemberListParameters = CursorListQueryParameters<EmptyObject> & {
+  group_id: string;
 };
+
 // export type GetGroupMemberListResponse = PageListResponse<GroupMember>;
 export type GetMomentListParameters = CursorListQueryParameters<EmptyObject> & {
     account_id: string;
