@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { MAX_QUERY_GROUP_MEMBER_LIMIT } from '../../../constants';
 
 
-export function useGroupMembers(
+export function useGroupMemberList(
   query: GetGroupMemberListParameters,
   activeMemberHandler: (
     members: GroupMember[],
