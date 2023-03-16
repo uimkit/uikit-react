@@ -1,37 +1,27 @@
 
 import React, {
   PropsWithChildren,
-  ChangeEventHandler,
   useContext,
   KeyboardEventHandler,
-  MutableRefObject,
 } from 'react';
-import { TriggerSettings } from '../components/UIMessageInput/DefaultTriggerProvider';
-import { MessageInputHookProps, MessageInputState, PluginConfigProps, UIMessageInputProps } from '../components';
+import { MessageInputHookProps, MessageInputState, TriggerSettings, UIMessageInputProps } from '../components';
 
 
-export type MessageInputContextValue = {
+export type MessageInputContextValue = 
+  MessageInputState & 
+  MessageInputHookProps & 
+  Omit<UIMessageInputProps, 'Input'> & {
   text?: string;
-  disabled?: boolean;
-  // dispatch?: (params: dispatchParams) => void;
-  handleChange?: ChangeEventHandler<HTMLTextAreaElement>;
-  handleSubmit?: (event: React.BaseSyntheticEvent) => void;
   handleKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
-  textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>;
-  onSelectEmoji?: (emoji: any) => void;
   sendFaceMessage?: (emoji: any /*EmojiData*/) => void;
   sendUploadMessage?: (file: any/*filesData*/, type: any/*MESSAGE_TYPE_NAME*/) => void;
-  insertText?: (textToInsert: string) => void;
   setText?: (textToInsert: string) => void;
-  focus?: boolean;
   plugins?: Array<React.ReactElement>;
   showNumber?: number;
   MoreIcon?: React.ReactElement;
-  handlePaste?: (e: ClipboardEvent) => void;
-  pluginConfig?: PluginConfigProps;
 
   autocompleteTriggers?: TriggerSettings;
-} & Omit<UIMessageInputProps, 'Input'> & MessageInputHookProps & MessageInputState;
+};
 
 export const MessageInputContext = React.createContext<MessageInputContextValue>(undefined);
 

@@ -25,6 +25,11 @@ export interface PluginConfigProps {
 }
 
 export interface UIMessageInputBasicProps {
+  /** 额外的传入 `AutoCompleteTextarea` 组件的属性, [可用属性](https://www.npmjs.com/package/react-textarea-autosize) */
+  additionalTextareaProps?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+  /** 清除编辑状态 */
+  clearEditingState?: () => void;
+  /** 如果为 true, 禁用 输入 */
   disabled?: boolean;
   focus?: boolean;
   textareaRef?: MutableRefObject<HTMLTextAreaElement | undefined>;
@@ -38,7 +43,7 @@ export interface UIMessageInputBasicProps {
     conversationId: string,
   ) => Promise<void> | void;
 
-  /** If true, the suggestion list will not display and autocomplete @mentions. Default: false. */
+  /** 如果为 true, @ 的提示列表将不会被展示. 默认: false. */
   disableMentions?: boolean;
 
   mentionQueryParams?: UserSearchQuery;

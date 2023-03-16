@@ -20,13 +20,15 @@ export enum CONSTANT_DISPATCH_TYPE {
   SET_UPDATE_MESSAGE = 'setUpdateMessage',
   SET_EDIT_MESSAGE = 'setEditMessage',
   SET_REMOVE_MESSAGE = 'setRemoveMessage',
-  SET_TEXT = 'setText',
   SET_HIGH_LIGHTED_MESSAGE_ID ='setHightLightedMessageID',
   OPERATE_MESSAGE = 'operateMessage',
   SET_AUDIO_SOURCE = 'setAudioSource',
   SET_VIDEO_SOURCE = 'setVideoSource',
   UPDATE_UPLOAD_PENDDING_MESSAGE_LIST = 'updateUploadPenddingMessageList',
   JUMP_TO_LATEST_MESSAGE = 'jumpToLatestMessage',
+  ADD_MENTIONED_USER = 'addMentionedUser',
+  SET_TEXT = 'setText',
+  CLEAR = 'clear',
   SET_GROUP_MEMBERS = 'setGroupMembers',
 }
 

@@ -33,8 +33,8 @@ export const useUserTrigger = (
             name: { $autocomplete: query },
           });
 
-          const users = response.members.map(
-            (member) => member.user,
+          const users = response.data.map(
+            (member) => member,
           ) as Profile[];
 
           if (onReady && users.length) {

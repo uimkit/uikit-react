@@ -27,11 +27,14 @@ const components = {
   [MessageType.Location]: MessageLocation,
 };
 
-export interface MessageContextProps {
-  message?: Message,
+export interface MessageContextValue {
+  /** 编辑 / 删除 / 撤销 等操作是否开启 */
+  actionsEnabled: boolean;
+  /** 当前消息对象 */
+  message?: Message;
 }
 
-function MessageContextWithContext <T extends MessageContextProps>(
+function MessageContextWithContext <T extends MessageContextValue>(
   props: PropsWithChildren<T>,
 ):React.ReactElement {
   const {

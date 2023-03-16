@@ -20,11 +20,12 @@ import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/Emo
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
 import { EmojiMartData } from '@emoji-mart/data';
 import defaultEmojiData from '@emoji-mart/data';
-import { deleteMessageLocal, updateMessage as reduxUpdateMessage } from '../../store/messages/commands';
+import { deleteLocalMessage as reduxDeleteLocalMessage, updateLocalMessage as reduxUpdateLocalMessage } from '../../store/messages/commands';
 import { useDispatch } from '../../store/useDispatch';
 import { updateConversation } from '../../store/conversations';
 import './styles/index.scss';
-import { CONSTANT_DISPATCH_TYPE } from 'constants';
+import { CONSTANT_DISPATCH_TYPE } from '../../constants';
+import { UIGroupMemberList } from '..//UIGroupMemberList';
 
 
 export interface UIChatProps {
@@ -153,7 +154,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
       conversation_id: conversation.id,
     };
 
-    reduxDispatch(reduxUpdateMessage(message));
+    reduxDispatch(reduxUpdateLocalMessage(message));
 
     try {
       let messageResponse;
@@ -168,7 +169,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
 				throw new Error(messageResponse.failed_reason);
 			}
 
-      reduxDispatch(reduxUpdateMessage(messageResponse));
+      reduxDispatch(reduxUpdateLocalMessage(messageResponse));
       // 更新本地会话显示
       reduxDispatch(updateConversation({
         account: message.account,
@@ -179,7 +180,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     } catch (error) {
       Toast({ text: (error as Error).message, type: 'error' });
 
-      reduxDispatch(reduxUpdateMessage({
+      reduxDispatch(reduxUpdateLocalMessage({
         ...message,
         sending: false,
         succeeded: false,
@@ -189,17 +190,41 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
 
       throw error;
     }
-    console.log('ok ok');
   }, [client, conversation, reduxDispatch]);
 
-  const deleteMessage = useCallback((message: Message) => {
-    reduxDispatch(deleteMessageLocal(message));
+  const deleteMessage = useCallback(async (message: Message) => {
+    try {
+      await client.deleteMessage(message.id);
+      reduxDispatch(reduxDeleteLocalMessage(message));
+    } catch(e) {
+      throw new Error(e);
+    }
   }, [reduxDispatch]);
 
+  const editLocalMessage = useCallback((message: Message) => {
+    reduxDispatch(reduxUpdateLocalMessage(message));
+  }, [reduxDispatch]);
 
-  
-  
+  const revokeMessage = useCallback(async (message: Message) => {
+    try {
+      const r = await client.revokeMessage(message);
+      editLocalMessage(r ?? message);
+    } catch(e) {
+      throw new Error(e);
+    };
+  }, [reduxDispatch]);
+
+  const resendMessage = useCallback(async (message: Message) => {
+    try {
+      const r = await client.resendMessage(message);
+      editLocalMessage(r ?? message);
+    } catch(e) {
+      throw new Error(e);
+    };
+  }, [reduxDispatch]);
+    
   const chatActionContextValue = useMemo<ChatActionContextValue>(() => ({
+    editLocalMessage,
     sendMessage,
     createTextMessage,
     createFaceMessage,
@@ -215,8 +240,10 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     operateMessage,
     jumpToLatestMessage,
     deleteMessage,
-    saveGroupMembers,
+    revokeMessage,
+    resendMessage,
   }), [
+    editLocalMessage,
     sendMessage,
     createTextMessage,
     createFaceMessage,
@@ -232,7 +259,8 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     operateMessage,
     jumpToLatestMessage,
     deleteMessage,
-    saveGroupMembers,
+    revokeMessage,
+    resendMessage,
   ]);
 
   const componentContextValue: ComponentContextValue = useMemo(

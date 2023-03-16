@@ -64,7 +64,7 @@ export interface Contact extends Profile {
 /**
  * 群成员
  */
-export interface GroupMember {
+export interface GroupMember extends Profile {
   id: string;
   group_id: string;
   nickname: string;
@@ -192,6 +192,8 @@ export interface Message {
 
   // TODO @deprecated 为什么会有这个字段, 明显不合理
   failed_reason?: string;
+
+  mentioned_users?: Profile[];
 
   /**
    * 消息状态

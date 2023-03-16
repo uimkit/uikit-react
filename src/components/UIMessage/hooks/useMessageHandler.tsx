@@ -3,8 +3,6 @@ import { Message } from '../../../types';
 import { MESSAGE_FLOW, MESSAGE_OPERATE } from '../../../constants';
 import { Toast } from '../../Toast';
 import { useChatActionContext, useUIKit } from '../../../context';
-import { useDispatch } from '../../../store/useDispatch';
-import { deleteMessageLocal } from '../../../store/messages';
 
 interface MessageHandlerProps {
   handleError?: (error) => void,
@@ -17,25 +15,21 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
     handleError,
   } = props;
 
-  const dispatch = useDispatch();
-
   const {
-    editLocalmessage,
+    deleteMessage,
     operateMessage,
     revokeMessage,
+    resendMessage,
   } = useChatActionContext('useDeleteHandler');
-  const { client } = useUIKit('useDeleteHandler');
 
   const handleDelMessage = useCallback(async (event?) => {
     event.preventDefault();
-    if (!message?.id || !client) {
+    if (!message?.id) {
       return;
     }
 
     try {
-      console.log('删除消息');
-      await client.deleteMessage(message.id);
-      dispatch(deleteMessageLocal(message));
+      deleteMessage(message);
     } catch (error) {
       if (handleError) {
         handleError({
@@ -51,17 +45,12 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
 
   const handleRevokeMessage = useCallback(async (event?) => {
     event.preventDefault();
-    if (!message?.id || !client || !editLocalmessage) {
+    if (!message?.id) {
       return;
     }
 
     try {
-      if (revokeMessage) {
-        await revokeMessage(message);
-      } else {
-        await client.revokeMessage(message);
-      }
-      editLocalmessage(message);
+      await revokeMessage(message);
     } catch (error) {
       if (handleError) {
         handleError({
@@ -78,7 +67,7 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
 
   const handleReplyMessage = useCallback((event?) => {
     event.preventDefault();
-    if (!message?.id || !client || !operateMessage) {
+    if (!message?.id || !operateMessage) {
       return;
     }
     operateMessage({
@@ -110,8 +99,7 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
 
   const handleResendMessage = useCallback(async (event?) => {
     try {
-      const res = await client.resendMessage(message);
-      editLocalmessage(res?.data?.message);
+      await resendMessage(message);
     } catch (error) {
       if (handleError) {
         handleError({
@@ -127,7 +115,7 @@ export const useMessageHandler = (props?: MessageHandlerProps) => {
 
   const handleForWardMessage = useCallback(async (event?) => {
     event.preventDefault();
-    if (!message?.id || !client || !operateMessage) {
+    if (!message?.id || !operateMessage) {
       return;
     }
     operateMessage({

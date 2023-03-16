@@ -14,7 +14,7 @@ export function UIMessageInputDefault(): React.ReactElement {
     disabled,
     handleChange,
     handleKeyDown,
-    handlePaste,
+    onPaste,
     textareaRef,
     focus,
     setText,
@@ -36,10 +36,10 @@ export function UIMessageInputDefault(): React.ReactElement {
     if (focus && textareaRef.current) {
       textareaRef.current.autofocus = true;
       textareaRef?.current?.focus();
-      textareaRef?.current?.addEventListener('paste', handlePaste);
+      textareaRef?.current?.addEventListener('paste', onPaste);
     }
     return () => {
-      textareaRef?.current?.removeEventListener('paste', handlePaste);
+      textareaRef?.current?.removeEventListener('paste', onPaste);
     };
   }, [focus]);
 

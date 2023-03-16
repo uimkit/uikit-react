@@ -4,9 +4,6 @@ import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessag
 
 export interface ChatActionContextValue {
   loadMoreMessages?: () => Promise<void>;
-  sendMessage?: (message: Message, options?:any) => Promise<void>;
-  updateMessage?: (messages: Array<Message>) => void;
-  deleteMessage?: (message: Message) => void;
   createTextMessage?: (options: any/* CreateTextMessageProps*/) => Message;
   createFaceMessage?: (options: any/*CreateFaceMessageProps*/) => Message;
   createImageMessage?: (options: any/*CreateUploadMessageProps*/) => Message;
@@ -18,16 +15,17 @@ export interface ChatActionContextValue {
   createTextAtMessage?: (options: any/*CreateTextAtMessageProps*/) => Message;
   createLocationMessage?: (options: any/*CreateLocationMessageProps*/) => Message;
   createMergerMessage?: (options: any/*CreateMergerMessageProps*/) => Message;
-  editLocalmessage?: (message: Message) => void;
+  editLocalMessage?: (message: Message) => void;
   operateMessage?: (data?: OperateMessageParams) => void;
-  revokeMessage?: (message:Message) => Promise<Message>;
+  revokeMessage?: (message: Message) => Promise<void>;
   setAudioSource?: (source: HTMLAudioElement | null) => void;
   setVideoSource?: (source: HTMLVideoElement | null) => void;
   setHighlightedMessageId?: (highlightedMessageId: string) => void;
+  sendMessage?: (message: Message, options?:any) => Promise<void>;
+  resendMessage?: (message: Message) => void;
+  deleteMessage?: (message: Message) => void;
 
   jumpToLatestMessage: () => Promise<void>;
-
-  saveGroupMembers: (members: GroupMember[]) => void;
 }
 
 export const ChatActionContext = React.createContext<ChatActionContextValue | undefined>(

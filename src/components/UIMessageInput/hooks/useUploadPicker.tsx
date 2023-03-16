@@ -16,7 +16,7 @@ export function useUploadPicker<T extends IbaseStateProps>(props:PropsWithChildr
     createImageMessage,
     createVideoMessage,
     createFileMessage,
-    updateMessage,
+    editLocalMessage,
   } = useChatActionContext();
 
   const createUploadMessage = {
@@ -32,7 +32,7 @@ export function useUploadPicker<T extends IbaseStateProps>(props:PropsWithChildr
       onProgress(num: number) {
         console.log('onProgress: ', num);
         message.progress = num;
-        updateMessage(message);
+        editLocalMessage(message);
       },
     });
     sendMessage(message);

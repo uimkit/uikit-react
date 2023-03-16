@@ -4,8 +4,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
-import { CONSTANT_DISPATCH_TYPE, MESSAGE_OPERATE } from '../../../constants';
-import { useHandleQuoteMessage } from './useHandleQuoteMessage';
+import { CONSTANT_DISPATCH_TYPE } from '../../../constants';
 import type { MessageInputReducerAction } from './useMessageInputState';
 import { filesData } from './useUploadPicker';
 import { MessageType } from '../../../types';
@@ -25,8 +24,6 @@ export const useMessageInputText = (
     focus,
     sendUploadMessage,
     additionalTextareaProps,
-    overrideSubmitHandler,
-    message,
   } = props;
 
   const { text } = state;
@@ -43,6 +40,44 @@ export const useMessageInputText = (
   // Text + cursor position
   const newCursorPosition = useRef<number>();
 
+  const insertText = useCallback(
+    (textToInsert: string) => {
+      const { maxLength } = additionalTextareaProps || {};
+
+      if (!textareaRef.current) {
+        dispatch({
+          getNewText: (text) => {
+            const updatedText = text + textToInsert;
+            if (maxLength && updatedText.length > maxLength) {
+              return updatedText.slice(0, maxLength);
+            }
+            return updatedText;
+          },
+          type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
+        });
+        return;
+      }
+
+      const { selectionEnd, selectionStart } = textareaRef.current;
+      newCursorPosition.current = selectionStart + textToInsert.length;
+
+      dispatch({
+        getNewText: (prevText) => {
+          const updatedText =
+            prevText.slice(0, selectionStart) + textToInsert + prevText.slice(selectionEnd);
+
+          if (maxLength && updatedText.length > maxLength) {
+            return updatedText.slice(0, maxLength);
+          }
+
+          return updatedText;
+        },
+        type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
+      });
+    },
+    [additionalTextareaProps, newCursorPosition, textareaRef],
+  );
+
   useEffect(() => {
     const textareaElement = textareaRef.current;
     if (textareaElement && newCursorPosition.current !== undefined) {
@@ -50,14 +85,11 @@ export const useMessageInputText = (
       textareaElement.selectionEnd = newCursorPosition.current;
       newCursorPosition.current = undefined;
     }
-  }, [newCursorPosition]);
+  }, [text, newCursorPosition]);
 
-  const { client, activeConversation } = useUIKit();
+  const { client } = useUIKit();
   const { sendMessage, createTextMessage, operateMessage } = useChatActionContext('UIMessageInput');
 
-  const { cloudCustomData } = useHandleQuoteMessage();
-
-  const enterCodeList = ['Enter', 'NumpadEnter'];
 
   const handleChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (event) => {
@@ -72,50 +104,6 @@ export const useMessageInputText = (
     },
     [client],
   );
-
-  const handleSubmit = async (
-    event?: React.BaseSyntheticEvent,
-  ) => {
-    event?.preventDefault();
-
-    if (!state.text) {
-      return;
-    }
-
-    const trimmedMessage = text.trim();
-    const isEmptyMessage = 
-      trimmedMessage === ''
-
-    if (isEmptyMessage) return;
-
-    const updatedMessage = {
-      // attachments: newAttachments,
-      // mentioned_users: actualMentionedUsers,
-      text,
-    } as any;
-
-    if (cloudCustomData.messageReply) {
-      updatedMessage.cloudCustomData = JSON.stringify(cloudCustomData);
-    }
-
-    dispatch({ 
-      type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
-      getNewText: () => '',
-    });
-
-    if (overrideSubmitHandler) {
-      await overrideSubmitHandler(message, activeConversation.id);
-    } else {
-      const message = createTextMessage({ 
-        ...updatedMessage,
-      });
-      await sendMessage(message);
-    }
-
-    operateMessage({
-      [MESSAGE_OPERATE.QUOTE]: null,
-    });
-  };
 
   /*
   const handleKeyDown = useCallback(
@@ -167,44 +155,6 @@ export const useMessageInputText = (
     [textareaRef],
   );
 
-  const insertText = useCallback(
-    (textToInsert: string) => {
-      const { maxLength } = additionalTextareaProps || {};
-
-      if (!textareaRef.current) {
-        dispatch({
-          getNewText: (text) => {
-            const updatedText = text + textToInsert;
-            if (maxLength && updatedText.length > maxLength) {
-              return updatedText.slice(0, maxLength);
-            }
-            return updatedText;
-          },
-          type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
-        });
-        return;
-      }
-
-      const { selectionEnd, selectionStart } = textareaRef.current;
-      newCursorPosition.current = selectionStart + textToInsert.length;
-
-      dispatch({
-        getNewText: (prevText) => {
-          const updatedText =
-            prevText.slice(0, selectionStart) + textToInsert + prevText.slice(selectionEnd);
-
-          if (maxLength && updatedText.length > maxLength) {
-            return updatedText.slice(0, maxLength);
-          }
-
-          return updatedText;
-        },
-        type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
-      });
-    },
-    [textareaRef, state],
-  );
-
   const setText = useCallback((textToInsert: string) => {
       dispatch({
         type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
@@ -218,7 +168,6 @@ export const useMessageInputText = (
   return {
     textareaRef,
     handleChange,
-    handleSubmit,
     handlePaste,
     insertText,
     setText,

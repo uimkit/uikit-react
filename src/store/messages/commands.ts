@@ -9,12 +9,12 @@ import { ConversationListActionType } from "../conversations";
 import last from "lodash.last";
 
 /**
- * 更新已经存在的消息
+ * 更新本地已经存在的消息
  * 
  * @param message 
  * @returns 
  */
-export const updateMessage = (message: Message): ThunkAction<Promise<void>> => {
+export const updateLocalMessage = (message: Message): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
     dispatch({
       type: MessageListActionType.MESSAGE_UPDATE,
@@ -29,7 +29,7 @@ export const updateMessage = (message: Message): ThunkAction<Promise<void>> => {
  * @param message 
  * @returns 
  */
- export const deleteMessageLocal = (message: Message): ThunkAction<Promise<void>> => {
+ export const deleteLocalMessage = (message: Message): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
 		dispatch({
       type: MessageListActionType.MESSAGE_DELETED,
