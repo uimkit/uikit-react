@@ -27,6 +27,8 @@ export interface ChatActionContextValue {
   deleteMessage?: (message: Message) => void;
 
   jumpToLatestMessage: () => Promise<void>;
+  
+  updateUploadPenddingMessageList?: (message?:Message) => void,
 }
 
 export const ChatActionContext = React.createContext<ChatActionContextValue | undefined>(

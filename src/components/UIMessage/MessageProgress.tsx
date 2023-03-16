@@ -70,7 +70,7 @@ function MessageProgressWithContext <T extends MessageProgressProps>(
         className="progress"
         style={
         {
-          width: `${progress * 100}%`,
+          width: `${(message as any).progress * 100}%`,
         }
       }
       />
