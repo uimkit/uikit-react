@@ -129,7 +129,7 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
   );
 };
 
-interface TProfile extends Profile, Group {}
+type TProfile = Profile | Group;
 
 export const getMessageProfile = (conversation: Conversation): TProfile => {
   if (!conversation) return null;

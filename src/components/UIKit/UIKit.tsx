@@ -51,6 +51,8 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
   const setActiveConversation = useCallback((activeConversation?: Conversation) => {
     if (activeConversation) {
+      setActiveMomentUserId(undefined);
+
       client?.setConversationRead(activeConversation.id);
 
       dispatch(updateConversation({

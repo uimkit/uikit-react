@@ -71,10 +71,18 @@ export type GetGroupMemberListParameters = CursorListQueryParameters<EmptyObject
 };
 
 // export type GetGroupMemberListResponse = PageListResponse<GroupMember>;
-export type GetMomentListParameters = CursorListQueryParameters<EmptyObject> & {
-    account_id: string;
-    user_id?: string;
-};
+
+// 查询账号的动态列表请求
+export type GetAccountMomentListParameters = CursorListQueryParameters<{
+  account_id: string;
+}>;
+
+// 查询好友的动态列表请求
+export type GetContactMomentListParameters = CursorListQueryParameters<{
+  contact_id: string;
+}>;
+
+
 export type GetMomentListResponse = CursorListResponse<Moment>;
 export type GetMessageListParameters = CursorListQueryParameters<EmptyObject> & {
     conversation_id: string;
@@ -263,4 +271,7 @@ export interface APIClient {
 
   on(event: string, handler: EventHandler);
   off(event: string, handler: EventHandler);
+
+  /******************** Moment ********************/
+  getContactMomentList(params: GetContactMomentListParameters): Promise<GetMomentListResponse>;
 }

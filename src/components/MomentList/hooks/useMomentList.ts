@@ -1,15 +1,60 @@
-import { useCallback, useState } from 'react';
-import { Moment } from '../../../types';
+import { useCallback, useEffect, useState } from 'react';
+import { Cursor, GetContactMomentListParameters, Moment } from '../../../types';
+import { useUIKit } from '../../../context';
 
 
-export const useMomentList = (userId: string) => {
+export const useMomentList = (userId: string, query?: GetContactMomentListParameters) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(false);
+  const [nextCursor, setNextCursor] = useState<Cursor | undefined>(undefined);
   const [moments, setMoments] = useState<Moment[] | undefined>(undefined);
   const [error, setError] = useState<Error | undefined>(undefined);
 
-  const reload = useCallback(() => {}, []);
-  const loadMore = useCallback(() => {}, []);
+  const { client } = useUIKit('useMomentList');
+
+  const fetch = useCallback(async (queryType?: string, nextCursor?: Cursor) => {
+    try {
+      setLoading(true);
+
+      const limit = query?.limit ??  20;
+
+      if (queryType === 'reload') {
+        setMoments([]);
+      }
+
+      const cursor = queryType === 'reload' ? undefined : nextCursor;
+      const newQuery = {
+        ...query, 
+        contact_id: userId, 
+        cursor, 
+        limit,
+      };
+
+      const response = await client.getContactMomentList(newQuery);
+      const newMoments = queryType === 'reload' ? response.data : [...moments, ...response.data];
+
+      setMoments(newMoments);
+      setHasMore(response.extra.has_next);
+      setNextCursor(response.extra.end_cursor);
+    } catch(e) {
+      console.error(e);
+      setError(e as Error);
+    } finally {
+      setLoading(false);
+    }
+  }, [client, query, userId]);
+
+  useEffect(() => {
+    if (userId) fetch('reload');
+  }, [fetch, userId]);
+
+  const loadMore = useCallback(() => {
+    if (userId) fetch(undefined, nextCursor)
+  }, [fetch, userId, nextCursor]);
+
+  const reload = useCallback(() => {
+    if (userId) fetch('reload');
+  }, [fetch, userId]);
 
   return {
     loading,

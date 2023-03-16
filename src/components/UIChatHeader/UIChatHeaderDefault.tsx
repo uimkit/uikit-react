@@ -82,14 +82,17 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     }
   };
   
-  const { setActiveMomentUserId } = useUIKit('UIChatHeader');
+  const { activeMomentUserId, setActiveMomentUserId } = useUIKit('UIChatHeader');
   const openUIManage = () => {
     // setUIManageShow(true);
   };
 
   const showMomentList = () => {
-    alert(3);
-    setActiveMomentUserId(conversation.id);
+    if (activeMomentUserId === conversation.contact?.id) {
+      setActiveMomentUserId(undefined);
+    } else {
+      setActiveMomentUserId(conversation.contact?.id);
+    }
   }
 
   return (

@@ -9,6 +9,8 @@ import {
 } from 'react-virtuoso';
 import { useMomentList } from './hooks/useMomentList';
 import { Moment } from '../../types';
+import './styles/index.scss';
+import { useUIKit } from '../../context';
 
 export type MomentListProps = {
   userId?: string;
@@ -21,11 +23,17 @@ export type MomentListWithContextProps = MomentListProps & {
   moments?: Moment[];
 };
 
-const MomentListWithContext: React.FC<MomentListWithContextProps> = () => {
+const MomentListWithContext: React.FC<MomentListWithContextProps> = (props) => {
+  const { moments } = props;
+
+  console.log('moments: ', moments);
+
   const virtuoso = useRef<VirtuosoHandle>(null);
-console.log('MomentListWithContext');
+
+
+
   return (
-    <div>
+    <div className="uim-moment-list">
       listfefefefe
     </div>
   );
@@ -33,9 +41,8 @@ console.log('MomentListWithContext');
 
 export const MomentList: React.FC<MomentListProps> = (props) => {
   const { userId } = props;
-
   const { loading, loadMore, hasMore, moments } = useMomentList(userId);
-  
+
   return (
     <MomentListWithContext
       hasMore={hasMore}

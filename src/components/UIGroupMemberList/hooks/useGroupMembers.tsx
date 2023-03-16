@@ -19,11 +19,11 @@ export function useGroupMemberList(
   const [members, setMembers] = useState<GroupMember[] | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetch = useCallback(async (queryType?: string) => {
+  const fetch = useCallback(async (queryType?: string, nextCursor?: Cursor) => {
     try {
       setLoading(true);
 
-      const limit = query.limit ??  MAX_QUERY_GROUP_MEMBER_LIMIT;
+      const limit = query?.limit ??  MAX_QUERY_GROUP_MEMBER_LIMIT;
 
       if (queryType === 'reload') {
         setMembers([]);
@@ -48,15 +48,15 @@ export function useGroupMemberList(
     } finally {
       setLoading(false);
     }
-  }, [client, query, nextCursor, groupId]);
+  }, [client, query, groupId]);
 
   useEffect(() => {
     if (groupId) fetch('reload');
-  }, [client, groupId]);
+  }, [fetch, groupId]);
 
   const loadMore = useCallback(() => {
-    if (groupId) fetch()
-  }, [fetch, groupId]);
+    if (groupId) fetch(undefined, nextCursor)
+  }, [fetch, groupId, nextCursor]);
 
   const reload = useCallback(() => {
     if (groupId) fetch('reload');

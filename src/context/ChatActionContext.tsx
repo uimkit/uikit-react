@@ -22,6 +22,7 @@ export interface ChatActionContextValue {
   setVideoSource?: (source: HTMLVideoElement | null) => void;
   setHighlightedMessageId?: (highlightedMessageId: string) => void;
   sendMessage?: (message: Message, options?:any) => Promise<void>;
+  editMessage?: (message: Message) => Promise<Message>;
   resendMessage?: (message: Message) => void;
   deleteMessage?: (message: Message) => void;
 

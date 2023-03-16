@@ -27,14 +27,14 @@ const components = {
   [MessageType.Location]: MessageLocation,
 };
 
-export interface MessageContextValue {
+export interface MessageContextProps {
   /** 编辑 / 删除 / 撤销 等操作是否开启 */
   actionsEnabled: boolean;
   /** 当前消息对象 */
   message?: Message;
 }
 
-function MessageContextWithContext <T extends MessageContextValue>(
+function MessageContextWithContext <T extends MessageContextProps>(
   props: PropsWithChildren<T>,
 ):React.ReactElement {
   const {
@@ -77,7 +77,7 @@ function MessageContextWithContext <T extends MessageContextValue>(
 const MemoizedMessageContext = React.memo(MessageContextWithContext) as
 typeof MessageContextWithContext;
 
-export function MessageContext(props:MessageContextProps):React.ReactElement {
+export function MessageContext(props: MessageContextProps):React.ReactElement {
   return (
     <MemoizedMessageContext
       {...props}
