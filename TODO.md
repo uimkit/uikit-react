@@ -118,13 +118,12 @@ conversationId
 图片消息发送
 语音消息展示
 
-
-###
-消息进度 / progress
-Moment
-Group
-
 ### bug
 群会话看不到
 moment 列表获取不到
 上传文件 progress 获取不到
+
+### 计划
+消息进度 / progress
+Moment
+Group 展示
