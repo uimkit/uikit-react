@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useState } from 'react';
 import { Modal } from '../Modal';
 import type { MessageContextProps } from './MessageText';
 import { ConversationType } from '../../types';
+import $first from 'lodash.first';
 
 function MessageImageWithContext <T extends MessageContextProps>(
   props: PropsWithChildren<T>,
@@ -14,8 +15,7 @@ function MessageImageWithContext <T extends MessageContextProps>(
 
   const [show, setShow] = useState(false);
 
-  // const bigImageInfo = message?.payload?.imageInfoArray?.filter((item) => item.type === 0);
-  const bigImageInfo = message?.image?.url;
+  const bigImageInfo = $first(message?.image?.infos);
 
   return (
     <div className="message-image">
@@ -26,7 +26,7 @@ function MessageImageWithContext <T extends MessageContextProps>(
       {
         show && (
         <Modal onClick={() => { setShow(false); }}>
-          <img className="big-image" src={bigImageInfo} alt="" />
+          <img className="big-image" src={bigImageInfo?.url} alt="" />
         </Modal>
         )
       }

@@ -78,8 +78,14 @@ export interface Moment {
   id: string;
 } 
 
-export interface ImageMessageBody {
+export type Image = {
   url: string;
+  height?: number;
+  width?: number;
+};
+
+export interface ImageMessageBody {
+  infos: Image[];
 }
 
 export interface AudioMessageBody {

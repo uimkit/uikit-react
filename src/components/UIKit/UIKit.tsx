@@ -78,7 +78,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
 
   useEffect(() => {
-    const onMessageReceived = (_, e: MessageEvent) => {
+    const onMessageReceived = (e: MessageEvent) => {
       console.log('onMessageReceived: ', e);
       const message = e.data;
 
@@ -88,14 +88,14 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
       });
     };
 
-    const onMessageUpdated = (_, e: MessageEvent) => {
+    const onMessageUpdated = (e: MessageEvent) => {
       dispatch({
         type: MessageListActionType.MESSAGE_UPDATE,
         payload: e.data,
       });
     };
 
-    const onConversationNew = (_, e: ConversationCreatedEvent) => {
+    const onConversationNew = (e: ConversationCreatedEvent) => {
       dispatch({
         type: ConversationListActionType.CONVERSATION_RECEIVED,
         payload: e.data,
@@ -114,7 +114,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
   }, [client, dispatch]);
 
   useEffect(() => {
-    const onConversationUpdated = async (_, e: ConversationUpdatedEvent) => {
+    const onConversationUpdated = async (e: ConversationUpdatedEvent) => {
       const conversation = e.data
       if (!conversation) return;
 

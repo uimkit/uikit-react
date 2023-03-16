@@ -11,7 +11,6 @@ function MessageVideoWithContext <T extends MessageContextProps>(
     message,
     children,
   } = props;
-
   const [show, setShow] = useState(false);
 
   return (

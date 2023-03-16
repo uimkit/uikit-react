@@ -35,6 +35,7 @@ export function useUploadPicker<T extends IbaseStateProps>(props:PropsWithChildr
         editLocalMessage(message);
       },
     });
+    console.log('message: ', message);
     sendMessage(message);
   }, [sendMessage]);
 

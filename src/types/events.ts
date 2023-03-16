@@ -112,4 +112,4 @@ export type IMEvent =
   | GroupMemberKickedEvent
   | GroupMemberQuitedEvent;
 
-export type EventHandler = (_: any, evt: IMEvent) => void;
+export type EventHandler = (evt: IMEvent) => void;

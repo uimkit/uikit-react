@@ -14,7 +14,6 @@ function MessageAudioWithContext <T extends MessageContextProps>(
     message,
     children,
   } = props;
-console.log('message audio');
 
   const { setAudioSource } = useChatActionContext('MessageAudioWithContext');
   const { audioSource } = useChatStateContext();

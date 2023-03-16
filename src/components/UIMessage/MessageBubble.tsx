@@ -7,7 +7,7 @@ import { Message } from "../../types";
 import { MESSAGE_STATUS } from '../../constants';
 import { Icon, IconTypes } from '../Icon';
 // import { useMessageReply } from './hooks/useMessageReply';
-// import { MessageProgress } from './MessageProgress';
+import { MessageProgress } from './MessageProgress';
 
 export interface MessageBubbleProps {
   message?: Message,
@@ -26,7 +26,7 @@ export function MessageBubble<T extends MessageBubbleProps>(
     Context,
     Plugins,
   } = props;
-
+console.log('MessageBubble: ', message);
   const [PluginsShow, setPluginsShow] = useState(false);
 
   /*
@@ -59,7 +59,7 @@ export function MessageBubble<T extends MessageBubbleProps>(
   const handleReplyMessage = () => {
     // setHighlightedMessageId(replyMessage?.id);
   };
-
+console.log('Bubble');
   return (
     <div className="message-bubble">
       <div
@@ -88,7 +88,7 @@ export function MessageBubble<T extends MessageBubbleProps>(
             )
           */}
           {children}
-          {/*<MessageProgress message={message} />*/}
+          {<MessageProgress message={message} />}
         </div>
         {
           Plugins && (

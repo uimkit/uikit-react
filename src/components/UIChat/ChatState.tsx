@@ -1,13 +1,9 @@
 import type { Reducer } from 'react';
-import { GroupMember, Message } from '../../types';
+import { Message } from '../../types';
 import { CONSTANT_DISPATCH_TYPE } from '../../constants';
 import type { ChatStateContextValue } from '../../context';
 // import { OperateMessageParams } from './hooks/useHandleMessage';
 import {
-  handleMessage,
-  handleMessageList,
-  handleEditMessage,
-  handleRemoveMessage,
   handleUploadPendingMessage,
 } from './utils';
 import { OperateMessageParams } from './hooks/useHandleMessage';
@@ -85,12 +81,6 @@ export const chatReducer = (
         // hasMoreNewer: false,
         highlightedMessageId: undefined,
         suppressAutoscroll: false,
-      };
-    }
-    case CONSTANT_DISPATCH_TYPE.SET_GROUP_MEMBERS: {
-      return {
-        ...state,
-        members: [...action.value],
       };
     }
     default: return state;

@@ -232,7 +232,7 @@ export function handleImageMessageShowContext(item: any) {
 
   return {
     progress: item?.status === MESSAGE_STATUS.UNSEND && item.progress,
-    url: item.file?.url, // item.payload.imageInfoArray[1].url,
+    url: (item.image && item.image.infos && item.image.infos.length > 0) ? item.image.infos[1].url : '', // TODO default
     message: item,
   };
 }
@@ -241,8 +241,8 @@ export function handleImageMessageShowContext(item: any) {
 export function handleVideoMessageShowContext(item: any) {
   return {
     progress: item?.status === MESSAGE_STATUS.UNSEND && item?.progress,
-    url: item?.payload?.videoUrl,
-    snapshotUrl: item?.payload?.snapshotUrl,
+    url: item?.video?.url,
+    snapshot: item?.video?.snapshot,
     message: item,
   };
 }
