@@ -5,7 +5,7 @@ import { UIChat } from "../UIChat";
 import { createAppStore } from "../../store";
 import { AppState, AppThunkContext } from "../../store/types";
 import { useDispatch } from "../../store/useDispatch";
-import { SupportedTranslations, TranslationProvider, UIKitProvider, useUIKit } from "../../context";
+import { SupportedTranslations, TranslationProvider, UIKitContextProps, UIKitProvider, useUIKit } from "../../context";
 import { Profile, APIClient, Conversation, Contact, EventType, ConversationUpdatedEvent, ConversationCreatedEvent } from '../../types';
 import { UIConversationList } from '../UIConversationList';
 import { Toast } from '../Toast';
@@ -16,6 +16,7 @@ import './styles/index.scss';
 import { useSelector } from 'react-redux';
 import { initAPIClient } from '../../store/common/actions';
 import { MessageListActionType } from '../../store/messages';
+import { MomentList } from '../MomentList';
 
 
 
@@ -46,6 +47,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
   const [activeConversation, _setActiveConversation] = useState<Conversation | undefined>();
   const [activeContact, setActiveContact] = useState<Contact | undefined>();
+  const [activeMomentUserId, setActiveMomentUserId] = useState<string | undefined>(undefined);
 
   const setActiveConversation = useCallback((activeConversation?: Conversation) => {
     if (activeConversation) {
@@ -131,20 +133,21 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
 
 
-  const providerContextValue = useMemo(() => ({
+  const providerContextValue: UIKitContextProps = useMemo(() => ({
     client,
     activeProfile,
     activeConversation,
     setActiveConversation,
     activeContact,
     setActiveContact,
-  }), [client, activeProfile, activeConversation, setActiveConversation, activeContact, setActiveContact]);
+    activeMomentUserId,
+    setActiveMomentUserId,
+  }), [client, activeProfile, activeConversation, setActiveConversation, activeContact, setActiveContact, activeMomentUserId, setActiveMomentUserId]);
 
   const { translators } = useTranslators({
     defaultLanguage,
     i18nInstance,
   });
-
 
   return (
     <UIKitProvider value={providerContextValue}>
@@ -155,6 +158,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
               <>
                 <UIConversationList />
                 <UIChat />
+                {!!activeMomentUserId && <MomentList userId={activeMomentUserId}/>}
               </>
             )}
           </div>

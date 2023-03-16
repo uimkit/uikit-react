@@ -48,6 +48,7 @@
     "react-is": "^18.2.0",
     "react-popper": "^2.3.0",
     "react-textarea-autosize": "^8.4.0",
+    "react-virtuoso": "^4.1.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "textarea-caret": "^3.1.0"

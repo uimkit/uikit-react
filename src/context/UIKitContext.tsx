@@ -12,6 +12,8 @@ export interface UIKitContextProps {
   setActiveConversation?: (conversation: Conversation) => void;
   activeContact?: Contact;
   setActiveContact?: (contact: Contact) => void;
+  activeMomentUserId?: string;
+  setActiveMomentUserId?: (value: string) => void;
 }
 
 const UIKitContext = React.createContext<UIKitContextProps | undefined>(undefined);

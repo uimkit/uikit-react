@@ -26,7 +26,7 @@ import { updateConversation } from '../../store/conversations';
 import './styles/index.scss';
 import { CONSTANT_DISPATCH_TYPE } from '../../constants';
 import { UIGroupMemberList } from '..//UIGroupMemberList';
-
+import { MomentDefault } from '../Moment';
 
 export interface UIChatProps {
   EmptyPlaceholder?: React.ReactElement;

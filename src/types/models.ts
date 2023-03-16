@@ -75,7 +75,7 @@ export interface GroupMember extends Profile {
  * 动态 / 朋友圈
  */
 export interface Moment {
-
+  id: string;
 } 
 
 export interface ImageMessageBody {

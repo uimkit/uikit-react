@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { useUIKit, APIClient, IMAccount, UIChat, UIConversationList, UIKit } from '@uimkit/uikit-react';
+import { useUIKit, APIClient, IMAccount, UIChat, UIConversationList, UIKit, MomentList } from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 
@@ -31,11 +31,16 @@ export function Chat({
   ) : null;
 }
 
-export const ChatContainer = ({
+export type ChatContainerProps = {
+  activeAccount?: IMAccount;
+  setActiveAccount: (account: IMAccount) => void;
+}
+
+export const ChatContainer: React.FC<ChatContainerProps> = ({
   activeAccount,
   setActiveAccount,
 }) => {
-  const { client, activeConversation } = useUIKit();
+  const { client, activeConversation, activeMomentUserId } = useUIKit();
 
   const [accounts, setAccounts] = useState<IMAccount[]>();
   useEffect(() => {
@@ -56,6 +61,7 @@ export const ChatContainer = ({
       <AccountList accounts={accounts} onSelect={handleChangeAccount} />
       {activeAccount && <UIConversationList />}
       {activeConversation && <UIChat/>}
+      {!!activeMomentUserId && <MomentList userId={activeMomentUserId}/>}
     </>
   );
 }

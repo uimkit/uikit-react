@@ -59,6 +59,7 @@ specifiers:
   react-redux: ^8.0.5
   react-textarea-autosize: ^8.4.0
   react-virtualized-auto-sizer: ^1.0.7
+  react-virtuoso: ^4.1.0
   react-window: ^1.8.8
   react-window-infinite-loader: ^1.0.8
   redux: ^4.2.1
@@ -99,6 +100,7 @@ dependencies:
   react-is: 18.2.0
   react-popper: 2.3.0_r6q5zrenym2zg7je7hgi674bti
   react-textarea-autosize: 8.4.0_pmekkgnqduwlme35zpnqhenc34
+  react-virtuoso: 4.1.0_biqbaboplfbrettd7655fr4n2y
   redux: 4.2.1
   redux-thunk: 2.4.2_redux@4.2.1
   textarea-caret: 3.1.0
@@ -6273,6 +6275,17 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: true
+
+  /react-virtuoso/4.1.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Vcq5WXn18PvPT55kdeGQ8BN3K95XyPe7hum8zG6Tx7g1CtUYVsQKN7fouMxBSy+XymEDB5ynGy8JWhuqyLLtPw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16 || >=17 || >= 18'
+      react-dom: '>=16 || >=17 || >= 18'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-window-infinite-loader/1.0.8_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-907ZLAiZZfBHuZyiY0V7uiSL4P/rI6UQyCF9wES1cDWTeyNLgGLaxu+BZkcUW3R5tSCQcbCcWBl0jVIpYzrKGQ==}

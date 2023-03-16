@@ -3,6 +3,7 @@ import { Conversation, ConversationType } from "../../types";
 import { Avatar } from '../Avatar';
 import { handleDisplayAvatar } from '../utils';
 import { Icon, IconTypes } from '../Icon';
+import { useUIKit } from '../../context';
 
 
 
@@ -81,10 +82,15 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     }
   };
   
-  // const { setUIManageShow } = useUIKit();
+  const { setActiveMomentUserId } = useUIKit('UIChatHeader');
   const openUIManage = () => {
     // setUIManageShow(true);
   };
+
+  const showMomentList = () => {
+    alert(3);
+    setActiveMomentUserId(conversation.id);
+  }
 
   return (
     <header
@@ -100,6 +106,9 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
         <h3 className="title">{title}</h3>
       </div>
       <div className="uim-chat-header-right">
+        <div className="header-handle">
+          <Icon className="icon-camera" onClick={showMomentList} type={IconTypes.ELLIPSE} width={18} height={18} />
+        </div>
         <div className="header-handle">
           {
             operateIcon || <Icon className="header-handle-more" onClick={openUIManage} type={IconTypes.ELLIPSE} width={18} height={5} />
