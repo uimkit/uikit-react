@@ -36,7 +36,7 @@ export const useMessageContextHandler = <T extends messageContextParams>(params:
       case MessageType.Image:
         context = handleImageMessageShowContext(message);
         break;
-      case MessageType.Voice:
+      case MessageType.Audio:
         context = handleAudioMessageShowContext(message);
         break;
       case MessageType.Video:

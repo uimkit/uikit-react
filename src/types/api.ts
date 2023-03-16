@@ -1,5 +1,5 @@
 import { EventHandler } from "./events";
-import { Group, GroupMember, Moment, Contact, Conversation, ConversationType, CursorListQueryParameters, CursorListResponse, EmptyObject, IMAccount, ImageMessageBody, Message, MessageType, PageListQueryParameters, PageListResponse, VideoMessageBody, VoiceMessageBody } from "./models";
+import { Group, GroupMember, Moment, Contact, Conversation, ConversationType, CursorListQueryParameters, CursorListResponse, EmptyObject, IMAccount, ImageMessageBody, Message, MessageType, PageListQueryParameters, PageListResponse, VideoMessageBody, AudioMessageBody } from "./models";
 
 
 export type GetIMAccountParameters = {
@@ -95,7 +95,7 @@ export type SendMessageDirectParameters = {
     type: MessageType;
     text?: string;
     image?: ImageMessageBody;
-    voice?: VoiceMessageBody;
+    audio?: AudioMessageBody;
     video?: VideoMessageBody;
 };
 export type SendMessageToConversationParameters = {
@@ -103,7 +103,7 @@ export type SendMessageToConversationParameters = {
     type: MessageType;
     text?: string;
     image?: ImageMessageBody;
-    voice?: VoiceMessageBody;
+    voice?: AudioMessageBody;
     video?: VideoMessageBody;
 };
 export type SendMessageParameters = SendMessageDirectParameters | SendMessageToConversationParameters;

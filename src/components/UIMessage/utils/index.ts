@@ -251,9 +251,9 @@ export function handleVideoMessageShowContext(item: any) {
 export function handleAudioMessageShowContext(item: any) {
   return {
     progress: item?.status === MESSAGE_STATUS.UNSEND && item.progress,
-    url: item.payload.url,
+    url: item.audio.url,
     message: item,
-    second: item.payload.second,
+    second: item.audio.duration,
   };
 }
 

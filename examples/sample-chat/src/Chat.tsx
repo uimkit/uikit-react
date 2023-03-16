@@ -25,7 +25,6 @@ export default function Chat() {
     setActiveAccount(account);
   }
 
-
   useEffect(() => {
     (async function() {
       const accessToken = await getAccessTokenSilently();

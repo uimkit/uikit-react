@@ -78,21 +78,24 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
 
 
   useEffect(() => {
-    const onMessageReceived = (e: MessageEvent) => {
+    const onMessageReceived = (_, e: MessageEvent) => {
+      console.log('onMessageReceived: ', e);
+      const message = e.data;
+
       dispatch({
         type: MessageListActionType.MESSAGE_RECEIVED,
         payload: e.data,
-      })
+      });
     };
 
-    const onMessageUpdated = (e: MessageEvent) => {
+    const onMessageUpdated = (_, e: MessageEvent) => {
       dispatch({
         type: MessageListActionType.MESSAGE_UPDATE,
         payload: e.data,
       });
     };
 
-    const onConversationNew = (e: ConversationCreatedEvent) => {
+    const onConversationNew = (_, e: ConversationCreatedEvent) => {
       dispatch({
         type: ConversationListActionType.CONVERSATION_RECEIVED,
         payload: e.data,
@@ -111,8 +114,10 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
   }, [client, dispatch]);
 
   useEffect(() => {
-    const onConversationUpdated = async (e: ConversationUpdatedEvent) => {
+    const onConversationUpdated = async (_, e: ConversationUpdatedEvent) => {
       const conversation = e.data
+      if (!conversation) return;
+
       if (conversation.id === activeConversation?.id) {
         // 当前会话清除未读
         if (conversation.unread > 0) {

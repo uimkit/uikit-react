@@ -1,8 +1,9 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { useUIKit, APIClient, IMAccount, UIChat, UIConversationList, UIKit, MomentList } from '@uimkit/uikit-react';
+import { useUIKit, APIClient, IMAccount, UIChat, UIConversationList, UIGroupMemberList, UIKit, MomentList } from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
+import { ConversationType } from '@uimkit/uim-js';
 
 export type ChatProps = {
   accessToken: string;
@@ -19,7 +20,11 @@ export function Chat({
       const UIMClient = (await import('@uimkit/uim-js')).default;
       console.log('UIMClient: ', UIMClient);
 
-      const client = new UIMClient(accessToken);
+      const client = new UIMClient(accessToken, {
+        subscribeKey: process.env.NEXT_PUBLIC_SUBSCRIBE_KEY,
+        publishKey: process.env.NEXT_PUBLIC_PUBLISH_KEY,
+        secretKey: process.env.NEXT_PUBLIC_SECRET_KEY,
+      });
       setClient(client as unknown as APIClient);
     })();
   }, [accessToken]);
@@ -46,7 +51,9 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
   useEffect(() => {
     if (client) {
       (async function() {
-        const r = await client?.getAccountList({});
+        const r = await client?.getAccountList({
+          subscribe: true,
+        });
         setAccounts(r.data);
       })();
     }
@@ -61,6 +68,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
       <AccountList accounts={accounts} onSelect={handleChangeAccount} />
       {activeAccount && <UIConversationList />}
       {activeConversation && <UIChat/>}
+      {activeConversation && activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
       {!!activeMomentUserId && <MomentList userId={activeMomentUserId}/>}
     </>
   );

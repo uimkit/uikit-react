@@ -29,7 +29,6 @@ export enum CONSTANT_DISPATCH_TYPE {
   ADD_MENTIONED_USER = 'addMentionedUser',
   SET_TEXT = 'setText',
   CLEAR = 'clear',
-  SET_GROUP_MEMBERS = 'setGroupMembers',
 }
 
 

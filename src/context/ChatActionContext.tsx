@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useContext } from 'react';
-import { GroupMember, Message } from '../types';
+import { Message } from '../types';
 import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessage';
 
 export interface ChatActionContextValue {

@@ -53,11 +53,7 @@ export type ChatStateReducerAction =
   | 
     {
       type:  CONSTANT_DISPATCH_TYPE.JUMP_TO_LATEST_MESSAGE,
-    }
-  | {
-    type: CONSTANT_DISPATCH_TYPE.SET_GROUP_MEMBERS,
-    value?: GroupMember[],
-  }
+    };
 
 export type ChatStateReducer = Reducer<ChatStateContextValue, ChatStateReducerAction>;
 
@@ -75,7 +71,7 @@ export const chatReducer = (
     case CONSTANT_DISPATCH_TYPE.SET_AUDIO_SOURCE:
       return { ...state, audioSource: action.value };
     case CONSTANT_DISPATCH_TYPE.SET_VIDEO_SOURCE:
-      return { ...state, vidoeSource: action.value };
+      return { ...state, videoSource: action.value };
     case CONSTANT_DISPATCH_TYPE.UPDATE_UPLOAD_PENDDING_MESSAGE_LIST:
       return {
         ...state,

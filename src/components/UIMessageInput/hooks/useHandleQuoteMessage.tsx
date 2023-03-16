@@ -7,7 +7,7 @@ const quoteConfigType = {
   [MessageType.Text]: 1,
   [MessageType.Custom]: 2,
   [MessageType.Image]: 3,
-  [MessageType.Voice]: 4,
+  [MessageType.Audio]: 4,
   [MessageType.Video]: 5,
   [MessageType.File]: 6,
   [MessageType.Face]: 8,
@@ -16,7 +16,7 @@ const quoteConfigType = {
 const quoteConfigForShow = {
   [MessageType.Custom]: '[custom]',
   [MessageType.Image]: '[image]',
-  [MessageType.Voice]: '[audio]',
+  [MessageType.Audio]: '[audio]',
   [MessageType.Video]: '[video]',
   [MessageType.File]: '[file]',
   [MessageType.Face]: '[face]',

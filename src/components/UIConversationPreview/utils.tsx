@@ -9,7 +9,7 @@ export const getDisplayTitle = (
   highlightColor = '#147AFF',
 ): string | React.ReactElement => {
   const {
-    nickname
+    name, nickname
   } = getMessageProfile(conversation);
   
   const { contact } = conversation;
@@ -19,12 +19,12 @@ export const getDisplayTitle = (
   switch (type) {
     case ConversationType.Private:
       // title = nick || userID;
-      title = nickname;
+      title = name ?? nickname;
 
       break;
     case ConversationType.Group:
       // title = name || groupID;
-      title = nickname;
+      title = name ?? nickname;
 
       break;
     default:
@@ -121,7 +121,7 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
           {conversation.last_message.type === MessageType.Image && '[图片]' }
           {conversation.last_message.type === MessageType.Video && '[视频]' }
           {conversation.last_message.type === MessageType.File && '[文件]' }
-          {conversation.last_message.type === MessageType.Voice && '[语音]' }
+          {conversation.last_message.type === MessageType.Audio && '[语音]' }
           {conversation.last_message.type === MessageType.Location && '[位置]' }
         </>
       ))}</span>
@@ -129,7 +129,7 @@ export const getDisplayMessage = (conversation: Conversation, myProfile: Profile
   );
 };
 
-type TProfile = Profile | Group;
+type TProfile = Profile & Group;
 
 export const getMessageProfile = (conversation: Conversation): TProfile => {
   if (!conversation) return null;

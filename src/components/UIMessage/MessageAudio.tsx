@@ -14,6 +14,7 @@ function MessageAudioWithContext <T extends MessageContextProps>(
     message,
     children,
   } = props;
+console.log('message audio');
 
   const { setAudioSource } = useChatActionContext('MessageAudioWithContext');
   const { audioSource } = useChatStateContext();
@@ -70,7 +71,7 @@ function MessageAudioWithContext <T extends MessageContextProps>(
         <Icon className={`${message?.flow} ${playClassName ? 'playing' : ''}`} type={IconTypes.VOICE} width={16} height={16} onClick={play} />
         <span>{`${currentTime}s`}</span>
       </div>
-      <audio src={context?.url} ref={audioRef} controls className="message-audio-none">
+      <audio src={message.audio.url} ref={audioRef} controls className="message-audio-none">
         <track kind="captions" />
       </audio>
       {children}

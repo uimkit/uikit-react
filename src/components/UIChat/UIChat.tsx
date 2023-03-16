@@ -14,7 +14,7 @@ import useCreateChatStateContext from './hooks/useCreateChatStateContext';
 import { ChatActionContextValue, ChatActionProvider, ChatStateContextProvider, useUIKit } from '../../context';
 import { useHandleMessage } from './hooks/useHandleMessage';
 import { Toast } from '../Toast';
-import { Conversation, ConversationType, GroupMember, Message } from '../../types';
+import { Conversation, Message } from '../../types';
 import { useCreateMessage } from '../../hooks/useCreateMessage';
 import { EmojiConfig, EmojiContextValue, EmojiProvider } from '../../context/EmojiContext';
 import { commonEmoji, defaultMinimalEmojis, emojiSetDef } from './emojiData';
@@ -118,17 +118,6 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
   } = useHandleMessage({
     state, dispatch,
   });
-
-  const saveGroupMembers = useCallback((members: GroupMember[]) => {
-    if (conversation.type !== ConversationType.Group) return;
-
-    dispatch({
-      type: CONSTANT_DISPATCH_TYPE.SET_GROUP_MEMBERS,
-      value: members,
-    });
-  }, [client, dispatch, conversation]);
-
-
 
   const { activeConversation} = useUIKit();
 
@@ -242,6 +231,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     deleteMessage,
     revokeMessage,
     resendMessage,
+    setAudioSource,
   }), [
     editLocalMessage,
     sendMessage,
@@ -261,6 +251,7 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     deleteMessage,
     revokeMessage,
     resendMessage,
+    setAudioSource,
   ]);
 
   const componentContextValue: ComponentContextValue = useMemo(
@@ -305,7 +296,6 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
                 <>
                   <UIChatHeaderElement />
                   <UIMessageList />
-                  {activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
                   <UIMessageInputElement />
                 </>
               )}

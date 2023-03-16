@@ -4,7 +4,7 @@ export enum MessageType {
   // 图片消息
   Image = 'image',
   // 语音消息
-  Voice = 'voice',
+  Audio = 'audio',
   // 视频消息
   Video = 'video',
   // 文件消息
@@ -82,7 +82,10 @@ export interface ImageMessageBody {
   url: string;
 }
 
-export interface VoiceMessageBody {}
+export interface AudioMessageBody {
+  url: string;
+  duration: number;
+}
 
 export interface VideoMessageBody {}
 
@@ -126,7 +129,7 @@ export interface Message {
   /* start 消息内容 */
   text?: string;
   image?: ImageMessageBody;
-  voice?: VoiceMessageBody;
+  audio?: AudioMessageBody;
   video?: VideoMessageBody;
   calling?: CallingMessagePayload;
   tip?: GroupTipMessagePayload;
