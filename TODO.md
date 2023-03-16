@@ -101,14 +101,25 @@ dts 会把 index.css 也生成多一份 index.d.css
 
 
 ### SDK
+- 3 day
 1. 事件
 2. off(event, handler)
 
-webhook
 
 command('command', args) ---> chat 
 conversationId
 ----> webhook -> 
 
+### 事件分流
 
-事件分流
+
+### 
+视频消息发送
+图片消息发送
+语音消息展示
+
+
+###
+消息进度 / progress
+Moment
+Group
