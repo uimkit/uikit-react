@@ -23,7 +23,7 @@ function MessageVideoWithContext <T extends MessageContextProps>(
       {
         show && (
         <Modal onClick={() => { setShow(false); }}>
-          <video className="play-video" muted controls src={context.url} />
+          <video className="play-video" muted controls src={context.url} autoPlay />
         </Modal>
         )
       }
