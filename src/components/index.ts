@@ -7,6 +7,8 @@ export * from './UIConversationListHeader';
 export * from './UIConversationPreview';
 export * from './UIContactList';
 export * from './UIContactPreview';
+export * from './UIGroupList';
+export * from './UIGroupPreview';
 export * from './UIMessageInput';
 export * from './UIMessageList';
 export * from './UIMessage';

@@ -18,7 +18,7 @@ export type GetContactListParameters = CursorListQueryParameters<EmptyObject> & 
     account_id: string;
 };
 export type GetContactListResponse = CursorListResponse<Contact>;
-export type GetGroupsParameters = PageListQueryParameters<EmptyObject> & {
+export type GetGroupListParameters = PageListQueryParameters<EmptyObject> & {
     account_id: string;
 };
 export type GetGroupsResponse = PageListResponse<Group>;
@@ -266,6 +266,8 @@ export interface APIClient {
 
   /******************** Group ********************/
   getGroup(params: any): Promise<Group>;
+
+  getGroupList(params: GetGroupListParameters): Promise<GetGroupMemberListResponse>;
 
   getGroupMembers(query: GetGroupMemberListParameters): Promise<GetGroupMemberListResponse>;
 

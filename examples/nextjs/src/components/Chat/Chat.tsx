@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { useUIKit, APIClient, IMAccount, UIChat, UIConversationList, UIGroupMemberList, UIKit, MomentList } from '@uimkit/uikit-react';
+import { useUIKit, APIClient, IMAccount, UIChat, UIGroupList, UIContactList, UIConversationList, UIGroupMemberList, UIKit, MomentList } from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 import { ConversationType } from '@uimkit/uim-js';
@@ -67,6 +67,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     <>
       <AccountList accounts={accounts} onSelect={handleChangeAccount} />
       {activeAccount && <UIConversationList />}
+      <UIContactList />
+      {activeAccount && <UIGroupList activeProfile={activeAccount} />}
       {activeConversation && <UIChat/>}
       {activeConversation && activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
       {!!activeMomentUserId && <MomentList userId={activeMomentUserId}/>}
