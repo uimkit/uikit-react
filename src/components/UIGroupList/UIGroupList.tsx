@@ -10,7 +10,7 @@ import {
   VirtuosoProps,
 } from 'react-virtuoso';
 
-// import './styles/index.scss';
+import './styles/index.scss';
 import { Group, Profile } from '../../types';
 import { UIGroupPreview, UIGroupPreviewComponentProps } from '../UIGroupPreview';
 
@@ -79,6 +79,7 @@ const UIGroupListWithContext: React.FC<UIGroupListWithContextProps> = (props) =>
 
   return (
     <div className="uim-group-list">
+      group
       <Virtuoso
         data={processedGroups}
         atBottomThreshold={200}
