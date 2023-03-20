@@ -11,7 +11,7 @@ import { useDispatch } from '../store/useDispatch';
 import { AppState } from '../store/types';
 import { Message } from '../types';
 
-export type UseConversationStateResult {
+export type UseConversationStateResult = {
   messages: Message[];
   hasMore: boolean;
   loadingMore: boolean;
