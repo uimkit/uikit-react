@@ -40,6 +40,8 @@ export type UIContactListProps = {
 
   /** 自定义列表头部 */
   head?: React.ReactElement;
+  activeContact?: Contact;
+  setActiveContact?: (contact: Contact) => void;
 }
 
 export type UIContactListWithContextProps = UIContactListProps & {
@@ -58,10 +60,10 @@ const UIContactListWithContext: React.FC<UIContactListWithContextProps> = (props
     loadMore,
     loading,
     contacts,
+    activeContact,
+    setActiveContact,
     scrollSeekPlaceHolder,
   } = props;
-
-  const { activeContact, setActiveContact } = useUIKit('UIContactListWithContext');
 
   const { t } = useTranslationContext();
 
@@ -173,7 +175,7 @@ const UIContactListWithContext: React.FC<UIContactListWithContextProps> = (props
   );*/
 }
 
-export const UIContactList: React.FC<UIContactListProps> = () => {
+export const UIContactList: React.FC<UIContactListProps> = (props) => {
   const { activeProfile } = useUIKit('UIContactList');
   const { contacts, loading, hasMore, loadMore } = useContactList(activeProfile?.id);
 
@@ -183,6 +185,7 @@ export const UIContactList: React.FC<UIContactListProps> = () => {
       loadMore={loadMore}
       loading={loading}
       contacts={contacts}
+      {...props}
     />
   );
 }; 

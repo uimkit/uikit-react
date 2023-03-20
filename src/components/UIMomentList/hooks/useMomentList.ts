@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Cursor, GetContactMomentListParameters, Moment } from '../../../types';
+import { Cursor, GetContactMomentListParameters, Moment, MomentType } from '../../../types';
 import { useUIKit } from '../../../context';
 
 
@@ -36,10 +36,11 @@ export const useMomentList = (userId: string, query?: GetContactMomentListParame
       const newMoments1 = [
         {
           id: '1',
-          
+          type: MomentType.Video,          
         },
         {
           id: '2',
+          type: MomentType.Video,
         }
       ];
 

@@ -16,8 +16,6 @@ import './styles/index.scss';
 import { useSelector } from 'react-redux';
 import { initAPIClient } from '../../store/common/actions';
 import { ConversationActionType } from '../../store/messages';
-import { MomentList } from '../MomentList';
-
 
 
 const appThunkContext: AppThunkContext = {

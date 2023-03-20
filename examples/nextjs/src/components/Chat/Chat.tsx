@@ -14,6 +14,7 @@ import {
   VirtualizedMessageList,
   UIMessageInput,
   MomentList,
+  Contact,
 } from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
@@ -61,6 +62,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
   const { client, activeConversation, activeMomentUserId } = useUIKit();
 
   const [accounts, setAccounts] = useState<IMAccount[]>();
+  const [activeContact, setActiveContact] = useState<Contact[]>();
+
   useEffect(() => {
     if (client) {
       (async function() {
@@ -80,7 +83,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     <>
       <AccountList accounts={accounts} onSelect={handleChangeAccount} />
       {activeAccount && <UIConversationList />}
-      <UIContactList />
+      <UIContactList activeContact={activeContact} setActiveContact={setActiveContact}/>
       {activeAccount && <UIGroupList activeProfile={activeAccount} />}
       {activeConversation && (
         <UIChat>

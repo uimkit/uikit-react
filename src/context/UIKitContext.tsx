@@ -10,8 +10,6 @@ export interface UIKitContextProps {
   activeProfile?: Profile;
   activeConversation?: Conversation;
   setActiveConversation?: (conversation: Conversation) => void;
-  activeContact?: Contact;
-  setActiveContact?: (contact: Contact) => void;
   activeMomentUserId?: string;
   setActiveMomentUserId?: (value: string) => void;
 }
