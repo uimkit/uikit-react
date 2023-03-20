@@ -10,7 +10,7 @@ import {
 import { useMessageListElements } from './hooks/useMessageListElements';
 import { InfiniteScroll, InfiniteScrollProps } from '../InfiniteScrollPaginator';
 import { EmptyStateIndicator as DefaultEmptyStateIndicator } from '../EmptyStateIndicator';
-import { useConversationMessageList } from '../../hooks';
+import { useConversationState } from '../../hooks';
 import { MessageListNotifications as DefaultMessageListNotifications } from './MessageListNotifications';
 import { useScrollLocationLogic } from './hooks/useScrollLocationLogic';
 import { LoadingIndicator as DefaultLoadingIndicator } from '../Loading';
@@ -62,8 +62,7 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     MessageListNotifications = DefaultMessageListNotifications,
     MessageNotification = DefaultMessageNotification,
   } = useComponentContext('UIMessageList');
-  const { activeConversation } = useUIKit();
-  const { messages: contextMessageList, hasMore, loading, loadMore: contextLoadMore } = useConversationMessageList(activeConversation?.id);
+  const { messages: contextMessageList, hasMore, loadingMore, loadMore: contextLoadMore } = useChatStateContext('UIMessageList');
 
   const highlightedMessageId = propsHighlightedMessageId
   || UIMessageListConfig?.highlightedMessageId
@@ -122,7 +121,7 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
   return (
     <>
       <div 
-        className={`message-list`} 
+        className={`uim-message-list`} 
         onScroll={onScroll}
         ref={messageListRef}
         tabIndex={0}
@@ -133,7 +132,7 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
           hasMore
           loader={
             <div className='uim__list__loading' key='loading-indicator'>
-              {loading && <LoadingIndicator size={20} />}
+              {loadingMore && <LoadingIndicator size={20} />}
             </div>
           }
           loadMore={loadMore}

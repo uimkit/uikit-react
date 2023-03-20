@@ -15,7 +15,7 @@ import { ConversationListActionType, updateConversation } from '../../store/conv
 import './styles/index.scss';
 import { useSelector } from 'react-redux';
 import { initAPIClient } from '../../store/common/actions';
-import { MessageListActionType } from '../../store/messages';
+import { ConversationActionType } from '../../store/messages';
 import { MomentList } from '../MomentList';
 
 
@@ -53,7 +53,9 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     if (activeConversation) {
       setActiveMomentUserId(undefined);
 
-      client?.setConversationRead(activeConversation.id);
+      if (activeConversation.unread > 0) {
+        client?.setConversationRead(activeConversation.id);
+      }
 
       dispatch(updateConversation({
         account: activeConversation.account,
@@ -83,14 +85,14 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
       const message = e.data;
 
       dispatch({
-        type: MessageListActionType.MESSAGE_RECEIVED,
+        type: ConversationActionType.MESSAGE_RECEIVED,
         payload: e.data,
       });
     };
 
     const onMessageUpdated = (e: MessageEvent) => {
       dispatch({
-        type: MessageListActionType.MESSAGE_UPDATE,
+        type: ConversationActionType.MESSAGE_UPDATE,
         payload: e.data,
       });
     };

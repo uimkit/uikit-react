@@ -88,13 +88,18 @@ export const chatReducer = (
 };
 
 export const initialState: ChatStateContextValue = {
-  init: false,
+  hasMore: true,
+  hasMoreNewer: false,
+  loadingMore: false,
+  loadingMoreNewer: false,
+  messages: [],
   highlightedMessageId: '',
   lastMessageID: '',
+  suppressAutoscroll: false,
+  init: false,
   isSameLastMessageID: false,
   operateData: {},
   audioSource: null,
   vidoeSource: null,
   uploadPenddingMessageList: [],
-  suppressAutoscroll: false,
 };

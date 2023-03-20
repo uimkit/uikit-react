@@ -26,8 +26,11 @@ export interface ChatActionContextValue {
   resendMessage?: (message: Message) => void;
   deleteMessage?: (message: Message) => void;
 
+  loadMore: () => Promise<void>;
+  loadMoreNewer: () => Promise<void>;
+  jumpToMessage: (messageId: string, limit?: number) => Promise<void>;
   jumpToLatestMessage: () => Promise<void>;
-  
+
   updateUploadPenddingMessageList?: (message?:Message) => void,
 }
 

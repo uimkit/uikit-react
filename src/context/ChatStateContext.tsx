@@ -7,6 +7,11 @@ import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessag
 
 
 export type ChatState = {
+  messages: Message[];
+  hasMore: boolean;
+  loadingMore: boolean;
+  hasMoreNewer: boolean;
+  loadingMoreNewer: boolean;
   /** 禁止自动滚动 */
   suppressAutoscroll?: boolean;
   /** 高亮消息的 ID */

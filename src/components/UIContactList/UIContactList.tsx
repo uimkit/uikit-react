@@ -1,8 +1,6 @@
-import React, { VoidFunctionComponent, useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslationContext, useUIKit } from "../../context";
 import { useContactList } from "../../hooks/useContactList";
-import { EmptyStateIndicator } from "../EmptyStateIndicator";
-import { InfiniteScroll } from "../InfiniteScrollPaginator";
 import { UIContactPreview, UIContactPreviewComponentProps } from "../UIContactPreview";
 import {
   Components,
@@ -14,12 +12,34 @@ import {
 } from 'react-virtuoso';
 
 import './styles/index.scss';
-import { Contact } from '../../types';
+import { Contact, UnknownType } from '../../types';
+import { EmptyStateIndicator } from '../EmptyStateIndicator';
+import { LoadingIndicator } from '../Loading';
 
 
 export type UIContactListProps = {
-  Preview?: React.ComponentType<UIContactPreviewComponentProps>;
+  /** 传递给 react-virtuoso 的属性 [`react-virtuoso` virtualized list dependency](https://virtuoso.dev/virtuoso-api-reference/) */
+  additionalVirtuosoProps?: VirtuosoProps<UnknownType, unknown>;
   defaultItemHeight?: number;
+  /**
+   * 用户快速滚动列表时显示占位符来提高性能:
+   * ```
+   *  {
+   *    enter: (velocity) => Math.abs(velocity) > 120,
+   *    exit: (velocity) => Math.abs(velocity) < 40,
+   *    change: () => null,
+   *    placeholder: ({index, height})=> <div style={{height: height + "px"}}>{index}</div>,
+   *  }
+   *  ```
+   */
+   scrollSeekPlaceHolder?: ScrollSeekConfiguration & {
+    placeholder: React.ComponentType<ScrollSeekPlaceholderProps>;
+  };
+
+  Preview?: React.ComponentType<UIContactPreviewComponentProps>;
+
+  /** 自定义列表头部 */
+  head?: React.ReactElement;
 }
 
 export type UIContactListWithContextProps = UIContactListProps & {
@@ -32,10 +52,13 @@ export type UIContactListWithContextProps = UIContactListProps & {
 const UIContactListWithContext: React.FC<UIContactListWithContextProps> = (props) => {
   const {
     Preview,
+    head,
     defaultItemHeight,
     hasMore,
     loadMore,
+    loading,
     contacts,
+    scrollSeekPlaceHolder,
   } = props;
 
   const { activeContact, setActiveContact } = useUIKit('UIContactListWithContext');
@@ -59,7 +82,34 @@ const UIContactListWithContext: React.FC<UIContactListWithContextProps> = (props
     }
   };
 
-  const contactRenderer = useCallback((contact: Contact) => {
+  const virtuosoComponents: Partial<Components> = useMemo(() => {
+    const EmptyPlaceholder: Components['EmptyPlaceholder'] = () => (
+      <>
+        {EmptyStateIndicator && (
+          <EmptyStateIndicator listType={'contact'} />
+        )}
+      </>
+    );
+
+    const Header: Components['Header'] = () => head ?? null;
+
+    const Footer: Components['Footer'] = () =>
+      loading ? (
+        <div className='str-chat__virtual-list__loading'>
+          <LoadingIndicator size={20} />
+        </div>
+      ) : (
+        null
+      );
+
+    return {
+      EmptyPlaceholder,
+      Footer,
+      Header,
+    };
+  }, [loading, head]);
+
+  const contactRenderer = useCallback((contact: Contact, index: number) => {
     return (
       <UIContactPreview 
         key={contact.id} 
@@ -83,13 +133,18 @@ const UIContactListWithContext: React.FC<UIContactListWithContextProps> = (props
         data={processedContacts}
         atBottomThreshold={200}
         className="uim-contact-list-scroll"
-        computeItemKey={(index) => processedContacts[index].id}
+        components={virtuosoComponents}
+        computeItemKey={(index) => {
+          console.log('computeItemKey index: ', index);
+          return processedContacts[index].id;
+        }}
         endReached={endReached}
-        itemContent={(i, data) => contactRenderer(data)}
+        itemContent={(i: number, data: Contact) => contactRenderer(data, i)}
         itemSize={fractionalItemSize}
         ref={virtuoso}
         style={{ overflowX: 'hidden' }}
         totalCount={processedContacts.length}
+        {...(scrollSeekPlaceHolder ? { scrollSeek: scrollSeekPlaceHolder } : {})}
         {...(defaultItemHeight ? { defaultItemHeight } : {})}
       />
     </div>

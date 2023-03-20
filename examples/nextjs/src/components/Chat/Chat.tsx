@@ -1,6 +1,20 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { useUIKit, APIClient, IMAccount, UIChat, UIGroupList, UIContactList, UIConversationList, UIGroupMemberList, UIKit, MomentList } from '@uimkit/uikit-react';
+import { 
+  useUIKit, 
+  APIClient, 
+  IMAccount, 
+  UIChat, 
+  UIGroupList, 
+  UIContactList, 
+  UIConversationList, 
+  UIGroupMemberList, 
+  UIKit,
+  UIChatHeader,
+  VirtualizedMessageList,
+  UIMessageInput,
+  MomentList,
+} from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 import { ConversationType } from '@uimkit/uim-js';
@@ -18,7 +32,6 @@ export function Chat({
   useEffect(() => {
     (async function() {
       const UIMClient = (await import('@uimkit/uim-js')).default;
-      console.log('UIMClient: ', UIMClient);
 
       const client = new UIMClient(accessToken, {
         subscribeKey: process.env.NEXT_PUBLIC_SUBSCRIBE_KEY,
@@ -69,7 +82,13 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
       {activeAccount && <UIConversationList />}
       <UIContactList />
       {activeAccount && <UIGroupList activeProfile={activeAccount} />}
-      {activeConversation && <UIChat/>}
+      {activeConversation && (
+        <UIChat>
+          <UIChatHeader />
+          <VirtualizedMessageList />
+          <UIMessageInput />
+        </UIChat>
+      )}
       {activeConversation && activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
       {!!activeMomentUserId && <MomentList userId={activeMomentUserId}/>}
     </>

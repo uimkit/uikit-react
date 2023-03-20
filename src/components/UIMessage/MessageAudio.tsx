@@ -53,7 +53,7 @@ function MessageAudioWithContext <T extends MessageContextProps>(
       audioRef.current.addEventListener('pause', pauseFunction);
       audioRef.current.addEventListener('ended', endFunction);
       audioRef.current.addEventListener('canplay', () => {
-        setCurrentTime(parseInt(`${audioRef.current.duration}`, 10));
+        setCurrentTime(parseInt(`${audioRef?.current?.duration ?? 0}`, 10));
       });
     }
     return () => {

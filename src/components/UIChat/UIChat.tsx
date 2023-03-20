@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useReducer, useRef, useMemo } from 'react';
+import React, { PropsWithChildren, useCallback, useReducer, useRef, useMemo, useLayoutEffect } from 'react';
 import { UIMessageInput as UIMessageInputElement, UIMessageInputBasicProps } from '../UIMessageInput';
 
 import { UIMessageListProps, UIMessageList } from '../UIMessageList';
@@ -25,8 +25,10 @@ import { useDispatch } from '../../store/useDispatch';
 import { updateConversation } from '../../store/conversations';
 import './styles/index.scss';
 import { CONSTANT_DISPATCH_TYPE } from '../../constants';
-import { UIGroupMemberList } from '..//UIGroupMemberList';
-import { MomentDefault } from '../Moment';
+import { ConversationActionType } from '../../store/messages';
+import { useConversationState } from '../../hooks';
+
+
 
 export interface UIChatProps {
   EmptyPlaceholder?: React.ReactElement;
@@ -62,7 +64,7 @@ export interface UIChatProps {
   ) => ReturnType<any> | void;
 } 
 
-export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): React.ReactElement {
+const UIChatInner: React.FC<PropsWithChildren<UIChatProps>> = (props) => {
   const {
     UIMessage,
     InputPlugins,
@@ -78,27 +80,47 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     cloudCustomData,
     emojiData = defaultEmojiData as EmojiMartData,
     doSendMessageRequest,
-    conversation: propConversation,
+    conversation,
     children,
   } = props;
 
-  const [state, dispatch] = useReducer<ChatStateReducer>(
+  const { client } = useUIKit('UIChat');
+
+  const [_state, dispatch] = useReducer<ChatStateReducer>(
     chatReducer,
     { ...initialState },
   );
+  const reduxDispatch = useDispatch();
 
-  const { client, activeConversation: contextConversation } = useUIKit('UIChat');
-  const conversation = propConversation || contextConversation;
+  const { 
+    loadMore, 
+    loadMoreNewer, 
+    jumpToMessage, 
+    ...conversationState 
+  } = useConversationState(conversation.id);
 
+  const state = useMemo(() => {
+    const { 
+      hasMore,
+      hasMoreNewer,
+      loadingMore,
+      loadingMoreNewer,
+      messages,
+      highlightedMessageId,
+      suppressAutoscroll,    
+    } = conversationState;
 
-  const jumpToLatestMessage = async () => {
-    console.log('jumpToLatestMessage');
-    // const hasMoreOlder = channel.state.messages.length >= 25;
-    // loadMoreFinished(hasMoreOlder, channel.state.messages);
-    dispatch({
-      type: CONSTANT_DISPATCH_TYPE.JUMP_TO_LATEST_MESSAGE,
-    });
-  };
+    return {
+      ..._state,
+      hasMore,
+      hasMoreNewer,
+      loadingMore,
+      loadingMoreNewer,
+      messages,
+      highlightedMessageId,
+      suppressAutoscroll,
+    };
+  }, [_state, conversationState])
 
   const messageListRef = useRef(null);
   const chatStateContextValue = useCreateChatStateContext({
@@ -119,8 +141,6 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     state, dispatch,
   });
 
-  const { activeConversation} = useUIKit();
-
   const {
     createTextMessage,
     createFaceMessage,
@@ -133,9 +153,32 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     createTextAtMessage,
     createLocationMessage,
     createMergerMessage,
-  } = useCreateMessage({ client, activeConversation, cloudCustomData });
+  } = useCreateMessage({ client, conversation, cloudCustomData });
 
-  const reduxDispatch = useDispatch();
+  useLayoutEffect(() => {
+    // 监听 conversation 内部事件
+
+    return () => {
+    // 解除监听 conversation 内部事件
+
+    };
+  }, [conversation.id]);
+
+  const jumpToLatestMessage = async () => {
+    // 不使用 redux
+    if (false) {
+      dispatch({
+        type: CONSTANT_DISPATCH_TYPE.JUMP_TO_LATEST_MESSAGE,
+      });  
+    } else {
+      // 使用 redux
+      reduxDispatch({
+        type: ConversationActionType.JumpToLatestMessage,
+        conversation,
+      });
+    }
+  };
+
 
   const sendMessage = useCallback(async (_message: Message) => {
     const message = {
@@ -227,11 +270,14 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     createLocationMessage,
     createMergerMessage,
     operateMessage,
+    jumpToMessage,
     jumpToLatestMessage,
     deleteMessage,
     revokeMessage,
     resendMessage,
     setAudioSource,
+    loadMore,
+    loadMoreNewer,
   }), [
     editLocalMessage,
     sendMessage,
@@ -252,6 +298,8 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     revokeMessage,
     resendMessage,
     setAudioSource,
+    loadMore,
+    loadMoreNewer,
   ]);
 
   const componentContextValue: ComponentContextValue = useMemo(
@@ -306,3 +354,26 @@ export function UIChat<T extends UIChatProps>(props: PropsWithChildren<T>): Reac
     </div>
   );
 }
+
+
+
+export const UIChat: React.FC<PropsWithChildren<UIChatProps>> = (props) => {
+  const {
+    conversation: propConversation,
+    EmptyPlaceholder = null,
+  } = props;
+
+  const {
+    activeConversation: contextConversation
+  } = useUIKit('UIChat');
+  
+  const conversation = propConversation ?? contextConversation;
+  const className = 'uim-conversation'; // clsx(chatClass, theme, conversationClass);
+
+
+  if (!conversation?.id) {
+    return <div className={className}>{EmptyPlaceholder}</div>
+  }
+
+  return <UIChatInner {...props} conversation={conversation} key={conversation.id} />;
+};

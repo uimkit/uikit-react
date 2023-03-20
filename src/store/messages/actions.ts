@@ -1,17 +1,22 @@
-import { Message, GetMessageListParameters, GetMessageListResponse } from "../../types";
+import { Message, GetMessageListParameters, GetMessageListResponse, Conversation } from "../../types";
+import { ConversationState } from "./reducers";
 
-export enum MessageListActionType {
+export enum ConversationActionType {
 	FETCHING_MESSAGE_LIST = "uim/FETCHING_MESSAGE_LIST",
-	MESSAGE_LIST_FETCHED = "uim/MESSAGE_LIST_FETCHED",
-	ERROR_FETCHING_MESSAGE_LIST = "uim/ERROR_FETCHING_MESSAGE_LIST",
+	MESSAGE_LIST_LOAD_MORE_FINISHED = "uim/MESSAGE_LIST_LOAD_MORE_FINISHED",
+	MESSAGE_LIST_LOAD_MORE_NEWER_FINISHED = "uim/MESSAGE_LIST_LOAD_MORE_NEWER_FINISHED",
+  ERROR_FETCHING_MESSAGE_LIST = "uim/ERROR_FETCHING_MESSAGE_LIST",
 	MESSAGE_RECEIVED = "uim/MESSAGE_RECEIVED",
 	MESSAGE_DELETED = "uim/MESSAGE_DELETED",
   MESSAGE_UPDATE = "uim/MESSAGE_UPDATE",
+
+  SET_LOADING_MORE = 'uim/SET_LOADING_MORE',
+  JumpToLatestMessage = 'uim/jumpToLatestMessage',
+  JumpToMessageFinished = 'uim/jumpToMessageFinished',
+  ClearHighlightedMessage = 'uim/clearHighlightedMessage',
 }
 
 export type FetchMessageListRequest = GetMessageListParameters;
-
-export type FetchMessageListResponse = GetMessageListResponse;
 
 export interface FetchMessageListError {
 	request: FetchMessageListRequest;
@@ -20,32 +25,50 @@ export interface FetchMessageListError {
 
 export interface FetchMessageListSuccess {
 	request: FetchMessageListRequest
-	response: FetchMessageListResponse
+	response: GetMessageListResponse
 }
 
 export interface FetchingMessageListAction {
-	type: typeof MessageListActionType.FETCHING_MESSAGE_LIST;
+	type: typeof ConversationActionType.FETCHING_MESSAGE_LIST;
 	payload: FetchMessageListRequest;
 }
 
-export interface MessageListFetchedAction {
-	type: typeof MessageListActionType.MESSAGE_LIST_FETCHED;
+export interface MessageListLoadMoreFinishedAction {
+	type: typeof ConversationActionType.MESSAGE_LIST_LOAD_MORE_FINISHED;
+  conversation: Pick<Conversation, 'id'>;
+	payload: Pick<ConversationState, 'messages' | 'hasMore' | 'nextCursor'>;
+}
+
+export interface MessageListLoadMoreNewerFinishedAction {
+	type: typeof ConversationActionType.MESSAGE_LIST_LOAD_MORE_NEWER_FINISHED;
 	payload: FetchMessageListSuccess;
 }
 
 export interface ErrorFetchingMessageListAction {
-	type: typeof MessageListActionType.ERROR_FETCHING_MESSAGE_LIST;
+	type: typeof ConversationActionType.ERROR_FETCHING_MESSAGE_LIST;
 	payload: FetchMessageListError;
 }
 
 export interface MessageReceivedAction {
-	type: typeof MessageListActionType.MESSAGE_RECEIVED;
+	type: typeof ConversationActionType.MESSAGE_RECEIVED;
 	payload: Message;
 }
 
 export interface MessageUpdateAction {
-  type: typeof MessageListActionType.MESSAGE_UPDATE;
+  type: typeof ConversationActionType.MESSAGE_UPDATE;
   payload: Message;
+}
+
+export interface JumpToLatestMessageAction {
+  type: typeof ConversationActionType.JumpToLatestMessage;
+  conversation: Pick<Conversation, 'id'>;
+}
+
+export interface JumpToMessageFinished {
+  type: typeof ConversationActionType.JumpToMessageFinished;
+  conversation: Pick<Conversation, 'id'>;
+  hasMoreNewer: boolean;
+  highlightedMessageId: string;
 }
 
 export interface MessageDeletedPayload {
@@ -56,14 +79,30 @@ export interface MessageDeletedPayload {
 }
 
 export interface MessageDeletedAction {
-	type: typeof MessageListActionType.MESSAGE_DELETED;
+	type: typeof ConversationActionType.MESSAGE_DELETED;
 	payload: MessageDeletedPayload
+}
+
+export interface SetLoadingMoreAction {
+	type: typeof ConversationActionType.SET_LOADING_MORE;
+  conversation: Pick<Conversation, 'id'>;
+  loadingMore: boolean;
+}
+
+export interface ClearHighlightedMessage {
+  type: typeof ConversationActionType.ClearHighlightedMessage;
+  conversation: Pick<Conversation, 'id'>;
 }
 
 export type MessageListActions =
 	| FetchingMessageListAction
-	| MessageListFetchedAction
+	| MessageListLoadMoreFinishedAction
+  | MessageListLoadMoreNewerFinishedAction
+  | SetLoadingMoreAction
 	| ErrorFetchingMessageListAction
 	| MessageReceivedAction
 	| MessageDeletedAction
   | MessageUpdateAction
+  | JumpToLatestMessageAction
+  | JumpToMessageFinished
+  | ClearHighlightedMessage

@@ -132,20 +132,20 @@ const handleUpdateConversation = (
 ): ConversationListState => {
   const { account } = payload;
 	const stateByAccount = state[account] || newState();
-	let { conversations } = stateByAccount;
-	const idx = conversations.findIndex(it => it.id === payload.id)
+	const conversations = [...(stateByAccount.conversations ?? [])];
+  const idx = conversations.findIndex(it => it.id === payload.id)
 	if (idx >= 0) {
 		conversations[idx] = { ...conversations[idx], ...payload }
-	} else {
+  } else {
 		conversations.push(payload);
 	}
-	conversations.sort(sortConversations)
-	conversations = [...conversations]
+
+  conversations.sort(sortConversations)
 	return {
 		...state,
 		[account]: {
 			...stateByAccount,
-			conversations
+			conversations,
 		}
 	}
 }

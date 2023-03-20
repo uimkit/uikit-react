@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 import { t } from "i18next";
 import { AppState, AppThunkContext, ThunkAction } from "../types";
 import { Message, GetMessageListParameters } from "../../types";
-import { MessageListActionType } from "./actions";
+import { ConversationActionType } from "./actions";
 import { ConversationListActionType } from "../conversations";
 import last from "lodash.last";
 
@@ -17,7 +17,7 @@ import last from "lodash.last";
 export const updateLocalMessage = (message: Message): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
     dispatch({
-      type: MessageListActionType.MESSAGE_UPDATE,
+      type: ConversationActionType.MESSAGE_UPDATE,
       payload: message,
     });
 	}
@@ -32,7 +32,7 @@ export const updateLocalMessage = (message: Message): ThunkAction<Promise<void>>
  export const deleteLocalMessage = (message: Message): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
 		dispatch({
-      type: MessageListActionType.MESSAGE_DELETED,
+      type: ConversationActionType.MESSAGE_DELETED,
       payload: message,
     });
 
@@ -75,7 +75,7 @@ export const resendMessage = (message: Message): ThunkAction<Promise<void>> => {
 		try {
 			// 先更新本地消息状态 
 			dispatch({
-        type: MessageListActionType.MESSAGE_RECEIVED,
+        type: ConversationActionType.MESSAGE_RECEIVED,
         payload: newMessage,
       });
 
@@ -92,7 +92,7 @@ export const resendMessage = (message: Message): ThunkAction<Promise<void>> => {
 			console.error("resend message error ", e)
 			onError && onError(e, t("default:chat:messages:resendError"))
 			dispatch({
-        type: MessageListActionType.MESSAGE_RECEIVED,
+        type: ConversationActionType.MESSAGE_RECEIVED,
         payload: {
           ...newMessage,
           sending: false,
@@ -110,37 +110,38 @@ export const resendMessage = (message: Message): ThunkAction<Promise<void>> => {
  * 
  * @param conversationId 会话ID
  */
-export const fetchConversationNewMessages = (conversationId: string, limit = 50): ThunkAction<Promise<void>> => {
+export const fetchConversationNewMessages = (conversationId: string, limit = 20): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
 		const client = getState().common.client;
     const { onError } = context;
 		invariant(client, "requires client");
 
 		const state = getState().messages[conversationId];
-		if (state?.fetchingNewRequest) return
+		if (state?.loadingMore || state?.loadingMoreNewer) return
 
 		// 查询结果是从新到旧，因此查更新的是 before
 		const request: GetMessageListParameters = {
 			conversation_id: conversationId,
 			direction: 'before',
-			cursor: state?.fetchingNewCursor?.start_cursor ?? '',
+			cursor: state?.prevCursor ?? '',
 			limit,
-		}
+		};
+    console.log(`loadMoreNewer: cursor: ${state?.prevCursor}, limit: ${limit}`);
 
 		try {
 			dispatch({
-        type: MessageListActionType.FETCHING_MESSAGE_LIST,
+        type: ConversationActionType.FETCHING_MESSAGE_LIST,
         payload: request,
       });
 
       const response = await client.getMessageList(request)
 			dispatch({
-        type: MessageListActionType.MESSAGE_LIST_FETCHED,
+        type: ConversationActionType.MESSAGE_LIST_LOAD_MORE_NEWER_FINISHED,
         payload: { request, response },
       });
 		} catch (e: unknown) {
 			dispatch({
-        type: MessageListActionType.ERROR_FETCHING_MESSAGE_LIST,
+        type: ConversationActionType.ERROR_FETCHING_MESSAGE_LIST,
         payload: { request, error: e as Error },
       });
 
@@ -155,37 +156,43 @@ export const fetchConversationNewMessages = (conversationId: string, limit = 50)
  * 
  * @param conversationId 会话ID 
  */
-export const fetchConversationHistoryMessages = (conversationId: string, limit = 50): ThunkAction<Promise<void>> => {
+export const fetchConversationHistoryMessages = (conversationId: string, limit = 20): ThunkAction<Promise<void>> => {
 	return async (dispatch: Dispatch, getState: () => AppState, context: AppThunkContext): Promise<void> => {
     const client = getState().common.client;
     const { onError } = context;
 		invariant(client, "requires client");
 
 		const state = getState().messages[conversationId];
-		if (state?.fetchingHistoryRequest) return;
+		if (state?.loadingMore || state?.loadingMoreNewer) return;
 
 		// 查询结果是从新到旧，因此查历史的是 after
 		const request: GetMessageListParameters = {
 			conversation_id: conversationId,
 			direction: 'after',
-			cursor: state?.fetchingHistoryCursor?.end_cursor ?? '',
+			cursor: state?.nextCursor ?? '',
 			limit,
-		}
+		};
+    console.log(`loadMore: cursor: ${state?.nextCursor}, limit: ${limit}`);
 
 		try {
 			dispatch({
-        type: MessageListActionType.FETCHING_MESSAGE_LIST,
+        type: ConversationActionType.FETCHING_MESSAGE_LIST,
         payload: request,
       });
 
       const response = await client.getMessageList(request)
 			dispatch({
-        type: MessageListActionType.MESSAGE_LIST_FETCHED,
-        payload: { request, response },
+        type: ConversationActionType.MESSAGE_LIST_LOAD_MORE_FINISHED,
+        conversation: { id: conversationId },
+        payload: {
+          messages: response.data,
+          hasMore: response.extra.has_next,
+          nextCursor: response.extra.end_cursor,
+        }
       });
 		} catch (e: unknown) {
 			dispatch({
-        type: MessageListActionType.ERROR_FETCHING_MESSAGE_LIST,
+        type: ConversationActionType.ERROR_FETCHING_MESSAGE_LIST,
         payload: { request, error: e as Error },
       });
 

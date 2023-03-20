@@ -85,8 +85,9 @@ export function useCreateMessage<T extends CreateMessageProps>(props:T) {
   const type = propType || conversationType;
 
   const [basicConfig, setBasicConfig] = useState({
+    from: conversation.account,
     to: to || (type === ConversationType.Private ? conversation?.id : conversation?.id),
-    conversationType: type,
+    conversationType: type, // TODO 这个也可以不要， 因为 to 可以推导
     cloudCustomData,
   });
 

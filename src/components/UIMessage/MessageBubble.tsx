@@ -26,7 +26,7 @@ export function MessageBubble<T extends MessageBubbleProps>(
     Context,
     Plugins,
   } = props;
-console.log('MessageBubble: ', message);
+
   const [PluginsShow, setPluginsShow] = useState(false);
 
   /*
@@ -59,7 +59,7 @@ console.log('MessageBubble: ', message);
   const handleReplyMessage = () => {
     // setHighlightedMessageId(replyMessage?.id);
   };
-console.log('Bubble');
+
   return (
     <div className="message-bubble">
       <div

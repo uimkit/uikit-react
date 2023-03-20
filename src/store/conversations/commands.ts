@@ -29,7 +29,7 @@ export const fetchConversationsByProvider = (provider: string, loadMore: boolean
 						account_id: it.id,
 						direction: "after",
 						cursor: (loadMore && cursor) ? cursor.end_cursor : "",
-						limit
+						limit,
 					}
 					try {
 						dispatch({

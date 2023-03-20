@@ -11,9 +11,21 @@ IndexPage.layout = Layout;
 
 export const getServerSideProps = withPageAuthRequired({ 
   async getServerSideProps({ req, res }) {
-    const { accessToken } = await getAccessToken(req, res);
-    return {
-      props: { accessToken }
-    };
+    try {
+      console.log('accessToken: ',);
+      const { accessToken } = await getAccessToken(req, res);
+      return {
+        props: { accessToken }
+      };
+    } catch(e) {
+      console.error(e);
+      const redirect = {
+				destination: '/api/auth/login',
+				permanent: true,
+			};
+      return {
+        redirect,
+      }
+    }
   },
 });
