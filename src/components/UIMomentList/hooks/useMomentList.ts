@@ -33,7 +33,17 @@ export const useMomentList = (userId: string, query?: GetContactMomentListParame
       const response = await client.getContactMomentList(newQuery);
       const newMoments = queryType === 'reload' ? response.data : [...moments, ...response.data];
 
-      setMoments(newMoments);
+      const newMoments1 = [
+        {
+          id: '1',
+          
+        },
+        {
+          id: '2',
+        }
+      ];
+
+      setMoments(newMoments1);
       setHasMore(response.extra.has_next);
       setNextCursor(response.extra.end_cursor);
     } catch(e) {

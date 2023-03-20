@@ -3,7 +3,7 @@ import { useTranslationContext } from '../../context';
 
 export interface EmptyStateIndicatorProps{
   /** List Type: conversation | message */
-  listType?: 'conversation' | 'contact' | 'message' | 'chat';
+  listType?: 'conversation' | 'contact' | 'message' | 'chat' | 'moment';
 }
 
 function UnMemoizedEmptyStateIndicator

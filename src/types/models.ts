@@ -76,6 +76,7 @@ export interface GroupMember extends Profile {
  */
 export interface Moment {
   id: string;
+  type: MomentType;
 } 
 
 export type Image = {
@@ -361,4 +362,10 @@ export interface UserSearchQuery extends SearchQuery {
   filter: UserFilter;
   sort?: SortField[];
   limit?: number;
+}
+
+
+
+export enum MomentType {
+  Video = 'video',
 }

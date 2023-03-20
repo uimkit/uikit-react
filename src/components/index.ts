@@ -14,6 +14,7 @@ export * from './UIMessageList';
 export * from './UIMessage';
 export * from './UICommandItem';
 export * from './UIChatAutoComplete';
-export * from './MomentList';
+export * from './UIMomentList';
+export * from './UIMoment';
 export * from './UIGroupMemberList';
 export * from './Plugins';

@@ -1,17 +1,17 @@
 import React from 'react';
-import { MomentProps } from './types';
+import { UIMomentProps } from './types';
 import { MomentContextValue, MomentProvider } from './hooks/MomentContext';
-import { MomentDefault } from './MomentDefault';
+import { UIMomentDefault } from './UIMomentDefault';
 
 
 
-export const Moment: React.FC<MomentProps> = (props) => {
+export const UIMoment: React.FC<UIMomentProps> = (props) => {
   const {
     Moment: propMoment,
     ...rest
   } = props;
 
-  const MomentUIComponent = propMoment || MomentDefault;
+  const MomentUIComponent = propMoment || UIMomentDefault;
 
   
   const momentContextValue: MomentContextValue = {

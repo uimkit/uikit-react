@@ -1,8 +1,11 @@
 import React, { PropsWithChildren, useContext } from 'react';
 import { Moment, UnknownType } from '../../../types';
+import { UIMomentContextProps } from '../UIMomentContext';
 
 export type MomentContextValue = {
   moment: Moment;
+
+  VideoElement?: React.ComponentType<UIMomentContextProps>;
 };
 
 export const MomentContext = React.createContext<MomentContextValue | undefined>(undefined);
@@ -27,7 +30,7 @@ export const useMomentContext = (
 
   if (!contextValue) {
     console.warn(
-      `The useMessageContext hook was called outside of the MessageContext provider. Make sure this hook is called within the Message's UI component. The errored call is located in the ${componentName} component.`,
+      `The useMomentContext hook was called outside of the MomentContext provider. Make sure this hook is called within the Moment's UI component. The errored call is located in the ${componentName} component.`,
     );
 
     return {} as MomentContextValue;
@@ -44,8 +47,8 @@ export const withMomentContext = <
   const WithMomentContextComponent = (
     props: Omit<P, keyof MomentContextValue>,
   ) => {
-    const messageContext = useMomentContext();
-    return <Component {...(props as P)} {...messageContext} />;
+    const momentContext = useMomentContext();
+    return <Component {...(props as P)} {...momentContext} />;
   };
 
   WithMomentContextComponent.displayName = (
