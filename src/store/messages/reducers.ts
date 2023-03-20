@@ -171,7 +171,7 @@ const handleMessageListLoadMoreFinished = (
 
   let newMessages;
   if (incomingMessages.length > 0) {
-    newMessages = [messages, ...incomingMessages];
+    newMessages = [...messages, ...incomingMessages];
   } else {
     newMessages = messages;
   }

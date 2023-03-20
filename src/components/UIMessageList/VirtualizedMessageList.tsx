@@ -239,7 +239,9 @@ const VirtualizedMessageListWithContext: React.FC<PropsWithChildren<VirtualizedM
     };
   }, [scrollToBottomIfConfigured]);
 
+  // 在前面追加的消息数，也就是 loadMore 加载的消息总量
   const numItemsPrepended = usePrependedMessagesCount(processedMessages);
+  console.log('numItemsPrepended: ', numItemsPrepended);
   const [messageSetKey, setMessageSetKey] = useState(+new Date());
   const firstMessageId = useRef<string | undefined>();
 
@@ -326,7 +328,6 @@ const VirtualizedMessageListWithContext: React.FC<PropsWithChildren<VirtualizedM
   }, [loadingMore, head]);
 
   const atBottomStateChange = (isAtBottom: boolean) => {
-    console.log('atBottomStateChange: ', isAtBottom);
     atBottom.current = isAtBottom;
     setIsMessageListScrolledToBottom(isAtBottom);
     if (isAtBottom && newMessagesNotification) {
