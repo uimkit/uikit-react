@@ -71,13 +71,19 @@ export interface GroupMember extends Profile {
   avatar: string;
 }
 
+
+
+export enum MomentType {
+  Video = 'video',
+}
+
 /**
  * 动态 / 朋友圈
  */
 export interface Moment {
   id: string;
   type: MomentType;
-} 
+}
 
 export type Image = {
   url: string;
@@ -362,10 +368,4 @@ export interface UserSearchQuery extends SearchQuery {
   filter: UserFilter;
   sort?: SortField[];
   limit?: number;
-}
-
-
-
-export enum MomentType {
-  Video = 'video',
 }
