@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useContext } from 'react';
 
-import { Profile, Conversation, Contact } from "../types";
+import { Profile, Conversation } from "../types";
 
 import { APIClient } from '../types';
 
@@ -10,8 +10,6 @@ export interface UIKitContextProps {
   activeProfile?: Profile;
   activeConversation?: Conversation;
   setActiveConversation?: (conversation: Conversation) => void;
-  activeMomentUserId?: string;
-  setActiveMomentUserId?: (value: string) => void;
 }
 
 const UIKitContext = React.createContext<UIKitContextProps | undefined>(undefined);

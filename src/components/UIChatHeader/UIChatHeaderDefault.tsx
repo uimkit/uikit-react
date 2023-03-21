@@ -3,17 +3,14 @@ import { Conversation, ConversationType } from "../../types";
 import { Avatar } from '../Avatar';
 import { handleDisplayAvatar } from '../utils';
 import { Icon, IconTypes } from '../Icon';
-import { useUIKit } from '../../context';
-
-
+import { Plugins } from '../Plugins';
 
 export interface UIChatHeaderDefaultProps {
   title?: string,
   avatar?: React.ReactElement | string,
   isOnline?: boolean,
   conversation?: Conversation,
-  pluginComponentList?: Array<React.ComponentType>,
-
+  pluginComponentList?: React.ComponentType[];
 }
 
 export interface UIChatHeaderBasicProps extends UIChatHeaderDefaultProps {
@@ -33,6 +30,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     conversation,
     isLive,
     operateIcon,
+    pluginComponentList,
   } = props;
 
   const [title, setTitle] = useState('');
@@ -82,18 +80,9 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     }
   };
   
-  const { activeMomentUserId, setActiveMomentUserId } = useUIKit('UIChatHeader');
   const openUIManage = () => {
     // setUIManageShow(true);
   };
-
-  const showMomentList = () => {
-    if (activeMomentUserId === conversation.contact?.id) {
-      setActiveMomentUserId(undefined);
-    } else {
-      setActiveMomentUserId(conversation.contact?.id);
-    }
-  }
 
   return (
     <header
@@ -109,9 +98,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
         <h3 className="title">{title}</h3>
       </div>
       <div className="uim-chat-header-right">
-        <div className="header-handle">
-          <Icon className="icon-camera" onClick={showMomentList} type={IconTypes.ELLIPSE} width={18} height={18} />
-        </div>
+        <Plugins plugins={pluginComponentList} showNumber={3}
         <div className="header-handle">
           {
             operateIcon || <Icon className="header-handle-more" onClick={openUIManage} type={IconTypes.ELLIPSE} width={18} height={5} />

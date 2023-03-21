@@ -115,7 +115,7 @@ export function UIConversationPreviewContent<T extends UIConversationPreviewComp
                     }}
                     role="presentation"
                   >
-                    Delete
+                    删除
                   </div>,
                 ]}
                 showNumber={0}

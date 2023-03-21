@@ -8,7 +8,7 @@ import {
   VirtuosoProps,
 } from 'react-virtuoso';
 import { useMomentList } from './hooks/useMomentList';
-import { Moment, UnknownType } from '../../types';
+import { Moment, Profile, UnknownType } from '../../types';
 import './styles/index.scss';
 import { EmptyStateIndicator } from '../EmptyStateIndicator';
 import { LoadingIndicator } from '../Loading';
@@ -33,7 +33,7 @@ export type UIMomentListProps = {
    scrollSeekPlaceHolder?: ScrollSeekConfiguration & {
     placeholder: React.ComponentType<ScrollSeekPlaceholderProps>;
   };
-  userId?: string;
+  profile?: Profile;
 };
 
 export type UIMomentListWithContextProps = UIMomentListProps & {
@@ -138,8 +138,8 @@ const UIMomentListWithContext: React.FC<UIMomentListWithContextProps> = (props) 
 };
 
 export const UIMomentList: React.FC<UIMomentListProps> = (props) => {
-  const { userId } = props;
-  const { loading, loadMore, hasMore, moments } = useMomentList(userId);
+  const { profile } = props;
+  const { loading, loadMore, hasMore, moments } = useMomentList(profile?.id);
 
   return (
     <UIMomentListWithContext

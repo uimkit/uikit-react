@@ -86,7 +86,7 @@ export function unMemoContactPreviewContent<T extends UIContactPreviewComponentP
                     }}
                     role="presentation"
                   >
-                    Delete
+                    删除
                   </div>,
                 ]}
                 showNumber={0}

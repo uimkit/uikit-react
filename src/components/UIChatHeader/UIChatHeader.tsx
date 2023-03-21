@@ -6,11 +6,12 @@ import { useComponentContext, useUIKit } from '../../context';
 import './styles/index.scss';
 
 export interface UIChatHeaderProps {
-  title?: string,
-  UIChatHeader?: React.ComponentType<UIChatHeaderDefaultProps>,
-  conversation?: Conversation,
-  avatar?: React.ReactElement | string,
-  headerOpateIcon?: React.ReactElement | string,
+  title?: string;
+  UIChatHeader?: React.ComponentType<UIChatHeaderDefaultProps>;
+  conversation?: Conversation;
+  avatar?: React.ReactElement | string;
+  headerOpateIcon?: React.ReactElement | string;
+  pluginComponentList?: React.ComponentType[];
 }
 
 export function UIChatHeader<T extends UIChatHeaderProps>(
@@ -22,6 +23,7 @@ export function UIChatHeader<T extends UIChatHeaderProps>(
     UIChatHeader: propsUIChatHeader,
     avatar,
     headerOpateIcon,
+    pluginComponentList,
   } = props;
 
   const { activeConversation: contextConversation } = useUIKit('UIChatHeader');
@@ -36,6 +38,7 @@ export function UIChatHeader<T extends UIChatHeaderProps>(
       conversation={conversation}
       avatar={avatar}
       opateIcon={headerOpateIcon}
+      pluginComponentList={pluginComponentList}
     />
   );
 }

@@ -1,3 +1,4 @@
+export * from './Icon';
 export * from './Avatar';
 export * from './UIKit';
 export * from './UIChat';

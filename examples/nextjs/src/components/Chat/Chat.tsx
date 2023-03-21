@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { 
   useUIKit, 
+  Profile,
   APIClient, 
   IMAccount, 
   UIChat, 
@@ -13,8 +14,10 @@ import {
   UIChatHeader,
   VirtualizedMessageList,
   UIMessageInput,
-  MomentList,
+  UIMomentList,
   Contact,
+  Icon,
+  IconTypes,
 } from '@uimkit/uikit-react';
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
@@ -59,7 +62,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
   activeAccount,
   setActiveAccount,
 }) => {
-  const { client, activeConversation, activeMomentUserId } = useUIKit();
+  const { client, activeConversation } = useUIKit();
 
   const [accounts, setAccounts] = useState<IMAccount[]>();
   const [activeContact, setActiveContact] = useState<Contact[]>();
@@ -79,6 +82,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     setActiveAccount(account);
   }
   
+  const [activeMomentProfile, setActiveMomentProfile] = useState<Profile | undefined>(undefined);
+
   return (
     <>
       <AccountList accounts={accounts} onSelect={handleChangeAccount} />
@@ -87,13 +92,19 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
       {activeAccount && <UIGroupList activeProfile={activeAccount} />}
       {activeConversation && (
         <UIChat>
-          <UIChatHeader />
+          <UIChatHeader
+            pluginComponentList={[
+              <div key="moment" className="input-plugin-item" onClick={() => setActiveMomentProfile(activeConversation?.contact)}>
+                <Icon width={20} height={20} type={IconTypes.VIDEO} />
+              </div>
+            ]}
+          />
           <VirtualizedMessageList />
           <UIMessageInput />
         </UIChat>
       )}
       {activeConversation && activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
-      {!!activeMomentUserId && <MomentList userId={activeMomentUserId}/>}
+      {!!activeMomentProfile && <UIMomentList profile={activeMomentProfile} />}
     </>
   );
 }

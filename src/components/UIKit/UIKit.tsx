@@ -32,7 +32,6 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     client,
     activeProfile,
     activeConversation: propActiveConversation,
-    activeContact: propActiveContact,
     defaultLanguage,
     i18nInstance,
     children,
@@ -44,13 +43,8 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
   dispatch(initAPIClient(client));
 
   const [activeConversation, _setActiveConversation] = useState<Conversation | undefined>();
-  const [activeContact, setActiveContact] = useState<Contact | undefined>();
-  const [activeMomentUserId, setActiveMomentUserId] = useState<string | undefined>(undefined);
-
   const setActiveConversation = useCallback((activeConversation?: Conversation) => {
     if (activeConversation) {
-      setActiveMomentUserId(undefined);
-
       if (activeConversation.unread > 0) {
         client?.setConversationRead(activeConversation.id);
       }
@@ -72,16 +66,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
   }, [propActiveConversation, clientInited]);
 
   useEffect(() => {
-    setActiveContact(propActiveContact);
-  }, [propActiveContact]);
-
-
-
-  useEffect(() => {
     const onMessageReceived = (e: MessageEvent) => {
-      console.log('onMessageReceived: ', e);
-      const message = e.data;
-
       dispatch({
         type: ConversationActionType.MESSAGE_RECEIVED,
         payload: e.data,
@@ -145,11 +130,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     activeProfile,
     activeConversation,
     setActiveConversation,
-    activeContact,
-    setActiveContact,
-    activeMomentUserId,
-    setActiveMomentUserId,
-  }), [client, activeProfile, activeConversation, setActiveConversation, activeContact, setActiveContact, activeMomentUserId, setActiveMomentUserId]);
+  }), [client, activeProfile, activeConversation, setActiveConversation]);
 
   const { translators } = useTranslators({
     defaultLanguage,
@@ -181,7 +162,6 @@ export interface UIKitProps {
   activeProfile?: Profile;
   // 当前活跃会话
   activeConversation?: Conversation;
-  activeContact?: Contact;
   /** Sets the default fallback language for UI component translation, defaults to 'en' for English */
   defaultLanguage?: SupportedTranslations;
   /** Instance of Stream i18n */
