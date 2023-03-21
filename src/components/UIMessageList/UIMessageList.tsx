@@ -1,16 +1,14 @@
-import React, { useMemo, PropsWithChildren, useState, useEffect } from 'react';
+import React, { PropsWithChildren, useState, useEffect } from 'react';
 import { Message } from '../../types';
 import {
   ChatStateContextValue,
   useChatActionContext,
   useChatStateContext,
   useComponentContext,
-  useUIKit,
 } from '../../context';
 import { useMessageListElements } from './hooks/useMessageListElements';
 import { InfiniteScroll, InfiniteScrollProps } from '../InfiniteScrollPaginator';
 import { EmptyStateIndicator as DefaultEmptyStateIndicator } from '../EmptyStateIndicator';
-import { useConversationState } from '../../hooks';
 import { MessageListNotifications as DefaultMessageListNotifications } from './MessageListNotifications';
 import { useScrollLocationLogic } from './hooks/useScrollLocationLogic';
 import { LoadingIndicator as DefaultLoadingIndicator } from '../Loading';
@@ -62,7 +60,8 @@ export const UIMessageList: React.FC = <T extends UIMessageListWithContextProps>
     MessageListNotifications = DefaultMessageListNotifications,
     MessageNotification = DefaultMessageNotification,
   } = useComponentContext('UIMessageList');
-  const { messages: contextMessageList, hasMore, loadingMore, loadMore: contextLoadMore } = useChatStateContext('UIMessageList');
+  const { messages: contextMessageList, hasMore, loadingMore } = useChatStateContext('UIMessageList');
+  const { loadMore: contextLoadMore } = useChatActionContext('UIMessageList');
 
   const highlightedMessageId = propsHighlightedMessageId
   || UIMessageListConfig?.highlightedMessageId
