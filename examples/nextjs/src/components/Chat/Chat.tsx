@@ -22,6 +22,15 @@ import {
 import { AccountList } from './AccountList';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 import { ConversationType } from '@uimkit/uim-js';
+import {
+  Flex,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+} from '@chakra-ui/react'
+
 
 export type ChatProps = {
   accessToken: string;
@@ -86,10 +95,30 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
 
   return (
     <>
-      <AccountList accounts={accounts} onSelect={handleChangeAccount} />
-      {activeAccount && <UIConversationList />}
-      <UIContactList activeContact={activeContact} setActiveContact={setActiveContact}/>
-      {activeAccount && <UIGroupList activeProfile={activeAccount} />}
+      <Flex>
+        <AccountList accounts={accounts} onSelect={handleChangeAccount} />
+      </Flex>
+      <Flex>
+        <Tabs>
+          <TabList>
+            <Tab>会话</Tab>
+            <Tab>联系人</Tab>
+            <Tab>群</Tab>
+          </TabList>
+          <TabPanels h='100vh'>
+            <TabPanel>
+              <UIConversationList />
+            </TabPanel>
+            <TabPanel>
+              <UIContactList activeContact={activeContact} setActiveContact={setActiveContact}/>
+            </TabPanel>
+            <TabPanel>
+              <UIGroupList activeProfile={activeAccount} />
+            </TabPanel>
+          </TabPanels>  
+        </Tabs>
+      </Flex>
+      
       {activeConversation && (
         <UIChat>
           <UIChatHeader

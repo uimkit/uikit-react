@@ -1,5 +1,6 @@
 import React from 'react'
 import { IMAccount } from '@uimkit/uikit-react';
+import { Stack, Avatar } from '@chakra-ui/react';
 
 export type AccountListProps = {
   accounts?: IMAccount[];
@@ -11,11 +12,12 @@ export function AccountList({
   onSelect,
 }: AccountListProps) {
   return (
-    <ul>
+    <Stack direction="column" spacing='12px'>
       {accounts?.map(account => (
-        <li key={account.id} onClick={() => onSelect?.(account)}>
-          {account.nickname}
-        </li>))}
-    </ul>
+        <div key={account.id} onClick={() => onSelect?.(account)}>
+          <Avatar name={account.nickname} src={account.avatar}/>
+        </div>
+      ))}
+    </Stack>
   );
 }
