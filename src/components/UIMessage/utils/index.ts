@@ -230,9 +230,18 @@ export function handleLocationMessageShowContext(item: any) {
 export function handleImageMessageShowContext(item: any) {
   if (item.file) item.file.url = URL.createObjectURL(item.file);
 
+  let url;
+  if (item.image && item.image.infos) {
+    if (item.image.infos.length === 1) {
+      url = item.image.infos[0].url;
+    } else if (item.image.infos.length > 1) {
+      url = item.image.infos[1].url;
+    }
+  }
+
   return {
     progress: item?.status === MESSAGE_STATUS.UNSEND && item.progress,
-    url: (item.image && item.image.infos && item.image.infos.length > 0) ? item.image.infos[1].url : '', // TODO default
+    url, // TODO default
     message: item,
   };
 }
