@@ -1,12 +1,25 @@
-import { useUser } from '@authok/nextjs-authok/client';
-import { Box, Grid, HStack } from '@chakra-ui/react';
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
+// import { useUser } from '@authok/nextjs-authok/client';
+import { Container } from '@chakra-ui/react';
 
 export function Layout({ children }) {
-  const { user, error, isLoading } = useUser();
-
-  return children;
+  return (
+    <Container
+      m={0}
+      p={0}
+      maxW="none"
+      minH="full"
+      maxH="100vh"
+      h="full"
+      display="flex"
+      justifyContent="start"
+      alignItems="stretch"
+      flexDir="row"
+    >
+      {children}
+    </Container>
+  );
   
+  /*
   return (
     <Box>
       <Grid p={3}>
@@ -23,5 +36,5 @@ export function Layout({ children }) {
         {children}
       </main>
     </Box>
-  );
+  );*/
 }

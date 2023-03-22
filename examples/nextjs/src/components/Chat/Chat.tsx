@@ -17,14 +17,13 @@ import {
   UIMessageInput,
   UIMomentList,
   Contact,
-  Icon,
-  IconTypes,
   useConversation,
   ConversationType,
 } from '@uimkit/uikit-react';
 import { AccountSelect } from './AccountSelect';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 import {
+  HStack,
   Flex,
   Tabs,
   TabList,
@@ -36,13 +35,12 @@ import {
   DrawerOverlay,
   DrawerContent,
   VStack,
-  IconButton,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { SettingsIcon } from "@chakra-ui/icons"
 import { ContactDetails } from './ContactDetails';
 import { ProviderList } from './ProviderList';
 import { SettingsPopover } from './SettingsPopover';
+import { ContactSidebar } from '../ContactSidebar';
 
 
 export type ChatProps = {
@@ -134,6 +132,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     setActiveProvider(provider);
   }
 
+  const [showSider, setShowSider] = useState<boolean>(false);
+console.log('showSider: ', showSider);
   return (
     <Flex
       w="100%"
@@ -170,19 +170,25 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
       </VStack>
       <Box flex='1'>
         {activeConversation && (
-          <UIChat>
-            <UIChatHeader
-              pluginComponentList={[
-                <div key="moment" className="input-plugin-item" onClick={() => setActiveMomentProfile(activeConversation?.contact)}>
-                  <Icon width={20} height={20} type={IconTypes.VIDEO} />
-                </div>
-              ]}
-            />
-            <VirtualizedMessageList />
-            <UIMessageInput />
-          </UIChat>
+          <HStack h='full'>
+            <UIChat>
+              <UIChatHeader
+                pluginComponentList={[
+                  <div key="moment" className="input-plugin-item" onClick={() => setActiveMomentProfile(activeConversation?.contact)}>
+                    <SettingsIcon />
+                  </div>,
+                  <div key="sider" className="input-plugin-item" onClick={() => setShowSider(!showSider)}>
+                    <SettingsIcon />
+                  </div>,
+                ]}
+              />
+              <VirtualizedMessageList />
+              <UIMessageInput />
+            </UIChat>
+            {activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
+            {activeConversation.type !== ConversationType.Group && showSider && <ContactSidebar contact={activeConversation.contact} />}
+          </HStack>
         )}
-        {activeConversation && activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
         {activeContact && !activeConversation && (
           <ContactDetails contact={activeContact} onStartConversation={handleStartConversation} />
         )}
