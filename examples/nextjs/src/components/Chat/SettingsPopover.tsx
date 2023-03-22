@@ -6,8 +6,6 @@ import {
   MenuItem,
 } from '@chakra-ui/react';
 import { SettingsIcon } from "@chakra-ui/icons";
-import { ColorModeSwitcher } from '../ColorModeSwitcher';
-
 
 export type SettingsPopoverProps = {
 };
@@ -26,7 +24,7 @@ export const SettingsPopover: React.FC<SettingsPopoverProps> = ({
           </MenuItem>
         </a>
         <MenuItem>
-          <ColorModeSwitcher />
+          关于
         </MenuItem>
       </MenuList>
     </Menu>

@@ -127,7 +127,3 @@ moment 列表获取不到
 消息进度 / progress
 Moment
 Group 展示
-
-
-### BUG
-为何 startReached, endReacthed 不被调用?

@@ -23,6 +23,7 @@ import {
 import { AccountSelect } from './AccountSelect';
 import '@uimkit/uikit-react/dist/cjs/index.css';
 import {
+  IconButton,
   HStack,
   Flex,
   Tabs,
@@ -41,6 +42,8 @@ import { ContactDetails } from './ContactDetails';
 import { ProviderList } from './ProviderList';
 import { SettingsPopover } from './SettingsPopover';
 import { ContactSidebar } from '../ContactSidebar';
+import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import { CurrentIcon } from '../Icons'
 
 
 export type ChatProps = {
@@ -144,6 +147,8 @@ console.log('showSider: ', showSider);
         <Flex direction="column" flex={1} justifyContent="end">
           <VStack spacing='12px'>
             <SettingsPopover />
+            <IconButton icon={<CurrentIcon />} />
+            <ColorModeSwitcher />
           </VStack>
         </Flex>
       </Flex>
