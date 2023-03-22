@@ -136,7 +136,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
   }
 
   const [showSider, setShowSider] = useState<boolean>(false);
-console.log('showSider: ', showSider);
+
   return (
     <Flex
       w="100%"

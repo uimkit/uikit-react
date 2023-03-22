@@ -27,7 +27,7 @@ export const ProviderList: React.FC<ProviderListProps> = ({
       icon: '',
       name: '企业微信',
       identifier: 'wework',
-    }
+    },
   ], []);
 
   const [open, setOpen] = useState<boolean>(false);
