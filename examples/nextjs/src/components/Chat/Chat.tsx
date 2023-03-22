@@ -139,7 +139,7 @@ console.log('showSider: ', showSider);
       w="100%"
       h="full"
     >
-      <Flex w="72px" direction="column">
+      <Flex w="72px" direction="column" p='2'>
         <ProviderList onSelect={handleSelectProvider}/>
         <Flex direction="column" flex={1} justifyContent="end">
           <VStack spacing='12px'>
@@ -148,7 +148,9 @@ console.log('showSider: ', showSider);
         </Flex>
       </Flex>
       <VStack spacing="12px" w="300px" alignItems='flex-start'>
-        <AccountSelect activeAccount={activeAccount} accounts={accounts} onSelect={handleChangeAccount} />
+        <Box p='2'>
+          <AccountSelect activeAccount={activeAccount} accounts={accounts} onSelect={handleChangeAccount} />
+        </Box>
         <Tabs variant='soft-rounded' colorScheme='green' onChange={(index) => setTabIndex(index)} index={tabIndex}>
           <TabList>
             <Tab>会话</Tab>
@@ -156,13 +158,13 @@ console.log('showSider: ', showSider);
             <Tab>群</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel p="0" h='80vh'>
+            <TabPanel p="0" h='85vh'>
               <UIConversationList />
             </TabPanel>
-            <TabPanel p="0" h='80vh'>
+            <TabPanel p="0" h='85vh'>
               <UIContactList activeContact={activeContact} setActiveContact={handleSelectContact}/>
             </TabPanel>
-            <TabPanel p="0" h='80vh'>
+            <TabPanel p="0" h='85vh'>
               <UIGroupList activeProfile={activeAccount} />
             </TabPanel>
           </TabPanels>  
