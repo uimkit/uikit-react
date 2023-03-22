@@ -43,7 +43,7 @@ import { ProviderList } from './ProviderList';
 import { SettingsPopover } from './SettingsPopover';
 import { ContactSidebar } from '../ContactSidebar';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
-import { CurrentIcon } from '../Icons'
+import { MarketIcon, SideBarShowIcon } from '../Icons'
 
 
 export type ChatProps = {
@@ -146,7 +146,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
         <ProviderList onSelect={handleSelectProvider}/>
         <Flex direction="column" flex={1} justifyContent="end">
           <VStack spacing='12px'>
-            <IconButton icon={<CurrentIcon />} />
+            <IconButton icon={<MarketIcon />} />
             <ColorModeSwitcher />
             <SettingsPopover />
           </VStack>
@@ -185,7 +185,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
                     <SettingsIcon />
                   </div>,
                   <div key="sider" className="input-plugin-item" onClick={() => setShowSider(!showSider)}>
-                    <SettingsIcon />
+                    <SideBarShowIcon />
                   </div>,
                 ]}
               />
@@ -193,7 +193,9 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
               <UIMessageInput />
             </UIChat>
             {activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
-            {activeConversation.type !== ConversationType.Group && showSider && <ContactSidebar contact={activeConversation.contact} />}
+            {activeConversation.type !== ConversationType.Group && showSider && (
+              <ContactSidebar contact={activeConversation.contact} />
+            )}
           </HStack>
         )}
         {activeContact && !activeConversation && (
