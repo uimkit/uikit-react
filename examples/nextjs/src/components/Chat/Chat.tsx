@@ -36,15 +36,16 @@ import {
   DrawerOverlay,
   DrawerContent,
   VStack,
+  Divider,
 } from '@chakra-ui/react';
-import { SettingsIcon } from "@chakra-ui/icons"
 import { ContactDetails } from './ContactDetails';
 import { ProviderList } from './ProviderList';
 import { SettingsPopover } from './SettingsPopover';
 import { ContactSidebar } from '../ContactSidebar';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { MarketIcon, SideBarShowIcon, MomentIcon } from '../Icons'
-
+import Logo from '@/assets/logo.png';
+import Image from 'next/image'
 
 export type ChatProps = {
   accessToken: string;
@@ -142,8 +143,14 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
       w="100%"
       h="full"
     >
-      <Flex w="72px" direction="column" p='2'>
-        <ProviderList onSelect={handleSelectProvider}/>
+      <VStack w="72px" direction="column" p='2' spacing="0">
+        <Box pt='4' pb='4'>
+          <Image src={Logo} width={32} height={32} alt="logo" />
+        </Box>
+        <Divider />
+        <Box pt='4'>
+          <ProviderList onSelect={handleSelectProvider}/>
+        </Box>
         <Flex direction="column" flex={1} justifyContent="end">
           <VStack spacing='12px'>
             <IconButton icon={<MarketIcon />} />
@@ -151,9 +158,9 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
             <SettingsPopover />
           </VStack>
         </Flex>
-      </Flex>
+      </VStack>
       <VStack spacing="12px" w="300px" alignItems='flex-start'>
-        <Box p='2'>
+        <Box p='4'>
           <AccountSelect activeAccount={activeAccount} accounts={accounts} onSelect={handleChangeAccount} />
         </Box>
         <Tabs variant='soft-rounded' colorScheme='green' onChange={(index) => setTabIndex(index)} index={tabIndex}>

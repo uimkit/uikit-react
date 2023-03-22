@@ -1,6 +1,7 @@
 import React from 'react'
 import { IMAccount } from '@uimkit/uikit-react';
 import { HStack, Button, Menu, MenuButton, MenuList, MenuItem, Avatar } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 export type AccountSelectProps = {
   activeAccount?: IMAccount;
@@ -16,12 +17,15 @@ export const AccountSelect: React.FC<AccountSelectProps> = ({
   return (
     <Menu onSelect={onSelect}>
       <MenuButton as={Button}>
-        { activeAccount ? (
-          <HStack spacing="12px">
-            <Avatar boxSize="2rem" name={activeAccount.nickname} src={activeAccount.avatar}/>
-            <span>{activeAccount.nickname}</span>
-          </HStack>
-        ) : '全部账号'}
+        <HStack spacing="12px">
+          { activeAccount ? (
+            <>
+              <Avatar boxSize="2rem" name={activeAccount.nickname} src={activeAccount.avatar}/>
+              <span style={{ overflow: 'hidden', maxWidth: '160px' }}>{activeAccount.nickname}</span>
+            </>
+          ) : <span>全部账号</span>}
+          <ChevronDownIcon />
+        </HStack>      
       </MenuButton>
       <MenuList>
         <MenuItem onClick={() => onSelect?.(undefined)}>

@@ -19,12 +19,12 @@ export const ProviderList: React.FC<ProviderListProps> = ({
 }) => {
   const providers = useMemo(() => [
     {
-      icon: '',
+      icon: 'https://scrm-uploads-1252461817.cos.ap-guangzhou.myqcloud.com/authok/assets/wechat.svg',
       name: '微信',
       identifier: 'wechat',
     },
     {
-      icon: '',
+      icon: 'https://scrm-uploads-1252461817.cos.ap-guangzhou.myqcloud.com/authok/assets/wework.svg',
       name: '企业微信',
       identifier: 'wework',
     },
@@ -37,7 +37,7 @@ export const ProviderList: React.FC<ProviderListProps> = ({
       <VStack spacing='12px'>
         {providers?.map(provider => (
           <div key={provider.identifier} onClick={() => onSelect?.(provider)}>
-            <Avatar name={provider.name} src={provider.icon}/>
+            <Avatar w='36px' h='36px' name={provider.name} src={provider.icon}/>
           </div>
         ))}
         <IconButton aria-label="添加账号" onClick={() => setOpen(true)} icon={<AddIcon />}/>
