@@ -43,7 +43,7 @@ import { ProviderList } from './ProviderList';
 import { SettingsPopover } from './SettingsPopover';
 import { ContactSidebar } from '../ContactSidebar';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
-import { MarketIcon, SideBarShowIcon } from '../Icons'
+import { MarketIcon, SideBarShowIcon, MomentIcon } from '../Icons'
 
 
 export type ChatProps = {
@@ -182,7 +182,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
               <UIChatHeader
                 pluginComponentList={[
                   <div key="moment" className="input-plugin-item" onClick={() => setActiveMomentProfile(activeConversation?.contact)}>
-                    <SettingsIcon />
+                    <MomentIcon />
                   </div>,
                   <div key="sider" className="input-plugin-item" onClick={() => setShowSider(!showSider)}>
                     <SideBarShowIcon />
