@@ -146,9 +146,9 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
         <ProviderList onSelect={handleSelectProvider}/>
         <Flex direction="column" flex={1} justifyContent="end">
           <VStack spacing='12px'>
-            <SettingsPopover />
             <IconButton icon={<CurrentIcon />} />
             <ColorModeSwitcher />
+            <SettingsPopover />
           </VStack>
         </Flex>
       </Flex>
