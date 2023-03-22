@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
-import { useDispatch } from '../store/useDispatch';
+import { useUIKit } from '../context';
 
 export interface UseDeleteConversationResult {
   mutate: (conversationID: string) => void;
 }
 
 export function useDeleteConversation(): UseDeleteConversationResult {
-  const dispatch = useDispatch();
+  const { client } = useUIKit('useDeleteConversation');
 
   const mutate = useCallback((conversationID: string) => {
-    // TODO dispatch(deleteConversation(conversationID));
+    client.deleteConversation(conversationID);
   }, []);
   
   return {

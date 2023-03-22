@@ -31,13 +31,11 @@ export function UIContactPreview<T extends UIContactPreviewProps>(
 ):React.ReactElement {
   const {
     activeContact,
+    setActiveContact,
     contact,
     Preview = UIContactPreviewContent,
     searchValue,
   } = props;
-  const {
-    setActiveContact,
-  } = useUIKit('UIConversationPreview');
 
   const [displayImage, setDisplayImage] = useState(contact.avatar);
   const [displayTitle, setDisplayTitle] = useState(getDisplayTitle(contact, searchValue));

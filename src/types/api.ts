@@ -239,6 +239,8 @@ export interface APIClient {
 
 
   /******************** Conversation ********************/
+  createConversation(params: any): Promise<Conversation>;
+
   /**
    * 
    * @param params 获取会话列表
@@ -246,6 +248,12 @@ export interface APIClient {
   getConversationList(params: any): Promise<any>;
 
   getConversation(params: any): Promise<Conversation>;
+
+  /**
+   * 删除会话
+   * @param id 
+   */
+  deleteConversation(id: string): Promise<void>;
 
   getContactConversation(params: any): Promise<Conversation>;
 

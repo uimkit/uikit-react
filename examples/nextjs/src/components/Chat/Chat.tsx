@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { 
+  Provider,
   useUIKit, 
   Profile,
   APIClient, 
@@ -18,10 +19,11 @@ import {
   Contact,
   Icon,
   IconTypes,
+  useConversation,
+  ConversationType,
 } from '@uimkit/uikit-react';
-import { AccountList } from './AccountList';
+import { AccountSelect } from './AccountSelect';
 import '@uimkit/uikit-react/dist/cjs/index.css';
-import { ConversationType } from '@uimkit/uim-js';
 import {
   Flex,
   Tabs,
@@ -29,7 +31,18 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-} from '@chakra-ui/react'
+  Box,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  VStack,
+  IconButton,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { SettingsIcon } from "@chakra-ui/icons"
+import { ContactDetails } from './ContactDetails';
+import { ProviderList } from './ProviderList';
+import { SettingsPopover } from './SettingsPopover';
 
 
 export type ChatProps = {
@@ -71,10 +84,15 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
   activeAccount,
   setActiveAccount,
 }) => {
-  const { client, activeConversation } = useUIKit();
+  const { client, activeConversation, setActiveConversation } = useUIKit();
 
   const [accounts, setAccounts] = useState<IMAccount[]>();
-  const [activeContact, setActiveContact] = useState<Contact[]>();
+  const [activeContact, setActiveContact] = useState<Contact>();
+
+  const handleSelectContact = (contact: Contact) => {
+    setActiveContact(contact);
+    setActiveConversation(undefined);
+  };
 
   useEffect(() => {
     if (client) {
@@ -93,47 +111,93 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
   
   const [activeMomentProfile, setActiveMomentProfile] = useState<Profile | undefined>(undefined);
 
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const { 
+    createConversation
+  } = useConversation();
+
+  const handleStartConversation = async () => {
+    if (!activeContact) return;
+
+    // TODO 查找会话, 没有就创建
+    // 设置会话
+    const conversation = await createConversation(activeContact.id);
+    setActiveConversation(conversation);
+    setActiveContact(undefined);
+    setTabIndex(0);
+  }
+
+  const [activeProvider, setActiveProvider] = useState<Provider | undefined>(undefined);
+
+  const handleSelectProvider = (provider: Provider) => {
+    setActiveProvider(provider);
+  }
+
   return (
-    <>
-      <Flex>
-        <AccountList accounts={accounts} onSelect={handleChangeAccount} />
+    <Flex
+      w="100%"
+      h="full"
+    >
+      <Flex w="72px" direction="column">
+        <ProviderList onSelect={handleSelectProvider}/>
+        <Flex direction="column" flex={1} justifyContent="end">
+          <VStack spacing='12px'>
+            <SettingsPopover />
+          </VStack>
+        </Flex>
       </Flex>
-      <Flex>
-        <Tabs>
+      <VStack spacing="12px" w="300px" alignItems='flex-start'>
+        <AccountSelect activeAccount={activeAccount} accounts={accounts} onSelect={handleChangeAccount} />
+        <Tabs variant='soft-rounded' colorScheme='green' onChange={(index) => setTabIndex(index)} index={tabIndex}>
           <TabList>
             <Tab>会话</Tab>
             <Tab>联系人</Tab>
             <Tab>群</Tab>
           </TabList>
-          <TabPanels h='100vh'>
-            <TabPanel>
+          <TabPanels>
+            <TabPanel p="0" h='80vh'>
               <UIConversationList />
             </TabPanel>
-            <TabPanel>
-              <UIContactList activeContact={activeContact} setActiveContact={setActiveContact}/>
+            <TabPanel p="0" h='80vh'>
+              <UIContactList activeContact={activeContact} setActiveContact={handleSelectContact}/>
             </TabPanel>
-            <TabPanel>
+            <TabPanel p="0" h='80vh'>
               <UIGroupList activeProfile={activeAccount} />
             </TabPanel>
           </TabPanels>  
         </Tabs>
-      </Flex>
-      
-      {activeConversation && (
-        <UIChat>
-          <UIChatHeader
-            pluginComponentList={[
-              <div key="moment" className="input-plugin-item" onClick={() => setActiveMomentProfile(activeConversation?.contact)}>
-                <Icon width={20} height={20} type={IconTypes.VIDEO} />
-              </div>
-            ]}
-          />
-          <VirtualizedMessageList />
-          <UIMessageInput />
-        </UIChat>
-      )}
-      {activeConversation && activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
-      {!!activeMomentProfile && <UIMomentList profile={activeMomentProfile} />}
-    </>
+      </VStack>
+      <Box flex='1'>
+        {activeConversation && (
+          <UIChat>
+            <UIChatHeader
+              pluginComponentList={[
+                <div key="moment" className="input-plugin-item" onClick={() => setActiveMomentProfile(activeConversation?.contact)}>
+                  <Icon width={20} height={20} type={IconTypes.VIDEO} />
+                </div>
+              ]}
+            />
+            <VirtualizedMessageList />
+            <UIMessageInput />
+          </UIChat>
+        )}
+        {activeConversation && activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
+        {activeContact && !activeConversation && (
+          <ContactDetails contact={activeContact} onStartConversation={handleStartConversation} />
+        )}
+
+        <Drawer
+          isOpen={!!activeMomentProfile}
+          onClose={() => setActiveMomentProfile(undefined)}
+          placement='right'
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <UIMomentList profile={activeMomentProfile} />
+          </DrawerContent>
+        </Drawer>
+      </Box>
+    </Flex>
   );
 }

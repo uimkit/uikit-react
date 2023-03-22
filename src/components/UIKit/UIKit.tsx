@@ -80,7 +80,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
       });
     };
 
-    const onConversationNew = (e: ConversationCreatedEvent) => {
+    const onConversationUpdated = (e: ConversationCreatedEvent) => {
       dispatch({
         type: ConversationListActionType.CONVERSATION_RECEIVED,
         payload: e.data,
@@ -88,8 +88,8 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     };
 
     client?.on(EventType.MESSAGE_RECEIVED, onMessageReceived); // 收到新消息
-    client?.on(EventType.MESSAGE_UPDATED, onMessageUpdated); // 更新消息
-    client?.on(EventType.CONVERSATION_CREATED, onConversationNew); // 新会话
+    // client?.on(EventType.MESSAGE_UPDATED, onMessageUpdated); // 更新消息
+    client?.on(EventType.CONVERSATION_UPDATED, onConversationUpdated); // 会话更新 或 新会话
 
     return () => {
       // client?.off(EventType.MESSAGE_RECEIVED, onMessageReceived);

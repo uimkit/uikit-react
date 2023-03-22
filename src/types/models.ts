@@ -32,6 +32,10 @@ export enum MessageType {
   GroupSystemNotice = 'group_system_notice',
 }
 
+export type Provider = {
+  identifier: string;
+  name: string;
+}
 
 /**
  * 用户档案，IMAccount 应该继承这个
@@ -369,3 +373,7 @@ export interface UserSearchQuery extends SearchQuery {
   sort?: SortField[];
   limit?: number;
 }
+
+export type CreateGroupConversationParams = {
+  
+};

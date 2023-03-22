@@ -146,6 +146,7 @@ export const getMessageProfile = (conversation: Conversation): TProfile => {
       break;
     case ConversationType.System:
     default:
+      result = {}
   }
 
   return result as TProfile;

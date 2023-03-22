@@ -50,7 +50,6 @@ export function UIConversationPreview<T extends UIConversationPreviewProps>(
 
   const imAccount = useIMAccount(activeConversation?.accountId);
 
-
   const [displayImage, setDisplayImage] = useState(getDisplayImage(conversation));
   const [displayTitle, setDisplayTitle] = useState(getDisplayTitle(conversation, searchValue));
   const [displayMessage, setDisplayMessage] = useState(getDisplayMessage(conversation, imAccount));

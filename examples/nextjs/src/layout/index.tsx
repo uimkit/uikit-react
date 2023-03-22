@@ -1,22 +1,27 @@
 import { useUser } from '@authok/nextjs-authok/client';
-import styles from './index.module.scss';
-
+import { Box, Grid, HStack } from '@chakra-ui/react';
+import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
 
 export function Layout({ children }) {
   const { user, error, isLoading } = useUser();
 
+  return children;
+  
   return (
-    <div className={styles.App}>
-      <header className={styles['App-header']}>
+    <Box>
+      <Grid p={3}>
+        <HStack justifySelf="flex-end">
           {user ? (
             <a href="/api/auth/logout">注销</a>
           ): (
             <a href="/api/auth/login">登录</a>
           )}
-      </header>
-      <main className={styles['App-main']}>
+          <ColorModeSwitcher />
+        </HStack>
+      </Grid>
+      <main>
         {children}
       </main>
-    </div>
+    </Box>
   );
 }

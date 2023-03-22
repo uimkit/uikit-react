@@ -16,16 +16,8 @@ export enum EventType {
   ACCOUNT_UPDATED = 'account_updated',
   // 好友更新
   CONTACT_UPDATED = 'contact_updated',
-  // 新会话
-  CONVERSATION_CREATED = 'conversation_created',
   // 会话更新
   CONVERSATION_UPDATED = 'conversation_updated',
-  // 群组被解散
-  GROUP_DISMISSED = 'group_dismissed',
-  // 离开群组
-  GROUP_QUITED = 'group_quited',
-  // 群组更新
-  GROUP_UPDATED = 'group_updated',
   // 收到新消息
   MESSAGE_RECEIVED = 'message_received',
   // 消息被撤回
