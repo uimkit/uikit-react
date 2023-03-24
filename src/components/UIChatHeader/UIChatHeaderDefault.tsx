@@ -64,7 +64,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     }
 
     if (!propAvatar) {
-      setAvatar(<Avatar size={32} image={handleDisplayAvatar(conversation.contact.avatar)} />);
+      setAvatar(<Avatar size={32} image={handleDisplayAvatar(conversation.contact?.avatar)} />);
     }
   };
 
@@ -75,7 +75,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
     if (!propAvatar) {
       setAvatar(<Avatar
         size={32}
-        image={handleDisplayAvatar(conversation.contact.avatar, ConversationType.Group)}
+        image={handleDisplayAvatar(conversation.contact?.avatar, ConversationType.Group)}
       />);
     }
   };
