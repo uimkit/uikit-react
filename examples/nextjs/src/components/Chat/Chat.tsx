@@ -200,7 +200,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
               <UIMessageInput />
             </UIChat>
             {activeConversation.type === ConversationType.Group && <UIGroupMemberList />}
-            {activeConversation.type !== ConversationType.Group && showSider && (
+            {activeConversation.type !== ConversationType.Group && activeConversation.contact && showSider && (
               <ContactSidebar contact={activeConversation.contact} />
             )}
           </HStack>
