@@ -127,3 +127,6 @@ moment 列表获取不到
 消息进度 / progress
 Moment
 Group 展示
+
+### next 示例
+需要用 router 方式处理页面复杂切换
