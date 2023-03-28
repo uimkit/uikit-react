@@ -98,7 +98,7 @@ export function UIChatHeaderDefault <T extends UIChatHeaderBasicProps>(
         <h3 className="title">{title}</h3>
       </div>
       <div className="uim-chat-header-right">
-        <Plugins plugins={pluginComponentList} showNumber={3}
+        <Plugins plugins={pluginComponentList} showNumber={3}/>
         <div className="header-handle">
           {
             operateIcon || <Icon className="header-handle-more" onClick={openUIManage} type={IconTypes.ELLIPSE} width={18} height={5} />
