@@ -6,7 +6,7 @@ import { createAppStore } from "../../store";
 import { AppState, AppThunkContext } from "../../store/types";
 import { useDispatch } from "../../store/useDispatch";
 import { SupportedTranslations, TranslationProvider, UIKitContextProps, UIKitProvider, useUIKit } from "../../context";
-import { Profile, APIClient, Conversation, Contact, EventType, ConversationUpdatedEvent, ConversationCreatedEvent } from '../../types';
+import { Profile, APIClient, Conversation, EventType, ConversationUpdatedEvent, ConversationCreatedEvent } from '../../types';
 import { UIConversationList } from '../UIConversationList';
 import { Toast } from '../Toast';
 import { useTranslators } from './hooks/useTranslators';
@@ -87,9 +87,9 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
       });
     };
 
-    client?.on(EventType.MESSAGE_RECEIVED, onMessageReceived); // 收到新消息
+    client?.on?.(EventType.MESSAGE_RECEIVED, onMessageReceived); // 收到新消息
     // client?.on(EventType.MESSAGE_UPDATED, onMessageUpdated); // 更新消息
-    client?.on(EventType.CONVERSATION_UPDATED, onConversationUpdated); // 会话更新 或 新会话
+    client?.on?.(EventType.CONVERSATION_UPDATED, onConversationUpdated); // 会话更新 或 新会话
 
     return () => {
       // client?.off(EventType.MESSAGE_RECEIVED, onMessageReceived);
@@ -116,7 +116,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
       });
     };
 
-    client?.on(EventType.CONVERSATION_UPDATED, onConversationUpdated); // 会话更新
+    client?.on?.(EventType.CONVERSATION_UPDATED, onConversationUpdated); // 会话更新
 
     return () => {
       // client?.off(EventType.CONVERSATION_UPDATED, onConversationUpdated);
