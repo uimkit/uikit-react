@@ -146,7 +146,6 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
               <>
                 <UIConversationList />
                 <UIChat />
-                {!!activeMomentUserId && <MomentList userId={activeMomentUserId}/>}
               </>
             )}
           </div>
