@@ -5,7 +5,7 @@ import { UIChat } from "../UIChat";
 import { createAppStore } from "../../store";
 import { AppState, AppThunkContext } from "../../store/types";
 import { useDispatch } from "../../store/useDispatch";
-import { SupportedTranslations, TranslationProvider, UIKitContextProps, UIKitProvider, useUIKit } from "../../context";
+import { SupportedTranslations, TranslationProvider, UIKitContextProps, UIKitProvider } from "../../context";
 import { Profile, APIClient, Conversation, EventType, ConversationUpdatedEvent, ConversationCreatedEvent } from '../../types';
 import { UIConversationList } from '../UIConversationList';
 import { Toast } from '../Toast';

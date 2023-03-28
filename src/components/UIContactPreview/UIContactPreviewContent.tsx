@@ -15,6 +15,7 @@ export function unMemoContactPreviewContent<T extends UIContactPreviewComponentP
     displayImage,
     displayTitle,
     active,
+    activeContact,
     setActiveContact,
   } = props;
 
@@ -35,7 +36,7 @@ export function unMemoContactPreviewContent<T extends UIContactPreviewComponentP
   const handleMouseLeave = () => {
     setIsHover(false);
   };
-  const { activeContact } = useUIKit('UIContactPreviewContent');
+  
   const { mutate: deleteContact } = useDeleteContact();
 
   const moreHandle = (type: string) => {

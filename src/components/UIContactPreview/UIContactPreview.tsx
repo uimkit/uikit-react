@@ -22,7 +22,7 @@ export interface UIContactPreviewProps {
   activeContact?: Contact,
   Preview?: React.ComponentType<UIContactPreviewComponentProps>,
   Avatar?: React.ComponentType<AvatarProps>
-  setActiveContact?: UIKitContextProps['setActiveContact'],
+  setActiveContact?: (contact?: Contact) => void,
   searchValue?: string,
 }
 
