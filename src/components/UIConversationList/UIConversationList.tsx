@@ -5,12 +5,22 @@ import { UIConversationListHeader } from "../UIConversationListHeader";
 import { useConversationList } from "../../hooks/useConversationList";
 
 import './styles/index.scss';
+import { Conversation } from '../../types';
 
 
-export function UIConversationList() {
-  const { activeProfile, activeConversation, setActiveConversation } = useUIKit();
+export type UIConversationListProps = {
+  conversations?: Conversation[];
+}
 
-  const { conversations, loadMore, loading, hasMore  } = useConversationList(activeProfile?.id);
+export const UIConversationList: React.FC<UIConversationListProps> = (props) => {
+  const {
+    conversations: propConversations,
+  } = props;
+
+  const { activeConversation, setActiveConversation } = useUIKit();
+  const { conversations: contextConversations, loadMore, loading, hasMore  } = useConversationList(activeConversation?.account);
+
+  const conversations = propConversations?? contextConversations;
 
   return (
     <div className="uim-conversation">
