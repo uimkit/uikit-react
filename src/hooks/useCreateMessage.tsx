@@ -96,33 +96,33 @@ export function useCreateMessage<T extends CreateMessageProps>(props:T) {
     setBasicConfig(basicConfig);
   }, [cloudCustomData]);
 
-  const createTextMessage = useCallback((params: CreateTextMessageProps) => client.createTextMessage({
+  const createTextMessage = useCallback((params: CreateTextMessageProps) => client?.createTextMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
-  const createFaceMessage = useCallback((params: CreateFaceMessageProps) => client.createFaceMessage({
+  const createFaceMessage = useCallback((params: CreateFaceMessageProps) => client?.createFaceMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
   const createImageMessage = useCallback((
     params: CreateUploadMessageProps,
-  ) => client.createImageMessage({
+  ) => client?.createImageMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
   const createVideoMessage = useCallback((
     params: CreateUploadMessageProps,
-  ) => client.createVideoMessage({
+  ) => client?.createVideoMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
   const createFileMessage = useCallback((
     params: CreateUploadMessageProps,
-  ) => client.createFileMessage({
+  ) => client?.createFileMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
@@ -153,35 +153,35 @@ export function useCreateMessage<T extends CreateMessageProps>(props:T) {
   const createCustomMessage = useCallback((
     params: CreateCustomMessageProps,
     // ChatSDK < V2.26.0 createCustomMessage ts declaration error
-  ) => client.createCustomMessage({
+  ) => client?.createCustomMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
   const createAudioMessage = useCallback((
     params: CreateUploadMessageProps,
-  ) => client.createAudioMessage({
+  ) => client?.createAudioMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
   const createTextAtMessage = useCallback((
     params: CreateTextAtMessageProps,
-  ) => client.createTextAtMessage({
+  ) => client?.createTextAtMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
   const createLocationMessage = useCallback((
     params: CreateLocationMessageProps,
-  ) => client.createLocationMessage({
+  ) => client?.createLocationMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);
 
   const createMergerMessage = useCallback((
     params: CreateMergerMessageProps,
-  ) => client.createMergerMessage({
+  ) => client?.createMergerMessage?.({
     ...basicConfig,
     ...params,
   }), [client]);

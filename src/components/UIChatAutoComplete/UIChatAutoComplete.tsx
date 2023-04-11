@@ -113,7 +113,6 @@ const UnMemoizedChatAutoComplete = (
     ? (word: string) => props.wordReplace?.(word)
     : async (word: string) => {
         const found = (await SearchIndex.search(word)) ?? [];
-        console.log('found: ', found);
         const emoji = found
           .filter(Boolean)
           .slice(0, 10)

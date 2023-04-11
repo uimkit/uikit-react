@@ -87,13 +87,14 @@ export const useSubmitHandler = (
         if (overrideSubmitHandler) {
           await overrideSubmitHandler(updatedMessage, activeConversation.id);
         } else {
-          const message = createTextMessage({ 
+          const message = createTextMessage({
             ...updatedMessage,
-          });
+          }) ?? updatedMessage;
 
           await sendMessage(message);
         }
       } catch (err) {
+        console.error(err)
         dispatch({
           type: CONSTANT_DISPATCH_TYPE.SET_TEXT,
           getNewText: () => text,

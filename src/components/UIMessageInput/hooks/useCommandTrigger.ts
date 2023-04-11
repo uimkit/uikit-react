@@ -1,11 +1,13 @@
-import { useChatStateContext, useUIKit } from '../../../context';
+import { useChatStateContext } from '../../../context';
 import { UICommandItem } from '../../UICommandItem';
 
 import type { CommandTriggerSetting } from '../DefaultTriggerProvider';
 
 export const useCommandTrigger = (): CommandTriggerSetting => {
-  const { activeConversation } = useUIKit();
-  const commands = [] ; // TODO activeConversation?.commands; 根据会话获取命令
+  const { chatConfig } = useChatStateContext('useCommandTrigger');
+  const commands = chatConfig?.commands;
+  console.log('commands: ', commands)
+
   return {
     component: UICommandItem,
     dataProvider: (query, text, onReady) => {

@@ -10,3 +10,23 @@ export type CustomTrigger = {
     data: UnknownType;
   };
 };
+
+export type ChatConfigFields = {
+}
+
+export type CreatedAtUpdatedAt = {
+  created_at: string;
+  updated_at: string;
+};
+
+export type CommandResponse = Partial<CreatedAtUpdatedAt> & {
+  args?: string;
+  description?: string;
+  name?: string;
+  set?: string;
+};
+
+export type ChatConfigWithInfo = ChatConfigFields &
+  CreatedAtUpdatedAt & {
+    commands?: CommandResponse[];
+  };

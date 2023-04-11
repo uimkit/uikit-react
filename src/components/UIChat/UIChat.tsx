@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useReducer, useRef, useMemo, useLayoutEffect } from 'react';
+import React, { PropsWithChildren, useState, useCallback, useReducer, useRef, useMemo, useLayoutEffect } from 'react';
 import { UIMessageInput as UIMessageInputElement, UIMessageInputBasicProps } from '../UIMessageInput';
 
 import { UIMessageListProps, UIMessageList } from '../UIMessageList';
@@ -86,6 +86,8 @@ const UIChatInner: React.FC<PropsWithChildren<UIChatProps>> = (props) => {
 
   const { client } = useUIKit('UIChat');
 
+  const [chatConfig, setChatConfig] = useState(conversation.config);
+
   const [_state, dispatch] = useReducer<ChatStateReducer>(
     chatReducer,
     { ...initialState },
@@ -125,6 +127,8 @@ const UIChatInner: React.FC<PropsWithChildren<UIChatProps>> = (props) => {
   const messageListRef = useRef(null);
   const chatStateContextValue = useCreateChatStateContext({
     client,
+    conversation,
+    chatConfig,
     messageListRef,
     messageConfig,
     UIMessageInputConfig,
@@ -157,6 +161,8 @@ const UIChatInner: React.FC<PropsWithChildren<UIChatProps>> = (props) => {
 
   useLayoutEffect(() => {
     // 监听 conversation 内部事件
+
+    setChatConfig(conversation.config)
 
     return () => {
     // 解除监听 conversation 内部事件

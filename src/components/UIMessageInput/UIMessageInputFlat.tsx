@@ -7,7 +7,6 @@ import { UIChatAutoComplete } from '../UIChatAutoComplete';
 
 import { useTranslationContext } from '../../context/TranslationContext';
 import { useMessageInputContext } from '../../context/MessageInputContext';
-import { useComponentContext } from '../../context/ComponentContext';
 
 export const UIMessageInputFlat = () => {
   const { t } = useTranslationContext('MessageInputV2');

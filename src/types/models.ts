@@ -1,3 +1,5 @@
+import { ChatConfigWithInfo } from "./index";
+
 export enum MessageType {
   // 文本消息
   Text = 'text',
@@ -285,6 +287,9 @@ export interface Conversation {
    * 参与者，当会话是群时，代表 群id, 当会话是个人时，代表 用户id
    */
   participant: string;
+
+
+  config?: ChatConfigWithInfo;
 }
 
 export interface Group {

@@ -1,7 +1,7 @@
 import React, {
   PropsWithChildren, useContext, RefObject,
 } from 'react';
-import { GroupMember, Message } from '../types';
+import { GroupMember, Message, Conversation, ChatConfigWithInfo } from '../types';
 import { UIMessageListProps, UIMessageInputBasicProps, UIMessageProps } from '../components';
 import { OperateMessageParams } from '../components/UIChat/hooks/useHandleMessage';
 
@@ -22,6 +22,10 @@ export type ChatState = {
 };
 
 export type ChatStateContextValue = ChatState & {
+  conversation?: Conversation;
+  
+  chatConfig?: ChatConfigWithInfo | undefined;
+
   init?: boolean;
   // TODO 这个是tim的，可能要对标 streamchat 重构掉
   lastMessageID?:string;

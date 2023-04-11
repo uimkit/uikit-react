@@ -4,7 +4,6 @@ import {
   useChatActionContext,
   useChatStateContext,
   useComponentContext,
-  useUIKit,
 } from '../../context';
 import { EmptyStateIndicator as DefaultEmptyStateIndicator } from '../EmptyStateIndicator';
 import { MessageListNotifications as DefaultMessageListNotifications } from './MessageListNotifications';
@@ -241,7 +240,6 @@ const VirtualizedMessageListWithContext: React.FC<PropsWithChildren<VirtualizedM
 
   // 在前面追加的消息数，也就是 loadMore 加载的消息总量
   const numItemsPrepended = usePrependedMessagesCount(processedMessages);
-  console.log('numItemsPrepended: ', numItemsPrepended);
   const [messageSetKey, setMessageSetKey] = useState(+new Date());
   const firstMessageId = useRef<string | undefined>();
 
@@ -421,13 +419,13 @@ export const VirtualizedMessageList: React.FC<VirtualizedMessageListProps> = (pr
     ...rest
   } = props;
 
-  const { activeConversation } = useUIKit('VirtualizedMessageList');
   const { 
     jumpToLatestMessage,
     loadMore: contextLoadMore,
     loadMoreNewer: contextLoadMoreNewer,
   } = useChatActionContext('VirtualizedMessageList');
   const {
+    conversation,
     highlightedMessageId,
     suppressAutoscroll,
     messages: contextMessages,
@@ -450,7 +448,7 @@ export const VirtualizedMessageList: React.FC<VirtualizedMessageListProps> = (pr
 
   return (
     <VirtualizedMessageListWithContext
-      conversation={activeConversation}
+      conversation={conversation}
       hasMore={!!hasMore}
       hasMoreNewer={!!hasMoreNewer}
       highlightedMessageId={highlightedMessageId}

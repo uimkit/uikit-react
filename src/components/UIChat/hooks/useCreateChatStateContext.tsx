@@ -9,6 +9,8 @@ interface CreateChatStateContextProp extends ChatStateContextValue {
 function useCreateChatStateContext(props: CreateChatStateContextProp) {
   const {
     client,
+    conversation,
+    chatConfig,
     messageListRef,
     messageConfig,
     cloudCustomData,
@@ -19,6 +21,8 @@ function useCreateChatStateContext(props: CreateChatStateContextProp) {
   
   const chatStateContext = useMemo(() => ({
     client,
+    conversation,
+    chatConfig,
     messageListRef,
     messageConfig,
     cloudCustomData,
@@ -27,6 +31,8 @@ function useCreateChatStateContext(props: CreateChatStateContextProp) {
     ...state,
   }), [
     client,
+    conversation,
+    chatConfig,
     messageListRef,
     messageConfig,
     cloudCustomData,

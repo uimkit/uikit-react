@@ -662,9 +662,6 @@ export class ReactTextareaAutocomplete extends React.Component<any, any> {
 
     const triggerProps = this.getTriggerProps();
 
-    console.log('triggerProps.values: ', triggerProps.values);
-    console.log('currentTrigger: ', triggerProps.currentTrigger);
-
     if (
       triggerProps.values &&
       triggerProps.currentTrigger &&
