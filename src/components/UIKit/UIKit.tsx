@@ -74,7 +74,6 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     };
 
     const onMessageUpdated = (e: MessageEvent) => {
-      debugger
       dispatch({
         type: ConversationActionType.MESSAGE_UPDATE,
         payload: e.data,
