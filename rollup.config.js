@@ -37,10 +37,8 @@ const externalDependencies = [
   /dayjs/,
   /emoji-mart/,
   'react', 
-  'date-fns', 
   'tslib',
   'i18next',
-  'react-date-picker',
   'react-redux',
   'redux',
 ];
