@@ -31,7 +31,7 @@ export const UIConversationList: React.FC<UIConversationListProps> = (props) => 
   const conversations = propConversations?? contextConversations;
 
   return (
-    <div className="uim-conversation">
+    <div className="uim-conversation-list">
       <UIConversationListHeader />
       <UIConversationListView 
         activeConversation={activeConversation}
