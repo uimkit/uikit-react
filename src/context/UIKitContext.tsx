@@ -9,16 +9,12 @@ export interface UIKitContextProps {
   client: APIClient;
   activeProfile?: Profile;
   activeConversation?: Conversation;
-  setActiveConversation?: (conversation: Conversation) => void;
+  setActiveConversation: (conversation?: Conversation) => void;
 }
 
 const UIKitContext = React.createContext<UIKitContextProps | undefined>(undefined);
 
-export interface UIKitProviderOptions {
-  client: APIClient;
-};
-
-export function UIKitProvider({ value, children }: PropsWithChildren<{ value: UIKitProviderOptions }>) {
+export function UIKitProvider({ value, children }: PropsWithChildren<{ value: UIKitContextProps }>) {
   return (
     <UIKitContext.Provider value={value}>
       {children}
