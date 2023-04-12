@@ -171,7 +171,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
           </TabList>
           <TabPanels>
             <TabPanel p="0" h='85vh'>
-              <UIConversationList />
+              <UIConversationList activeProfile={activeAccount} />
             </TabPanel>
             <TabPanel p="0" h='85vh'>
               <UIContactList activeContact={activeContact} setActiveContact={handleSelectContact}/>

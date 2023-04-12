@@ -74,6 +74,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     };
 
     const onMessageUpdated = (e: MessageEvent) => {
+      debugger
       dispatch({
         type: ConversationActionType.MESSAGE_UPDATE,
         payload: e.data,
@@ -88,7 +89,7 @@ const UIKitInner: React.FC<PropsWithChildren<UIKitProps>> = (props) => {
     };
 
     client?.on?.(EventType.MESSAGE_RECEIVED, onMessageReceived); // 收到新消息
-    // client?.on(EventType.MESSAGE_UPDATED, onMessageUpdated); // 更新消息
+    client?.on?.(EventType.MESSAGE_UPDATED, onMessageUpdated); // 更新消息
     client?.on?.(EventType.CONVERSATION_UPDATED, onConversationUpdated); // 会话更新 或 新会话
 
     return () => {
