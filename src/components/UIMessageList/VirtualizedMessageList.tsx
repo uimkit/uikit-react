@@ -27,9 +27,8 @@ import { UIMessage, UIMessageProps } from '../UIMessage';
 const PREPEND_OFFSET = 10 ** 7;
 
 export type VirtualizedMessageListProps = {
-  UIMessage: React.ComponentType<UIMessageProps>;
+  UIMessage?: React.ComponentType<UIMessageProps>;
   className?: string;
-  conversation: Conversation;
   messages?: Message[];
   intervalsTimer?: number;
 
@@ -42,8 +41,6 @@ export type VirtualizedMessageListProps = {
   /** Whether or not the list is currently loading newer items */
   loadingMoreNewer?: boolean;
   head?: React.ReactElement;
-  /** Function called when latest messages should be loaded, after the list has jumped at an earlier message set */
-  jumpToLatestMessage?: () => Promise<void>;
   /** The id of the message to highlight and center */
   highlightedMessageId?: string;
   /** 自定义 render 函数, 如果设置, UIMessage 属性会被忽略 */
@@ -81,7 +78,15 @@ export type VirtualizedMessageListProps = {
 }
 
 
-export type VirtualizedMessageListWithContextProps = VirtualizedMessageListProps;
+export type VirtualizedMessageListWithContextProps = VirtualizedMessageListProps & {
+  conversation: Conversation;
+  hasMore: boolean;
+  hasMoreNewer: boolean;
+  /** Function called when latest messages should be loaded, after the list has jumped at an earlier message set */
+  jumpToLatestMessage: () => Promise<void>;
+  loadingMore: boolean;
+  loadingMoreNewer: boolean;
+};
 
 
 function captureResizeObserverExceededError(e: ErrorEvent) {
